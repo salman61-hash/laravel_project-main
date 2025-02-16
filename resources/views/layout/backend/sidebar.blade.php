@@ -91,6 +91,20 @@
                     </ul>
                 </div>
             </li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" data-bs-target="#cuonmenup" aria-expanded="false"
+                    aria-controls="cuonmenup" class="side-nav-link">
+                    <i class="ri-ticket-line"></i> <!-- Changed Icon -->
+                    <span> Cupon </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="cuonmenup">
+                    <ul class="side-nav-second-level">
+                        <li><a href="{{ url('cupons') }}">View cupon List</a></li>
+                    </ul>
+                </div>
+            </li>
+
 
 
 

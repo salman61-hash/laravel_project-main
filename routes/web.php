@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\CuponController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PaymentstatusController;
 use App\Http\Controllers\ProductController;
@@ -50,6 +51,7 @@ Route::resource('customers',CustomerController::class);
 Route::resource('payment_status',PaymentstatusController::class);
 Route::resource('purchases',PurchaseController::class);
 Route::resource('purchase-details',PurchasesdetailsController::class);
+Route::resource('cupons',CuponController::class);
 
 
 

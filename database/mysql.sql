@@ -37,6 +37,14 @@ CREATE TABLE categories (
     name VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+CREATE TABLE cupons (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    discount DECIMAL(10,2) DEFAULT 0.00,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 CREATE TABLE payment_statuses (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
@@ -66,6 +74,7 @@ CREATE TABLE purchases (
     id INT AUTO_INCREMENT PRIMARY KEY,
     supplier_id INT,
     user_id INT,
+    cupon_id INT,
     purchase_date DATE,
     total_amount DECIMAL(12,2),
     payment_status_id VARCHAR(100),

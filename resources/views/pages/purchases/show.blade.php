@@ -129,17 +129,37 @@
       <table class="table table-hover table-bordered">
         <thead class="table-primary">
           <tr>
-            <th>Sl</th><th>Item</th><th>Quantity</th><th>Unit Price</th><th>Total</th><th>Action</th>
+            <th>Sl</th>
+            <th>Item</th>
+            <th>Cupon</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>1</td><td>Product B</td><td>5</td><td>$20.00</td><td>$100.00</td>
-            <td><button class="btn btn-success">✅ Add</button></td>
+            <td>1</td>
+            <td>Product B</td>
+            <td>#EE5</td>
+            <td>5</td>
+            <td>$20.00</td>
+            <td>$100.00</td>
+            <td>
+                <button class="btn btn-success">✅ Add</button>
+            </td>
           </tr>
           <tr>
-            <td>2</td><td>Product A</td><td>10</td><td>$15.00</td><td>$150.00</td>
-            <td><button class="btn btn-danger">❌ Remove</button></td>
+            <td>2</td>
+            <td>Product A</td>
+            <td>#sal50</td>
+            <td>10</td>
+            <td>$15.00</td>
+            <td>$150.00</td>
+            <td>
+                <button class="btn btn-danger">❌ Remove</button>
+            </td>
           </tr>
         </tbody>
       </table>
