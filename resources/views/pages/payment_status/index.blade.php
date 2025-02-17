@@ -19,7 +19,15 @@
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
-                    <th>Action</th>
+
+                    @if (auth()->user()->isAdmin())
+                        <th>Action</th>
+                    
+
+
+
+                    @endif
+
                 </tr>
             </thead>
             <tbody>
@@ -27,19 +35,30 @@
                     <tr>
                         <td>{{ $result->id }}</td>
                         <td>{{ $result->name }}</td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <a href="{{ url("payment_status/{$result->id}/edit") }}" class="btn btn-warning btn-sm">Edit</a>
-                                <a href="{{ url("payment_status/{$result->id}") }}" class="btn btn-info btn-sm">Show</a>
 
-                                <form action="{{ url("payment_status/{$result->id}") }}" method="post" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
-                                </form>
-                            </div>
-                        </td>
+                        @if (auth()->user()->isAdmin())
+
+                            <td>
+
+                                <div class="btn-group" role="group">
+                                    <a href="{{ url("payment_status/{$result->id}/edit") }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="{{ url("payment_status/{$result->id}") }}" class="btn btn-info btn-sm">Show</a>
+
+                                    <form action="{{ url("payment_status/{$result->id}") }}" method="post" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
+                                    </form>
+                                </div>
+                         </td>
+
+
+                        @endif
+
+
+
+
                     </tr>
                 @empty
                     <tr>

@@ -5,8 +5,15 @@ CREATE TABLE users (
     name VARCHAR(100) ,
     email VARCHAR(100),
     password VARCHAR(255),
-    role ,
+    role_id ,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE roles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
 );
 
 -- 2. Suppliers Table (For Purchase Management)

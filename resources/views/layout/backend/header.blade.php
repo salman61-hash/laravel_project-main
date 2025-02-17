@@ -346,10 +346,17 @@
                     <span class="d-lg-block d-none">
                         <h5 class="my-0 fw-normal">{{Auth::user()->name}} <i
                                 class="ri-arrow-down-s-line d-none d-sm-inline-block align-middle"></i></h5>
-                    </span>
+                    </span><br>
+                    {{-- <span class="d-lg-block d-none">
+                        <h6 class="my-0 fw-normal">{{Auth::user()->role->name}} <i
+                                class="ri-arrow-down-s-line d-none d-sm-inline-block align-middle"></i></h6>
+                    </span> --}}
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
                     <!-- item-->
+                    <div class=" dropdown-header noti-title">
+                        <h6 class="text-overflow m-0">{{Auth::user()->role->name}}</h6>
+                    </div>
                     <div class=" dropdown-header noti-title">
                         <h6 class="text-overflow m-0">Welcome !</h6>
                     </div>
