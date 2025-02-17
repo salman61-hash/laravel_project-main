@@ -347,10 +347,10 @@
                         <h5 class="my-0 fw-normal">{{Auth::user()->name}} <i
                                 class="ri-arrow-down-s-line d-none d-sm-inline-block align-middle"></i></h5>
                     </span><br>
-                    <span class="d-lg-block d-none">
+                    {{-- <span class="d-lg-block d-none">
                         <h6 class="my-0 fw-normal">{{Auth::user()->role->name}} <i
                                 class="ri-arrow-down-s-line d-none d-sm-inline-block align-middle"></i></h6>
-                    </span>
+                    </span> --}}
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
                     <!-- item-->
