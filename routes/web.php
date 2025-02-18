@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\PurchasesdetailsController;
 use App\Http\Controllers\SuppliersController;
+use App\Http\Controllers\UserController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +53,7 @@ Route::resource('payment_status',PaymentstatusController::class);
 Route::resource('purchases',PurchaseController::class);
 Route::resource('purchase-details',PurchasesdetailsController::class);
 Route::resource('cupons',CuponController::class);
+Route::resource('users',UserController::class);
 
 
 

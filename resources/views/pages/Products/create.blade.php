@@ -26,7 +26,7 @@
                     <div class="col-lg-9">
                         <select class="form-control" name="category_id">
                             <option value="">Select Category</option>
-                            @foreach($category as $category)
+                            @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
                                 </option>
@@ -38,15 +38,7 @@
                     </div>
                 </div>
 
-                {{-- <div class="input-block mb-3 row">
-                    <label class="col-lg-3 col-form-label">Supplier</label>
-                    <div class="col-lg-9">
-                        <input type="text" class="form-control" name="supplier_id" value="{{old('supplier_id')}}">
-                        @error('supplier_id')
-                        <span style="color: red">{{$message}}</span>
-                        @enderror
-                    </div>
-                </div> --}}
+               
 
                 <div class="input-block mb-3 row">
                     <label class="col-lg-3 col-form-label">Photo</label>

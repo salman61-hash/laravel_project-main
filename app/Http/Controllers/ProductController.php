@@ -13,9 +13,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(3);
+        $products = Product::with(['categories'])->paginate(3);
         return view('pages.products.index', compact('products'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -26,46 +27,62 @@ class ProductController extends Controller
         return view('pages.products.create', compact('categories'));
     }
 
+   
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
+        // Validate request
         $request->validate([
             'name' => 'required|min:3',
             'category_id' => 'required|numeric',
-            'supplier_id' => 'required|numeric',
-            'sku' => 'required|alpha_num',
-            'barcode' => 'required|alpha_num',
+            'sku' => 'required|string',
+            'barcode' => 'required|string',
             'purchase_price' => 'required|numeric|min:1',
             'selling_price' => 'required|numeric|min:1',
-            'stock' => 'required|numeric|min:0',
+            // 'stock' => 'required|numeric|min:0',
             'min_stock' => 'required|numeric|min:0',
             'unit' => 'required|string',
-            'photo' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $product = new Product();
+        // Find product
+        $product =new Product();
 
+        // Update fields
         $product->name = $request->name;
         $product->category_id = $request->category_id;
-        $product->supplier_id = $request->supplier_id;
+        $product->supplier_id = $request->supplier_id ?? null;
         $product->sku = $request->sku;
         $product->barcode = $request->barcode;
         $product->purchase_price = $request->purchase_price;
         $product->selling_price = $request->selling_price;
-        $product->stock = $request->stock;
+        // $product->stock = $request->stock;
         $product->min_stock = $request->min_stock;
         $product->unit = $request->unit;
 
-        // Handle file upload
-        $photoName = $request->name . "." . $request->file('photo')->extension();
-        $request->file('photo')->move(public_path('photo'), $photoName);
-        $product->photo = $photoName;
+        // Han
+        if ($request->file('photo')) {
+            $photoname = $request->name . "." . $request->file('photo')->extension();
+
+            $photoPath = public_path('photo/' . $photoname);
+            if (file_exists($photoPath)) {
+                unlink($photoPath);
+            }
+
+            $request->file('photo')->move(public_path('photo'), $photoname);
+            $product->photo = $photoname;
+        }else{
+            $product->photo = $product->photo ;
+        }
+
 
         if ($product->save()) {
-            return redirect('product')->with('success', "Product has been registered");
-        }
+            return redirect('product')->with('success', "Product has been registred");
+        } else {
+            echo "error";
+        };
     }
 
 

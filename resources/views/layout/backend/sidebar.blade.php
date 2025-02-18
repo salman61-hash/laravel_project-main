@@ -36,6 +36,24 @@
             </li>
 
             <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#usermenu" aria-expanded="false" aria-controls="usermenu"
+                    class="side-nav-link">
+                    <i class="ri-user-line"></i> <!-- Changed icon -->
+                    <span> Users </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="usermenu">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{ url('users') }}">View Users List</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
+
+            <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#customerMenu" aria-expanded="false" aria-controls="customerMenu"
                     class="side-nav-link">
                     <i class="ri-pages-line"></i>

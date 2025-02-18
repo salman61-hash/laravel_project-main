@@ -53,8 +53,8 @@
                         @forelse ($products as $product)
                             <tr>
                                 <td>{{ $product->name }}</td>
-                                <td>{{ $product->category_id }}</td>
-                                {{-- <td>{{ $product->supplier_id }}</td> --}}
+                                <td>{{ $product->categories->name }}</td>
+                                {{-- <td>{{ $purchase->supplier->name }}</td> --}}
                                 <td>
                                     <img src="{{ asset('photo/' . $product->photo) }}" alt="{{ $product->name }}"
                                         class="img-thumbnail" width="50">
