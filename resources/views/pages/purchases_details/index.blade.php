@@ -49,7 +49,11 @@
                             <tr>
                                 <td>{{ $detail->id }}</td>
                                 <td>{{ $detail->purchase_id }}</td>
+<<<<<<< HEAD
                                 <td>{{ optional($detail->product)->name }}</td>
+=======
+                                <td>{{ $detail->product->name }}</td>
+>>>>>>> cbd6008b1b1762cbb387cdd5e12aeb3aae33cda1
                                 <td>{{ $detail->quantity }}</td>
                                 <td>{{ $detail->price }}</td>
                                 <td>{{ $detail->discount }}</td>

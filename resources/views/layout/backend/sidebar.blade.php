@@ -228,7 +228,11 @@
                             </a>
                             <div class="collapse" id="salesDetailsMenu">
                                 <ul class="side-nav-third-level">
+<<<<<<< HEAD
                                     <li><a href="{{ url('salesdetails') }}">View Sales Details List</a></li>
+=======
+                                    <li><a href="{{ url('sales-details') }}">View Sales Details List</a></li>
+>>>>>>> cbd6008b1b1762cbb387cdd5e12aeb3aae33cda1
                                 </ul>
                             </div>
                         </li>
@@ -269,7 +273,11 @@
                             </a>
                             <div class="collapse" id="stockListMenu">
                                 <ul class="side-nav-third-level">
+<<<<<<< HEAD
                                     <li><a href="{{ url('stock') }}">View Stock List</a></li>
+=======
+                                    <li><a href="{{ url('stock/list') }}">View Stock List</a></li>
+>>>>>>> cbd6008b1b1762cbb387cdd5e12aeb3aae33cda1
                                 </ul>
                             </div>
                         </li>

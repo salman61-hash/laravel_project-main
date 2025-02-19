@@ -12,9 +12,16 @@ class PurchasesdetailsController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         $purchaseDetails = PurchasesDetails::with('product')->paginate(10);
         return view('pages.purchases_details.index', compact('purchaseDetails'));
 
+=======
+        // Fetch purchase details with the related 'supplier' and 'user'
+        $purchaseDetails = PurchasesDetails::with(['purchase.supplier', 'purchase.user', 'product'])->paginate(10);
+
+        return view('pages.purchases_details.index', compact('purchaseDetails'));
+>>>>>>> cbd6008b1b1762cbb387cdd5e12aeb3aae33cda1
     }
 
 
