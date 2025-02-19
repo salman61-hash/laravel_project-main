@@ -115,4 +115,10 @@ class SaleController extends Controller
         Sale::destroy($id);
         return redirect('sales')->with('success',"Student has been Deleted");
     }
+
+
+
+
+
+    
 }
