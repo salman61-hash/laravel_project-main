@@ -9,12 +9,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\PurchasesdetailsController;
-<<<<<<< HEAD
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SaledetailsController;
 use App\Http\Controllers\StockController;
-=======
->>>>>>> cbd6008b1b1762cbb387cdd5e12aeb3aae33cda1
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\UserController;
 use App\Models\Product;
@@ -60,12 +57,15 @@ Route::resource('purchases',PurchaseController::class);
 Route::resource('purchase-details',PurchasesdetailsController::class);
 Route::resource('cupons',CuponController::class);
 Route::resource('users',UserController::class);
-<<<<<<< HEAD
 Route::resource('sales',SaleController::class);
 Route::resource('salesdetails',SaledetailsController::class);
 Route::resource('stock',StockController::class);
-=======
->>>>>>> cbd6008b1b1762cbb387cdd5e12aeb3aae33cda1
+
+
+
+Route::post('find_customer', [SaleController::class, 'find_customer']);
+Route::post('find_product', [SaleController::class, 'find_product']);
+Route::post('find_cupon', [SaleController::class, 'find_cupon']);
 
 
 

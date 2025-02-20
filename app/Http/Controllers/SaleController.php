@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cupon;
 use App\Models\Customer;
 use App\Models\PaymentStatus;
+use App\Models\Product;
 use App\Models\Sale;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,11 +16,11 @@ class SaleController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $sales = Sale::with(['customer', 'user', 'payment_status'])->paginate(10);
+{
+    $sales = Sale::paginate(10);
 
-        return view('pages.sales.index', compact('sales'));
-    }
+    return view('pages.sales.index', compact('sales'));
+}
 
     /**
      * Show the form for creating a new resource.
@@ -28,9 +30,11 @@ class SaleController extends Controller
         $customers = Customer::all();
         $users = User::all();
         $payment_statuses = PaymentStatus::all();
+        $products = Product::all();
+        $cupons = Cupon::all();
 
         // Return the view and pass the data
-        return view('pages.sales.create', compact('customers', 'users', 'payment_statuses'));
+        return view('pages.sales.create', compact('customers', 'users', 'payment_statuses','products','cupons'));
     }
 
     /**
@@ -117,8 +121,19 @@ class SaleController extends Controller
     }
 
 
+    public function find_customer(Request $request){
+		$customer = Customer::find($request->id);
+		return response()->json(['customer'=> $customer]);
+	}
+    public function find_product(Request $request){
+		$products = Product::find($request->id);
+		return response()->json(['product'=> $products]);
+	}
+    public function find_cupon(Request $request){
+		$cupons = Cupon::find($request->id);
+		return response()->json(['cupon'=> $cupons]);
+	}
 
 
 
-    
 }

@@ -1,211 +1,320 @@
 @extends('layout.backend.main')
 
 @section('page_content')
+    <!DOCTYPE html>
+    <html lang="en">
 
-{{-- <div class="container mt-4">
-    <h2 class="mb-4">Add Sale</h2>
-    <div class="card p-4 shadow-sm">
-        <form action="{{ url('sales') }}" method="POST">
-            @csrf
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sales Invoice</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <style>
+            .sales-box {
+                padding: 25px;
+                border-radius: 12px;
 
-            <!-- Customer ID -->
-            <div class="mb-3">
-                <label for="customer_id" class="form-label">Customer</label>
-                <select name="customer_id" class="form-control" required>
-                    <option value="" disabled selected>Select Customer</option>
-                    @foreach ($customers as $customer)
-                        <option value="{{ $customer->id }}" {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
-                            {{ $customer->name }}
-                        </option>
-                    @endforeach
-                </select>
+                box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+                transition: transform 0.3s;
+            }
+
+            .sales-box:hover {
+                transform: scale(1.02);
+            }
+
+            .table th {
+                background-color: #42a5f5;
+                color: white;
+            }
+
+            .total-summary {
+                font-size: 1.2rem;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+
+
+        <div class="row"></div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+
+
+
+                    <div class="container mt-5">
+                        <div class="sales-box">
+                            <h2 class="text-center mb-4">Sales Invoice 🧾</h2>
+                            <div class="d-flex justify-content-between mb-4">
+                                <div>
+                                    <strong>Customer Information:</strong><br>
+                                    Name:
+                                    <select class="form-control" name="customer_id" id="customer_id">
+                                        <option value="">Select Customer</option>
+                                        @forelse ($customers as $customer)
+                                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                        @empty
+                                            <option value="">No Customer Found</option>
+                                        @endforelse
+                                    </select><br>
+                                    Contact: <span class="phone"></span><br>
+                                </div>
+                                <div class="text-end">
+                                    <strong>Invoice Details:</strong><br>
+                                    Invoice #: SAL-1001<br>
+                                    Date: {{ date('d M Y') }}<br>
+                                </div>
+                            </div>
+
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="table-dark">
+                                        <th>Sl</th>
+                                        <th>Item</th>
+                                        <th>Coupon</th>
+                                        <th>Qty</th>
+                                        <th>Unit Price</th>
+                                        <th>Total</th>
+                                        <th>Discount</th>
+                                        <th>Sub-total</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    <tr class="table-blue">
+
+                                        <td>1</td>
+                                        <td>
+                                            <select name="product_id" class="form-control" id="product_id">
+                                                <option value="" disabled selected>Select Product</option>
+                                                @foreach ($products as $product)
+                                                    <option value="{{ $product->id }}">
+                                                        {{ $product->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="cupon_id" class="form-control" id="cupon_id">
+                                                <option value="" disabled selected>Select Coupon</option>
+                                                @foreach ($cupons as $cupon)
+                                                    <option value="{{ $cupon->id }}">
+                                                        {{ $cupon->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td><input type="number" class="form-control qty"></td>
+                                        <td><input type="text" disabled class="form-control s_price"></td>
+                                        <td><input type="text" disabled class="form-control total"></td>
+                                        <td><input type="number" disabled class="form-control discount"></td>
+                                        <td><input type="text" disabled class="form-control subtotal"></td>
+                                        <td><button class="btn btn-success add_cart_btn"> Add</button></td>
+                                    </tr>
+                                </thead>
+                                <tbody class="dataAppend">
+
+                                </tbody>
+                            </table>
+
+                            <div class="text-end">
+                                <p class="total-summary subtotal">Subtotal: </p>
+                                <p class="total-summary vat">Vat (5%): $12.50</p>
+                                <p class="total-summary grand_total">Grand Total: $262.50</p>
+                                <p><strong>Payment Status:</strong>
+                                <div class="mb-3">
+                                    <label for="payment_status_id" class="form-label">Payment Status</label>
+                                    <select name="payment_status_id">
+                                        @foreach ($payment_statuses as $status)
+                                            <option value="{{ $status->id }}"
+                                                {{ old('payment_status_id', $purchase->payment_status_id ?? '') == $status->id ? 'selected' : '' }}>
+                                                {{ $status->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
             </div>
-
-            <!-- User ID -->
-            <div class="mb-3">
-                <label for="user_id" class="form-label">User</label>
-                <select name="user_id" class="form-control" required>
-                    <option value="" disabled selected>Select User</option>
-                    @foreach ($users as $user)
-                        <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                            {{ $user->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <!-- Sale Date -->
-            <div class="mb-3">
-                <label for="sale_date" class="form-label">Sale Date</label>
-                <input type="date" name="sale_date" class="form-control" value="{{ old('sale_date') }}" required>
-            </div>
-
-            <!-- Total Amount -->
-            <div class="mb-3">
-                <label for="total_amount" class="form-label">Total Amount</label>
-                <input type="number" name="total_amount" class="form-control" value="{{ old('total_amount') }}" step="0.01" placeholder="Enter Total Amount" required>
-            </div>
-
-            <!-- Payment Status -->
-            <div class="mb-3">
-                <label for="payment_status" class="form-label">Payment Status</label>
-                <select name="payment_status" class="form-control" required>
-                    <option value="" disabled selected>Select Payment Status</option>
-                    @foreach($payment_statuses as $status)
-                        <option value="{{ $status->id }}" {{ old('payment_status') == $status->id ? 'selected' : '' }}>
-                            {{ $status->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </form>
-    </div>
-</div> --}}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sales Invoice</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <style>
-    .sales-box {
-      padding: 25px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s;
-    }
-    .sales-box:hover {
-      transform: scale(1.02);
-    }
-    .table th {
-      background-color: #42a5f5;
-      color: white;
-    }
-    .total-summary {
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-  <div class="container mt-5">
-    <div class="sales-box">
-      <h2 class="text-center mb-4">Sales Invoice 🧾</h2>
-      <div class="d-flex justify-content-between mb-4">
-        <div>
-          <strong>Customer Information:</strong><br>
-          Name:
-
-
-          <select name="customer_id" class="form-control" required>
-
-            <option value="">Select Customer</option>
-
-       @forelse ($customers as $customer)
-
-
-       <option value="{{$customer->id}}">{{$customer->name}}</option>
-
-
-       @empty
-
-       <option value="">No Customer Found</option>
-
-       @endforelse
-
-        </select><br>
-
-
-
-          Contact: {{ $customer->phone }}<br>
         </div>
-        <div class="text-end">
-          <strong>Invoice Details:</strong><br>
-          Invoice #: SAL-1001<br>
-          Date: 14 Feb 2025<br>
-
         </div>
-      </div>
-
-      <table class="table table-bordered">
-        <thead >
-          <tr class="table-dark">
-            <th>Sl</th>
-            <th>Item</th>
-            <th>Cupon</th>
-            <th>Qty</th>
-            <th>Unit Price</th>
-            <th>Total</th>
-            <th>Discount</th>
-            <th>Sub-total</th>
-            <th>Action</th>
-          </tr>
-
-          <tr class="table-pink">
-            <td>1</td>
-            <td>Product X</td>
-            <td>#SAL10</td>
-            <td>2</td>
-            <td>$50.00</td>
-            <td>$100.00</td>
-            <td>$100.00</td>
-            <td>$100.00</td>
-            <td><button class="btn btn-success">✅ Add</button></td>
-          </tr>
-        </thead>
-        <tbody>
-
-          <tr>
-            <td>2</td>
-            <td>Product Y</td>
-            <td>#EE5</td>
-            <td>1</td>
-            <td>$150.00</td>
-            <td>$150.00</td>
-            <td>$150.00</td>
-            <td>$150.00</td>
-            <td><button class="btn btn-danger">❌ Remove</button></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="text-end">
-        <p class="total-summary">Subtotal: $250.00</p>
-        
-        <p class="total-summary">Vat (5%): $12.50</p>
-        <p class="total-summary">Grand Total: $262.50</p>
-        <p><strong>Payment Status:</strong> Paid ✅</p>
-      </div>
-    </div>
-  </div>
-</body>
-</html>
 
 
-
-
-
+    </html>
 @endsection
 
-
 @section('script')
+    <script>
+        $(function() {
 
-@section('script')
-<script>
-    $(function() {
-        $('#customer_id').on('change', function() {
+            let cart = [];
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // Fetch Customer Phone Number
+            $('#customer_id').on('change', function() {
+                let customer_id = $(this).val();
+                $.ajax({
+                    url: "{{ url('find_customer') }}",
+                    type: 'POST',
+                    data: {
+                        id: customer_id
+                    },
+                    success: function(res) {
+                        console.log(res.customer);
+                        $(".phone").text(res.customer?.phone);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+            // Fetch Product Price
+            $('#product_id').on('change', function() {
+                let product_id = $(this).val();
+                $.ajax({
+                    url: '{{ url('find_product') }}',
+                    method: 'POST',
+                    data: {
+                        id: product_id
+                    },
+                    success: function(res) {
+                        console.log(res.product);
+                        $(".s_price").val(res.product?.selling_price);
+                        $(".qty").val(1);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+
+
+            $('#cupon_id').on('change', function() {
+                let cupon_id = $(this).val();
+                $.ajax({
+                    url: '{{ url('find_cupon') }}',
+                    method: 'POST',
+                    data: {
+                        id: cupon_id
+                    },
+                    success: function(res) {
+                        console.log(res.cupon);
+                        $(".discount").val(res.cupon?.discount);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+
+
+            $('.add_cart_btn').on('click', function() {
+                let product_id = $("#product_id").val();
+                let product_name = $("#product_id option:selected").text();
+                let coupon_id = $("#cupon_id").val();
+                let coupon_name = $("#cupon_id option:selected").text();
+                let qty = parseFloat($(".qty").val()) || 1;
+                let price = parseFloat($(".s_price").val()) || 0;
+                let discount = parseFloat($(".discount").val()) || 0;
+
+                if (!product_id) {
+                    alert("Please select a product.");
+                    return;
+                }
+
+                let total = price * qty;
+                let total_discount = discount * qty;
+                let subtotal = total - total_discount;
+
+                // Update UI fields
+                $(".total").val(total.toFixed(2));
+                $(".discount").val(total_discount.toFixed(2));
+                $(".subtotal").val(subtotal.toFixed(2));
+
+                let item = {
+                    "product_id": product_id,
+                    "product_name": product_name,
+                    "coupon_id": coupon_id,
+                    "coupon_name": coupon_name,
+                    "qty": qty,
+                    "price": price,
+                    "total": total,
+                    "discount": total_discount,
+                    "subtotal": subtotal
+                };
+
+                cart.push(item);
+                printCart();
+            });
+
+
+
+            function printCart() {
+                let cartdata = cart;
+                let htmldata = "";
+                let subtotal = 0;
+                let discount = 0;
+                let grandtotal = 0;
+
+                cartdata.forEach(element => {
+                    subtotal += element.subtotal;
+                    discount += element.discount;
+
+                    htmldata += `
+                        <tr>
+                            <td></td>
+                            <td><p class="fs-14">${element.product_name}</p></td>
+                            <td><p class="fs-14 text-gray">${element.coupon_name}</p></td>
+                            <td><span class="fs-14 text-gray">${element.qty}</span></td>
+                            <td><span class="fs-14 text-gray">$${element.price}</span></td>
+                            <td><span class="fs-14 text-gray">$${element.total}</span></td>
+                            <td><span class="fs-14 text-gray">$${element.discount}</span></td>
+                            <td><span class="fs-14 text-gray">$${element.subtotal}</span></td>
+                            <td><button data="${element.product_id}" class='btn btn-danger remove'>❌</button></td>
+                        </tr>
+                    `;
+                });
+
+                $('.dataAppend').html(htmldata);
+                $('.subtotal').html(subtotal.toFixed(2));
+                $('.tax').html((subtotal * 0.05).toFixed(2));
+                $('.Discount').html(discount.toFixed(2));
+                $('.grandtotal').html((subtotal + (subtotal * 0.05)).toFixed(2));
+                cartIconIncrease();
+            }
+
+
+
+
+            $(document).on('click', '.remove', function(){
+				let id = $(this).attr('data');
+				cart.delItem(id);
+				printCart();
+			})
+
+
+
+
+
+
+
+
 
         });
-    });
-</script>
-@endsection
-
-
+    </script>
 @endsection

@@ -8,6 +8,8 @@
     @endif
 
     <div class="card shadow-lg">
+
+
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h4 class="mb-0">Sales List</h4>
             <a href="{{ url('sales/create') }}" class="btn btn-light">
@@ -50,7 +52,7 @@
                                 <td>{{ $sale->user->name }}</td>
                                 <td>{{ $sale->sale_date }}</td>
                                 <td>{{ $sale->total_amount }}</td>
-                                <td>{{optional($sale->payment_status)->name }}</td>
+                                <td>{{$sale->payment_status->name }}</td>
                                 <td>
                                     <a href="{{ url("sales/{$sale->id}/edit") }}" class="btn btn-sm btn-warning">
                                         Edit <i class="fas fa-edit"></i>

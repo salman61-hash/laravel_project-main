@@ -36,7 +36,15 @@ class Sale extends Model
    // In Sale model
    public function payment_status()
    {
-       return $this->belongsTo(PaymentStatus::class,'payment_status_id');
+       return $this->belongsTo(PaymentStatus::class);
+   }
+   public function products()
+   {
+       return $this->belongsTo(Product::class);
+   }
+   public function cupos()
+   {
+       return $this->belongsTo(Cupon::class);
    }
 
 }

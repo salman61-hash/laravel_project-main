@@ -16,10 +16,6 @@ class PurchasesDetails extends Model
 
     public function product()
     {
-<<<<<<< HEAD
         return $this->belongsTo(Product::class, 'product_id');
-=======
-        return $this->belongsTo(Product::class);
->>>>>>> cbd6008b1b1762cbb387cdd5e12aeb3aae33cda1
     }
 }

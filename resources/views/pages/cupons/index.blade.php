@@ -45,7 +45,7 @@
                             <tr>
                                 <td>{{ $cupon->id }}</td>
                                 <td>{{ $cupon->name }}</td>
-                                <td>{{ $cupon->discount }}%</td>
+                                <td>{{ $cupon->discount }}</td>
                                 <td>{{ $cupon->created_at }}</td>
                                 <td>{{ $cupon->updated_at }}</td>
                                 <td>
