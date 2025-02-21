@@ -1,3 +1,13 @@
+@extends('layout.backend.main')
+
+@section('page_content')
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -109,7 +119,7 @@
             <div class="col-md-6">
                 <h5><strong>Supplier:</strong> <span class="text-primary">Messrs Samrat Stores Traders</span></h5>
                 <p><strong>Address:</strong> 37, Raisahela, Mirpur-6, Dhaka</p>
-                <p><strong>Reference No:</strong> Invoice No. 1254</p>
+                <p><strong>Reference No:</strong> Bill No. 1254</p>
             </div>
             <div class="col-md-6 text-end">
                 <p><strong>And Date:</strong> 18 August 2017</p>
@@ -118,8 +128,9 @@
 
         <table class="table table-bordered mt-4">
             <thead>
-                <tr>
+                <tr class="table-success text-dark">
                     <th>Sl. No</th>
+                    <th>Product</th>
                     <th>Description of Goods & Reason for Return</th>
                     <th>Qty</th>
                     <th>Price</th>
@@ -128,6 +139,7 @@
                 </tr>
                 <tr>
                     <td>1</td>
+                    <td>LED Tv</td>
                     <td><textarea rows="3" placeholder="Enter reason for return..."></textarea></td>
                     <td>5</td>
                     <td>1000</td>
@@ -176,3 +188,6 @@
 
 </body>
 </html>
+
+
+@endsection

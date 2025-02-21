@@ -107,11 +107,7 @@ CREATE TABLE purchase_details (
 CREATE TABLE sales (
     id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT,
-<<<<<<< HEAD
     user_id INT,
-=======
-    staff_id INT,
->>>>>>> cbd6008b1b1762cbb387cdd5e12aeb3aae33cda1
     sale_date DATE,
     total_amount DECIMAL(12,2),
     payment_status,
@@ -124,10 +120,7 @@ CREATE TABLE sales_details (
     id INT AUTO_INCREMENT PRIMARY KEY,
     sale_id INT,
     product_id INT,
-<<<<<<< HEAD
     cupon_id INT,
-=======
->>>>>>> cbd6008b1b1762cbb387cdd5e12aeb3aae33cda1
     quantity INT,
     price DECIMAL(10,2),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -145,6 +138,18 @@ CREATE TABLE sales_returns (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+CREATE TABLE sales_returns_details (
+     id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    sales_return_id INT,
+    product_id INT,
+    quantity INT,
+    unit_price DECIMAL(10,2),
+    total_price DECIMAL(10,2),
+    reason TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+);
 
 -- 11. Purchase Returns Table (Handling Defective or Unwanted Purchases)
 CREATE TABLE purchase_returns (
@@ -152,11 +157,28 @@ CREATE TABLE purchase_returns (
     purchase_id INT,
     product_id INT,
     quantity INT,
-    return_date DATE,
+
+
     refund_amount DECIMAL(10,2),
+    return_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+CREATE TABLE purchase_return_details (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    supplier_id INT,
+    purchase_return_id INT,
+    product_id INT,
+    quantity INT,
+    unit_price DECIMAL(10,2),
+    total_price DECIMAL(10,2),
+    reason TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+);
+
 
 -- 12. Payments Table (For Recording Payments on Pending Accounts)
 CREATE TABLE payments (

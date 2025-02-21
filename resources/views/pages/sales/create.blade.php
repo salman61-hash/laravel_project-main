@@ -37,114 +37,119 @@
     </head>
 
 
-        <div class="row"></div>
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
+    <div class="row"></div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
 
 
 
-                    <div class="container mt-5">
-                        <div class="sales-box">
-                            <h2 class="text-center mb-4">Sales Invoice 🧾</h2>
-                            <div class="d-flex justify-content-between mb-4">
-                                <div>
-                                    <strong>Customer Information:</strong><br>
-                                    Name:
-                                    <select class="form-control" name="customer_id" id="customer_id">
-                                        <option value="">Select Customer</option>
-                                        @forelse ($customers as $customer)
-                                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
-                                        @empty
-                                            <option value="">No Customer Found</option>
-                                        @endforelse
-                                    </select><br>
-                                    Contact: <span class="phone"></span><br>
-                                </div>
-                                <div class="text-end">
-                                    <strong>Invoice Details:</strong><br>
-                                    Invoice #: SAL-1001<br>
-                                    Date: {{ date('d M Y') }}<br>
-                                </div>
+                <div class="container mt-5">
+                    <div class="sales-box">
+                        <h2 class="text-center mb-4">Sales Invoice 🧾</h2>
+                        <div class="d-flex justify-content-between mb-4">
+                            <div>
+                                <strong>Customer Information:</strong><br>
+                                Name:
+                                <select class="form-control" name="customer_id" id="customer_id">
+                                    <option value="">Select Customer</option>
+                                    @forelse ($customers as $customer)
+                                        <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                    @empty
+                                        <option value="">No Customer Found</option>
+                                    @endforelse
+                                </select><br>
+                                Contact: <span class="phone"></span><br>
+                                Email: <span class="email"></span><br>
                             </div>
-
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr class="table-dark">
-                                        <th>Sl</th>
-                                        <th>Item</th>
-                                        <th>Coupon</th>
-                                        <th>Qty</th>
-                                        <th>Unit Price</th>
-                                        <th>Total</th>
-                                        <th>Discount</th>
-                                        <th>Sub-total</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    <tr class="table-blue">
-
-                                        <td>1</td>
-                                        <td>
-                                            <select name="product_id" class="form-control" id="product_id">
-                                                <option value="" disabled selected>Select Product</option>
-                                                @foreach ($products as $product)
-                                                    <option value="{{ $product->id }}">
-                                                        {{ $product->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="cupon_id" class="form-control" id="cupon_id">
-                                                <option value="" disabled selected>Select Coupon</option>
-                                                @foreach ($cupons as $cupon)
-                                                    <option value="{{ $cupon->id }}">
-                                                        {{ $cupon->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td><input type="number" class="form-control qty"></td>
-                                        <td><input type="text" disabled class="form-control s_price"></td>
-                                        <td><input type="text" disabled class="form-control total"></td>
-                                        <td><input type="number" disabled class="form-control discount"></td>
-                                        <td><input type="text" disabled class="form-control subtotal"></td>
-                                        <td><button class="btn btn-success add_cart_btn"> Add</button></td>
-                                    </tr>
-                                </thead>
-                                <tbody class="dataAppend">
-
-                                </tbody>
-                            </table>
-
                             <div class="text-end">
-                                <p class="total-summary subtotal">Subtotal: </p>
-                                <p class="total-summary vat">Vat (5%): $12.50</p>
-                                <p class="total-summary grand_total">Grand Total: $262.50</p>
-                                <p><strong>Payment Status:</strong>
-                                <div class="mb-3">
-                                    <label for="payment_status_id" class="form-label">Payment Status</label>
-                                    <select name="payment_status_id">
-                                        @foreach ($payment_statuses as $status)
-                                            <option value="{{ $status->id }}"
-                                                {{ old('payment_status_id', $purchase->payment_status_id ?? '') == $status->id ? 'selected' : '' }}>
-                                                {{ $status->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-
-                                </p>
+                                <strong>Invoice Details:</strong><br>
+                                Invoice #: SAL-1001<br>
+                                Date: {{ date('d M Y') }}<br>
                             </div>
                         </div>
+                        <div class="text-end mt-3 clear_all">
+                            <button class="btn btn-danger">Clear All</button>
+                        </div>
+
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="table-dark">
+                                    <th>Sl</th>
+                                    <th>Item</th>
+                                    <th>Coupon</th>
+                                    <th>Qty</th>
+                                    <th>Unit Price</th>
+                                    <th>Total</th>
+                                    <th>Discount</th>
+                                    <th>Sub-total</th>
+                                    <th>Action</th>
+                                </tr>
+                                <tr class="table-blue">
+
+                                    <td>1</td>
+                                    <td>
+                                        <select name="product_id" class="form-control" id="product_id">
+                                            <option value="" disabled selected>Select Product</option>
+                                            @foreach ($products as $product)
+                                                <option value="{{ $product->id }}">
+                                                    {{ $product->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="cupon_id" class="form-control" id="cupon_id">
+                                            <option value="" disabled selected>Select Coupon</option>
+                                            @foreach ($cupons as $cupon)
+                                                <option value="{{ $cupon->id }}">
+                                                    {{ $cupon->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td><input type="number" class="form-control qty"></td>
+                                    <td><input type="text" disabled class="form-control s_price"></td>
+                                    <td><input type="text" disabled class="form-control total"></td>
+                                    <td><input type="number" disabled class="form-control discount"></td>
+                                    <td><input type="text" disabled class="form-control subtotal"></td>
+                                    <td><button class="btn btn-success add_cart_btn"> Add</button></td>
+                                </tr>
+                            </thead>
+                            <tbody class="dataAppend">
+
+                            </tbody>
+                        </table>
+
+                        <div class="text-end">
+                            <p class="total-summary ">Subtotal: <span class="subtotal"></span> </p>
+                            <p class="total-summary vat">Vat (15%): 12.50</p>
+                            <p class="total-summary grand_total">Grand Total: 262.50</p>
+                            <p><strong>Payment Status:</strong>
+                            <div class="mb-3">
+                                <label for="payment_status_id" class="form-label">Payment Status</label>
+                                <select name="payment_status_id">
+                                    @foreach ($payment_statuses as $status)
+                                        <option value="{{ $status->id }}"
+                                            {{ old('payment_status_id', $purchase->payment_status_id ?? '') == $status->id ? 'selected' : '' }}>
+                                            {{ $status->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                            </p>
+                        </div>
                     </div>
-
-
                 </div>
+
+
             </div>
         </div>
-        </div>
+    </div>
+    </div>
 
 
     </html>
@@ -153,7 +158,6 @@
 @section('script')
     <script>
         $(function() {
-
             let cart = [];
 
             $.ajaxSetup({
@@ -172,8 +176,8 @@
                         id: customer_id
                     },
                     success: function(res) {
-                        console.log(res.customer);
                         $(".phone").text(res.customer?.phone);
+                        $(".email").text(res.customer?.email);
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
@@ -191,9 +195,9 @@
                         id: product_id
                     },
                     success: function(res) {
-                        console.log(res.product);
                         $(".s_price").val(res.product?.selling_price);
                         $(".qty").val(1);
+                        updateTotalAndSubtotal();
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
@@ -201,8 +205,7 @@
                 });
             });
 
-
-
+            // Fetch Coupon Discount
             $('#cupon_id').on('change', function() {
                 let cupon_id = $(this).val();
                 $.ajax({
@@ -212,8 +215,8 @@
                         id: cupon_id
                     },
                     success: function(res) {
-                        console.log(res.cupon);
                         $(".discount").val(res.cupon?.discount);
+                        updateTotalAndSubtotal();
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
@@ -221,8 +224,26 @@
                 });
             });
 
+            // Update Total and Subtotal when Quantity, Price, or Discount changes
+            $('.qty, .s_price, .discount').on('input', function() {
+                updateTotalAndSubtotal();
+            });
 
+            function updateTotalAndSubtotal() {
+                let qty = parseFloat($(".qty").val()) || 1;
+                let price = parseFloat($(".s_price").val()) || 0;
+                let discount = parseFloat($(".discount").val()) || 0;
 
+                let total = price * qty;
+                let total_discount = discount * qty;
+                let subtotal = total - total_discount;
+
+                $(".total").val(total.toFixed(2));
+                $(".discount").val(total_discount.toFixed(2));
+                $(".subtotal").val(subtotal.toFixed(2));
+            }
+
+            // Add to cart
             $('.add_cart_btn').on('click', function() {
                 let product_id = $("#product_id").val();
                 let product_name = $("#product_id option:selected").text();
@@ -241,11 +262,6 @@
                 let total_discount = discount * qty;
                 let subtotal = total - total_discount;
 
-                // Update UI fields
-                $(".total").val(total.toFixed(2));
-                $(".discount").val(total_discount.toFixed(2));
-                $(".subtotal").val(subtotal.toFixed(2));
-
                 let item = {
                     "product_id": product_id,
                     "product_name": product_name,
@@ -262,8 +278,6 @@
                 printCart();
             });
 
-
-
             function printCart() {
                 let cartdata = cart;
                 let htmldata = "";
@@ -276,45 +290,50 @@
                     discount += element.discount;
 
                     htmldata += `
-                        <tr>
-                            <td></td>
-                            <td><p class="fs-14">${element.product_name}</p></td>
-                            <td><p class="fs-14 text-gray">${element.coupon_name}</p></td>
-                            <td><span class="fs-14 text-gray">${element.qty}</span></td>
-                            <td><span class="fs-14 text-gray">$${element.price}</span></td>
-                            <td><span class="fs-14 text-gray">$${element.total}</span></td>
-                            <td><span class="fs-14 text-gray">$${element.discount}</span></td>
-                            <td><span class="fs-14 text-gray">$${element.subtotal}</span></td>
-                            <td><button data="${element.product_id}" class='btn btn-danger remove'>❌</button></td>
-                        </tr>
-                    `;
+            <tr>
+                <td></td>
+                <td><p class="fs-14">${element.product_name}</p></td>
+                <td><p class="fs-14 text-gray">${element.coupon_name}</p></td>
+                <td><span class="fs-14 text-gray">${element.qty}</span></td>
+                <td><span class="fs-14 text-gray">$${element.price}</span></td>
+                <td><span class="fs-14 text-gray">$${element.total}</span></td>
+                <td><span class="fs-14 text-gray">$${element.discount}</span></td>
+                <td><span class="fs-14 text-gray">$${element.subtotal}</span></td>
+                <td><button data="${element.product_id}" class='btn btn-danger remove'>❌</button></td>
+            </tr>
+        `;
                 });
 
+                // Update the table body
                 $('.dataAppend').html(htmldata);
-                $('.subtotal').html(subtotal.toFixed(2));
-                $('.tax').html((subtotal * 0.05).toFixed(2));
-                $('.Discount').html(discount.toFixed(2));
-                $('.grandtotal').html((subtotal + (subtotal * 0.05)).toFixed(2));
-                cartIconIncrease();
+
+                // Update Subtotal, VAT (5%), and Grand Total
+                subtotal = subtotal.toFixed(2);
+                let vat = (subtotal * 0.05).toFixed(2); // Calculate VAT
+                grandtotal = (parseFloat(subtotal) + parseFloat(vat)).toFixed(2); // Calculate Grand Total
+
+                // Update UI with calculated values
+                $('.subtotal').html(subtotal);
+                $('.vat').html(`Vat (5%): $${vat}`);
+                $('.grand_total').html(`Grand Total: $${grandtotal}`);
             }
 
 
+            // Remove item from cart
+            $(document).on('click', '.remove', function() {
+                let product_id = $(this).attr("data");
+                cart = cart.filter(item => item.product_id != product_id);
+                printCart();
+            });
 
-
-            $(document).on('click', '.remove', function(){
-				let id = $(this).attr('data');
-				cart.delItem(id);
-				printCart();
-			})
-
-
-
-
-
-
-
-
-
+            // Clear All Cart
+            $(document).on('click', '.clear_all', function() {
+                cart = [];
+                printCart();
+                $(".qty, .s_price, .total, .discount, .subtotal").val('');
+                $("#product_id").val('');
+                $("#cupon_id").val('');
+            });
         });
     </script>
 @endsection

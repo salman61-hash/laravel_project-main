@@ -186,7 +186,7 @@
                             </a>
                             <div class="collapse" id="purchaseReturnMenu">
                                 <ul class="side-nav-third-level">
-                                    <li><a href="{{ url('purchase-return') }}">View Purchase Return List</a></li>
+                                    <li><a href="{{ url('purchase_return') }}">View Purchase Return List</a></li>
                                 </ul>
                             </div>
                         </li>

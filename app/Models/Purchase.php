@@ -35,4 +35,8 @@ class Purchase extends Model
     {
         return $this->belongsTo(PaymentStatus::class);
     }
+    // public function products()
+    // {
+    //     return $this->belongsTo(Product::class);
+    // }
 }

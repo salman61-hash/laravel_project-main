@@ -1,7 +1,7 @@
 @extends('layout.backend.main')
 
 @section('page_content')
-<div class="container mt-4">
+    {{-- <div class="container mt-4">
     <h2 class="mb-4">Add Purchase</h2>
     <div class="card p-4 shadow-sm">
         <form action="{{ url('purchases') }}" method="POST">
@@ -48,7 +48,7 @@
             <div class="mb-3">
                 <label for="payment_status_id" class="form-label">Payment Status</label>
                 <select name="payment_status_id">
-                    @foreach($payment_statuses as $status)
+                    @foreach ($payment_statuses as $status)
                         <option value="{{ $status->id }}" {{ old('payment_status_id', $purchase->payment_status_id ?? '') == $status->id ? 'selected' : '' }}>
                             {{ $status->name }}
                         </option>
@@ -68,102 +68,315 @@
             </div>
         </form>
     </div>
-</div>
-<<<<<<< HEAD
+</div> --}}
 
 
 
 
 
-{{-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Purchase Invoice</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <style>
-    body { background-color: #f8f9fa; }
-    .invoice-box {
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
-      background-color: #ffffff;
-      transition: 0.3s ease-in-out;
-    }
-    .invoice-box:hover { transform: translateY(-5px); }
-    h2 { color: #007bff; }
-    .table-primary th { background-color: #0056b3; color: white; }
-    .btn-success, .btn-danger { font-weight: bold; }
-  </style>
-</head>
-<body>
-  <div class="container mt-5">
-    <div class="invoice-box">
-      <h2 class="text-center mb-4">💳 Purchase Bill</h2>
-      <div class="d-flex justify-content-between mb-4">
-        <div>
-          <h5>📦 Supplier Information</h5>
-          Name: ABC Supplier<br>
-          Address: 123 Main St, Cityville<br>
-          Phone: (123) 456-7890
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <title>Purchase Invoice</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <style>
+            body {
+                background-color: #f8f9fa;
+            }
+
+            .invoice-box {
+                padding: 30px;
+                border-radius: 12px;
+                box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+                background-color: #ffffff;
+                transition: 0.3s ease-in-out;
+            }
+
+            .invoice-box:hover {
+                transform: translateY(-5px);
+            }
+
+            h2 {
+                color: #007bff;
+            }
+
+            .table-primary th {
+                background-color: #0056b3;
+                color: white;
+            }
+
+            .btn-success,
+            .btn-danger {
+                font-weight: bold;
+            }
+        </style>
+    </head>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="container mt-5">
+                        <div class="invoice-box">
+                            <h2 class="text-center mb-4">💳 Purchase Bill</h2>
+                            <div class="d-flex justify-content-between mb-4">
+                                <div>
+                                    <h5>📦 Supplier Information</h5>
+                                    <p>
+                                    <div class="mb-3">
+                                        <label for="supplier_id" class="form-label">Supplier</label>
+                                        <select name="supplier_id" class="form-control" id="supplier_id">
+                                            <option value="" disabled selected>Select Supplier</option>
+                                            @foreach ($suppliers as $supplier)
+                                                <option value="{{ $supplier->id }}"
+                                                    {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
+                                                    {{ $supplier->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+
+                                    </p>
+                                    <strong>Address: <span class="address"></span></strong><br>
+                                    <strong>Phone: <span class="phone"></span></strong>
+                                </div>
+                                <div class="text-end">
+                                    <h5>🧾 Invoice Details</h5>
+                                    Purchase id #: INV-001<br>
+                                    Date: {{ date('d M Y') }}<br>
+                                    Due Date: 28 Feb 2025
+                                </div>
+                            </div>
+                            <div class="text-end mt-3 clear_all">
+                                <button class="btn btn-danger">Clear All</button>
+                            </div>
+                            <table class="table table-hover table-bordered">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th>Sl</th>
+                                        <th>Item</th>
+
+                                        <th>Quantity</th>
+                                        <th>Unit Price</th>
+
+                                        <th>Total</th>
+                                        <th>Discount</th>
+                                        <th>Sub Total</th>
+                                        <th>Action</th>
+                                    </tr>
+
+
+
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <select name="product_id" class="form-control" id="product_id">
+                                                <option value="" disabled selected>Select Product</option>
+                                                @foreach ($products as $product)
+                                                    <option value="{{ $product->id }}">
+                                                        {{ $product->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+
+                                        </td>
+
+                                        <td><input type="number" class="form-control qty"></td>
+                                        <td><input type="text" disabled class="form-control P_price"></td>
+                                        <td><input type="text" disabled class="form-control total"></td>
+                                        <td><input type="number" class="form-control discount"></td>
+                                        <td><input type="text" disabled class="form-control subtotal"></td>
+                                        <td><button class="btn btn-success add_cart_btn"> Add</button></td>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="dataAppend">
+
+
+                                </tbody>
+                            </table>
+                            <div class="text-end">
+                                <p><strong>💰 Subtotal:</strong> <span class="subtotal"></p>
+
+                                <p class="vat"><strong>💸 Vat (10%):</strong>00</p>
+                                <p class="grand_total"><strong>💯 Total Amount:</strong>00</p>
+
+
+                                <div class="mb-3">
+                                    <label for="payment_status_id" class="form-label">Payment Status</label>
+                                    <select name="payment_status_id">
+                                        @foreach ($payment_statuses as $status)
+                                            <option value="{{ $status->id }}"
+                                                {{ old('payment_status_id', $purchase->payment_status_id ?? '') == $status->id ? 'selected' : '' }}>
+                                                {{ $status->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
-        <div class="text-end">
-          <h5>🧾 Invoice Details</h5>
-          Invoice #: INV-001<br>
-          Date: 14 Feb 2025<br>
-          Due Date: 28 Feb 2025
-        </div>
-      </div>
-      <table class="table table-hover table-bordered">
-        <thead class="table-primary">
-          <tr>
-            <th>Sl</th>
-            <th>Item</th>
-            <th>Cupon</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Total</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Product B</td>
-            <td>#EE5</td>
-            <td>5</td>
-            <td>$20.00</td>
-            <td>$100.00</td>
-            <td>
-                <button class="btn btn-success">✅ Add</button>
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Product A</td>
-            <td>#sal50</td>
-            <td>10</td>
-            <td>$15.00</td>
-            <td>$150.00</td>
-            <td>
-                <button class="btn btn-danger">❌ Remove</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="text-end">
-        <p><strong>💰 Subtotal:</strong> $250.00</p>
-        <p><strong>💳 Discount:</strong> $25.00</p>
-        <p><strong>💸 Tax (10%):</strong> $25.00</p>
-        <p><strong>💯 Total Amount:</strong> $275.00</p>
-        <p><strong>💲 Payment Status:</strong> <span class="badge bg-warning">Pending</span></p>
-      </div>
     </div>
-  </div>
-</body>
-</html> --}}
 
-=======
->>>>>>> cbd6008b1b1762cbb387cdd5e12aeb3aae33cda1
+    </html>
+@endsection
+
+
+
+
+
+
+
+
+@section('script')
+<script>
+    $(function() {
+        let cart = [];
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+        });
+
+        // **Supplier Information**
+        $("#supplier_id").on("change", function() {
+            let supplier_id = $(this).val();
+            $.post("{{ url('find_supplier') }}", { id: supplier_id }, function(res) {
+                $(".address").text(res.supplier?.address || '');
+                $(".phone").text(res.supplier?.phone || '');
+            }).fail(function(xhr) {
+                console.error(xhr.responseText);
+            });
+        });
+
+        // **Product Selection**
+        $("#product_id").on("change", function() {
+            let product_id = $(this).val();
+            $.post("{{ url('find_product') }}", { id: product_id }, function(res) {
+                $(".qty").val(1);
+                $(".P_price").val(res.product?.purchase_price || 0);
+                updateTotalAndSubtotal();
+            }).fail(function(xhr) {
+                console.error(xhr.responseText);
+            });
+        });
+
+        // **Quantity, Price, or Discount Update**
+        $(document).on("input", ".qty, .P_price, .discount", function() {
+            updateTotalAndSubtotal();
+        });
+
+        function updateTotalAndSubtotal() {
+            let qty = parseFloat($(".qty").val()) || 0;
+            let price = parseFloat($(".P_price").val()) || 0;
+            let discount = parseFloat($(".discount").val()) || 0;
+
+            let total = qty * price;
+            let subtotal = total - discount;
+
+            $(".total").val(total.toFixed(2));
+            $(".subtotal").val(subtotal.toFixed(2));
+        }
+
+        // **Add Button Click, Add a New Row**
+        $(".add_cart_btn").on('click', function() {
+            let product_id = $("#product_id").val();
+            let product_name = $("#product_id option:selected").text();
+            let qty = parseFloat($(".qty").val()) || 1;
+            let price = parseFloat($(".P_price").val()) || 0;
+            let discount = parseFloat($(".discount").val()) || 0;
+
+            // Validation to prevent adding empty products
+            if (!product_id) {
+                alert("Please select a product and enter a valid quantity and price.");
+                return;
+            }
+
+            let total = price * qty;
+            let subtotal = total - discount;
+
+            let item = {
+                "product_id": product_id,
+                "product_name": product_name,
+                "qty": qty,
+                "price": price,
+                "total": total,
+                "discount": discount,
+                "subtotal": subtotal
+            };
+
+            cart.push(item);
+            printCart();
+        });
+
+        function printCart() {
+            let htmldata = "";
+            let subtotal = 0;
+            let discount = 0;
+            let grandtotal = 0;
+
+            cart.forEach((element, index) => {
+                subtotal += element.subtotal;
+                discount += element.discount;
+
+                htmldata += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td><p class="fs-14">${element.product_name}</p></td>
+                    <td><span class="fs-14 text-gray">${element.qty}</span></td>
+                    <td><span class="fs-14 text-gray">$${element.price}</span></td>
+                    <td><span class="fs-14 text-gray">$${element.total}</span></td>
+                    <td><span class="fs-14 text-gray">$${element.discount}</span></td>
+                    <td><span class="fs-14 text-gray">$${element.subtotal}</span></td>
+                    <td><button data-id="${element.product_id}" class='btn btn-danger remove'>❌</button></td>
+                </tr>
+            `;
+            });
+
+            // Update the table body
+            $('.dataAppend').html(htmldata);
+
+            // Calculate VAT (5%) and Grand Total
+            let vat = (subtotal * 0.05).toFixed(2); // Calculate VAT
+            grandtotal = (parseFloat(subtotal) + parseFloat(vat)).toFixed(2); // Calculate Grand Total
+
+            // Update UI with calculated values
+            $('.subtotal').text(`$${subtotal.toFixed(2)}`);
+            $('.vat').text(`💸 Vat (5%): $${vat}`);
+            $('.grand_total').text(`💯 Total Amount: $${grandtotal}`);
+        }
+
+        // **Row Remove **
+        $(document).on('click', '.remove', function() {
+            let product_id = $(this).data("id");
+            cart = cart.filter(item => item.product_id != product_id);
+            printCart();
+        });
+
+        // **Clear All Button Click**
+        $(document).on('click', '.clear_all', function() {
+            cart = [];
+            printCart();
+            $(".qty, .P_price, .total, .discount, .subtotal").val('');
+            $("#product_id").val('');
+        });
+
+    });
+</script>
+
 @endsection

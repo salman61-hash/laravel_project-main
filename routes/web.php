@@ -8,6 +8,7 @@ use App\Http\Controllers\PaymentstatusController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\PurchasereturnController;
 use App\Http\Controllers\PurchasesdetailsController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SaledetailsController;
@@ -60,12 +61,19 @@ Route::resource('users',UserController::class);
 Route::resource('sales',SaleController::class);
 Route::resource('salesdetails',SaledetailsController::class);
 Route::resource('stock',StockController::class);
+Route::resource('purchase_return',PurchasereturnController::class);
 
 
-
+// sales invoice
 Route::post('find_customer', [SaleController::class, 'find_customer']);
 Route::post('find_product', [SaleController::class, 'find_product']);
 Route::post('find_cupon', [SaleController::class, 'find_cupon']);
+
+
+
+//purchase invoice
+Route::post('find_supplier', [PurchaseController::class, 'find_supplier']);
+Route::post('find_product', [PurchaseController::class, 'find_product']);
 
 
 

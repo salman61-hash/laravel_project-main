@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PaymentStatus;
+use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\User;
@@ -28,8 +29,9 @@ class PurchaseController extends Controller
         $suppliers = Supplier::get();  // Get all suppliers
         $users = User::get();  // Get all users
         $payment_statuses = PaymentStatus::get();  // Get all Payment Status
+        $products = Product::get();  // Get all Payment Status
 
-        return view('pages.purchases.create', compact('suppliers', 'users', 'payment_statuses'));
+        return view('pages.purchases.create', compact('suppliers', 'users', 'payment_statuses','products'));
     }
 
     /**
@@ -132,4 +134,19 @@ class PurchaseController extends Controller
          return redirect('purchases')->with('success', "purchases has been Deleted");
         }
     }
+
+
+    public function find_supplier(Request $request){
+		$supplier = Supplier::find($request->id);
+		return response()->json(['supplier'=> $supplier]);
+	}
+    public function find_product(Request $request){
+		$products = Product::find($request->id);
+		return response()->json(['product'=> $products]);
+	}
+
+
+
+
+
 }
