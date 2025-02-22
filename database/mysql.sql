@@ -123,6 +123,8 @@ CREATE TABLE sales_details (
     cupon_id INT,
     quantity INT,
     price DECIMAL(10,2),
+    discount DECIMAL(10,2) DEFAULT 0.00,
+    vat DECIMAL(10,2) DEFAULT 0.00,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -201,17 +203,6 @@ CREATE TABLE expenses (
 );
 
 -- 14. Staff Table (Tracking Employee Roles in Transactions)
-<<<<<<< HEAD
-=======
-CREATE TABLE staff (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100),
-    email VARCHAR(100),
-    phone VARCHAR(20),
-    role,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
->>>>>>> cbd6008b1b1762cbb387cdd5e12aeb3aae33cda1
 
 -- 15. Withdraw Table (Tracking Cash and Product Withdrawals)
 CREATE TABLE withdraw (

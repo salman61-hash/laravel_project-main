@@ -128,7 +128,7 @@
                             <p class="total-summary grand_total">Grand Total: 262.50</p>
                             <p><strong>Payment Status:</strong>
                             <div class="mb-3">
-                                <label for="payment_status_id" class="form-label">Payment Status</label>
+                                <label for="payment_status_id" class="form-label payment_status">Payment Status</label>
                                 <select name="payment_status_id">
                                     @foreach ($payment_statuses as $status)
                                         <option value="{{ $status->id }}"
@@ -143,7 +143,7 @@
                         </div>
 
                         <div class="container text-center mt-5">
-                            <button class="btn btn-primary btn-lg px-4 py-2 shadow" onclick="buttoninvoice()">
+                            <button class="btn btn-primary btn-lg px-4 py-2 shadow btn_process">
                                 <i class="fas fa-file-invoice"></i> Process Invoice
                             </button>
                         </div>
@@ -338,6 +338,39 @@
                 $(".qty, .s_price, .total, .discount, .subtotal").val('');
                 $("#product_id").val('');
                 $("#cupon_id").val('');
+            });
+
+
+
+            $('.btn_process').on('click', function(){
+                let customer_id = $('#customer_id').val();
+                let total_amount = $('.grandtotal').text();
+                let payment_status = $('.payment_status').text();
+                let discount = $('.discount').text();
+                let vat = $('.vat').text();
+                let products = cart.getCart();
+
+
+
+
+                $.ajax({
+                    url: "{{ url('api/sales') }}",
+                    type: 'Post',
+                    data: {
+                        customer_id: customer_id,
+                        total_amount: total_amount,
+                        payment_status: payment_status,
+                        discount: discount,
+                        vat: vat,
+                        products: products,
+                    },
+                    success: function(res) {
+                        console.log(res);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
             });
         });
     </script>

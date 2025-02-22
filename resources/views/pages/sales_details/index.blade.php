@@ -39,6 +39,8 @@
                             <th>Cupon</th>
                             <th>Quantity</th>
                             <th>Price</th>
+                            <th>Discount</th>
+                            <th>Vat</th>
                             <th>Total</th>
                             <th>Action</th>
                         </tr>
@@ -52,6 +54,8 @@
                                 <td>{{ $saleDetail->cupon->name }}</td>
                                 <td>{{ $saleDetail->quantity }}</td>
                                 <td>{{ $saleDetail->price }}</td>
+                                <td>{{ $saleDetail->discount }}</td>
+                                <td>{{ $saleDetail->vat }}</td>
                                 <td>{{ $saleDetail->quantity * $saleDetail->price }}</td>
                                 <td>
                                     <a href="{{ url("salesdetails/{$saleDetail->id}/edit") }}" class="btn btn-sm btn-warning">
