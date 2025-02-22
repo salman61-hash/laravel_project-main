@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sales Invoice</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <style>
             .sales-box {
@@ -139,8 +139,13 @@
                                 </select>
                             </div>
 
-
                             </p>
+                        </div>
+
+                        <div class="container text-center mt-5">
+                            <button class="btn btn-primary btn-lg px-4 py-2 shadow" onclick="buttoninvoice()">
+                                <i class="fas fa-file-invoice"></i> Process Invoice
+                            </button>
                         </div>
                     </div>
                 </div>
