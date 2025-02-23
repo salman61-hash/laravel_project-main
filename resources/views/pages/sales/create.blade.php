@@ -125,7 +125,16 @@
                         <div class="text-end">
                             <p class="total-summary ">Subtotal: <span class="subtotal"></span> </p>
                             <p class="total-summary vat">Vat (15%): 12.50</p>
+
                             <p class="total-summary grand_total">Grand Total: 262.50</p>
+
+                            <div class="container">
+                                <p class="total-summary text-start">
+                                    <span class="Discount"></span>
+                                </p>
+                            </div>
+
+
                             <p><strong>Payment Status:</strong>
                             <div class="mb-3">
                                 <label for="payment_status_id" class="form-label payment_status">Payment Status</label>
@@ -161,9 +170,11 @@
 @endsection
 
 @section('script')
+<script src="{{asset('assets/js/cart.js')}}"></script>
     <script>
         $(function() {
-            let cart = [];
+            let cart = new Cart("sales");
+             printCart();
 
             $.ajaxSetup({
                 headers: {
@@ -240,7 +251,7 @@
                 let discount = parseFloat($(".discount").val()) || 0;
 
                 let total = price * qty;
-                let total_discount = discount * qty;
+                let total_discount = discount;
                 let subtotal = total - total_discount;
 
                 $(".total").val(total.toFixed(2));
@@ -264,27 +275,28 @@
                 }
 
                 let total = price * qty;
-                let total_discount = discount * qty;
+                let total_discount = discount;
                 let subtotal = total - total_discount;
 
                 let item = {
-                    "product_id": product_id,
+                    "item_id": product_id,
                     "product_name": product_name,
                     "coupon_id": coupon_id,
                     "coupon_name": coupon_name,
                     "qty": qty,
                     "price": price,
                     "total": total,
-                    "discount": total_discount,
+                    "discount": discount,
+                    "total_discount": total_discount,
                     "subtotal": subtotal
                 };
 
-                cart.push(item);
+                cart.save(item);
                 printCart();
             });
 
             function printCart() {
-                let cartdata = cart;
+                let cartdata = cart.getCart();
                 let htmldata = "";
                 let subtotal = 0;
                 let discount = 0;
@@ -304,7 +316,7 @@
                 <td><span class="fs-14 text-gray">$${element.total}</span></td>
                 <td><span class="fs-14 text-gray">$${element.discount}</span></td>
                 <td><span class="fs-14 text-gray">$${element.subtotal}</span></td>
-                <td><button data="${element.product_id}" class='btn btn-danger remove'>❌</button></td>
+                <td><button data="${element.item_id}" class='btn btn-danger remove'>❌</button></td>
             </tr>
         `;
                 });
@@ -320,25 +332,23 @@
                 // Update UI with calculated values
                 $('.subtotal').html(subtotal);
                 $('.vat').html(`Vat (5%): $${vat}`);
+                $('.Discount').html(`discount : $${discount}`);
                 $('.grand_total').html(`Grand Total: $${grandtotal}`);
             }
 
 
             // Remove item from cart
-            $(document).on('click', '.remove', function() {
-                let product_id = $(this).attr("data");
-                cart = cart.filter(item => item.product_id != product_id);
-                printCart();
-            });
+            $(document).on('click', '.remove', function(){
+				let id = $(this).attr('data');
+				cart.delItem(id);
+				printCart();
+			})
 
             // Clear All Cart
-            $(document).on('click', '.clear_all', function() {
-                cart = [];
-                printCart();
-                $(".qty, .s_price, .total, .discount, .subtotal").val('');
-                $("#product_id").val('');
-                $("#cupon_id").val('');
-            });
+            $(document).on('click', '.clear_all', function(){
+				cart.clearCart();
+				printCart();
+			});
 
 
 
@@ -349,6 +359,18 @@
                 let discount = $('.discount').text();
                 let vat = $('.vat').text();
                 let products = cart.getCart();
+
+                let data = {
+                      customer_id: customer_id,
+                         total_amount: total_amount,
+                        payment_status: payment_status,
+                        discount: discount,
+                        vat: vat,
+                        products: products,
+                }
+
+                console.log(data);
+
 
 
 

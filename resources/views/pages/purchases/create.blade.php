@@ -192,7 +192,7 @@
                                         <td><input type="number" class="form-control qty"></td>
                                         <td><input type="text" disabled class="form-control P_price"></td>
                                         <td><input type="text" disabled class="form-control total"></td>
-                                        <td><input type="number" class="form-control discount"></td>
+                                        <td><input type="text" class="form-control discount"></td>
                                         <td><input type="text" disabled class="form-control subtotal"></td>
                                         <td><button class="btn btn-success add_cart_btn"> Add</button></td>
 
@@ -209,6 +209,12 @@
                                 <p class="vat"><strong>💸 Vat (10%):</strong>00</p>
                                 <p class="grand_total"><strong>💯 Total Amount:</strong>00</p>
 
+                                <div class="container">
+                                    <p class="total-summary text-start">
+                                        <span class="Discount">Total-Discount:</span>
+                                    </p>
+                                </div>
+
 
                                 <div class="mb-3">
                                     <label for="payment_status_id" class="form-label">Payment Status</label>
@@ -221,6 +227,8 @@
                                         @endforeach
                                     </select>
                                 </div>
+
+
 
 
                                 </p>
@@ -244,10 +252,15 @@
 
 
 @section('script')
+<script src="{{asset('assets/js/cart.js')}}"></script>
 <script>
     $(function() {
-        let cart = [];
+
+        const cart = new Cart("purchase");
+          printCart();
+
         $.ajaxSetup({
+
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
             },
@@ -255,46 +268,71 @@
 
         // **Supplier Information**
         $("#supplier_id").on("change", function() {
+
+
             let supplier_id = $(this).val();
-            $.post("{{ url('find_supplier') }}", { id: supplier_id }, function(res) {
-                $(".address").text(res.supplier?.address || '');
-                $(".phone").text(res.supplier?.phone || '');
-            }).fail(function(xhr) {
-                console.error(xhr.responseText);
-            });
+            $.ajax({
+                    url: "{{ url('find_supplier') }}",
+                    type: 'POST',
+                    data: {
+                        id: supplier_id
+                    },
+                    success: function(res) {
+
+                        $(".address").text(res.supplier?.address);
+                        $(".phone").text(res.supplier?.phone);
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
         });
 
         // **Product Selection**
-        $("#product_id").on("change", function() {
-            let product_id = $(this).val();
-            $.post("{{ url('find_product') }}", { id: product_id }, function(res) {
-                $(".qty").val(1);
-                $(".P_price").val(res.product?.purchase_price || 0);
-                updateTotalAndSubtotal();
-            }).fail(function(xhr) {
-                console.error(xhr.responseText);
+        $('#product_id').on('change', function() {
+            // alert();
+                let product_id = $(this).val();
+                $.ajax({
+                    url: '{{ url('find_product') }}',
+                    method: 'POST',
+                    data: {
+                        id: product_id
+                    },
+                    success: function(res) {
+                        console.log(res);
+                        $(".qty").val(1);
+                        $(".P_price").val(res.product?.purchase_price);
+                        updateTotalAndSubtotal();
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
             });
-        });
 
         // **Quantity, Price, or Discount Update**
-        $(document).on("input", ".qty, .P_price, .discount", function() {
-            updateTotalAndSubtotal();
-        });
-
+        $('.qty, .P_price, .discount').on('input', function() {
+                updateTotalAndSubtotal();
+            });
         function updateTotalAndSubtotal() {
             let qty = parseFloat($(".qty").val()) || 0;
             let price = parseFloat($(".P_price").val()) || 0;
             let discount = parseFloat($(".discount").val()) || 0;
 
-            let total = qty * price;
-            let subtotal = total - discount;
+            let total = price * qty;
+                let total_discount = discount;
+                let subtotal = total - total_discount;
 
             $(".total").val(total.toFixed(2));
+            // $(".discount").val(total_discount.toFixed(2));
             $(".subtotal").val(subtotal.toFixed(2));
         }
 
         // **Add Button Click, Add a New Row**
         $(".add_cart_btn").on('click', function() {
+
             let product_id = $("#product_id").val();
             let product_name = $("#product_id option:selected").text();
             let qty = parseFloat($(".qty").val()) || 1;
@@ -308,29 +346,39 @@
             }
 
             let total = price * qty;
-            let subtotal = total - discount;
+                let total_discount = discount;
+                let subtotal = total - total_discount;
 
             let item = {
-                "product_id": product_id,
+                "item_id": product_id,
                 "product_name": product_name,
                 "qty": qty,
                 "price": price,
                 "total": total,
                 "discount": discount,
+                "total_discount": total_discount,
                 "subtotal": subtotal
             };
 
-            cart.push(item);
+            cart.save(item);
             printCart();
         });
 
         function printCart() {
+
+
+           let cartdata = cart.getCart();
+
             let htmldata = "";
             let subtotal = 0;
             let discount = 0;
             let grandtotal = 0;
 
-            cart.forEach((element, index) => {
+       
+
+            if(cartdata){
+
+                cartdata.forEach((element, index) => {
                 subtotal += element.subtotal;
                 discount += element.discount;
 
@@ -343,38 +391,41 @@
                     <td><span class="fs-14 text-gray">$${element.total}</span></td>
                     <td><span class="fs-14 text-gray">$${element.discount}</span></td>
                     <td><span class="fs-14 text-gray">$${element.subtotal}</span></td>
-                    <td><button data-id="${element.product_id}" class='btn btn-danger remove'>❌</button></td>
+                    <td><button data-id="${element.item_id}" class='btn btn-danger remove'>❌</button></td>
                 </tr>
             `;
             });
 
-            // Update the table body
+        }
+
+
+
             $('.dataAppend').html(htmldata);
 
             // Calculate VAT (5%) and Grand Total
-            let vat = (subtotal * 0.05).toFixed(2); // Calculate VAT
-            grandtotal = (parseFloat(subtotal) + parseFloat(vat)).toFixed(2); // Calculate Grand Total
+            subtotal = subtotal.toFixed(2);
+                let vat = (subtotal * 0.05).toFixed(2); // Calculate VAT
+                grandtotal = (parseFloat(subtotal) + parseFloat(vat)).toFixed(2); // Calculate Grand Total
 
             // Update UI with calculated values
-            $('.subtotal').text(`$${subtotal.toFixed(2)}`);
-            $('.vat').text(`💸 Vat (5%): $${vat}`);
-            $('.grand_total').text(`💯 Total Amount: $${grandtotal}`);
+            $('.subtotal').html(subtotal);
+                $('.vat').html(`Vat (5%): $${vat}`);
+                $('.Discount').html(`discount : $${discount}`);
+                $('.grand_total').html(`Grand Total: $${grandtotal}`);
         }
 
         // **Row Remove **
-        $(document).on('click', '.remove', function() {
-            let product_id = $(this).data("id");
-            cart = cart.filter(item => item.product_id != product_id);
-            printCart();
-        });
+        $(document).on('click', '.remove', function(){
+				let id = $(this).attr('data-id');
+				cart.delItem(id);
+				printCart();
+			})
 
         // **Clear All Button Click**
-        $(document).on('click', '.clear_all', function() {
-            cart = [];
-            printCart();
-            $(".qty, .P_price, .total, .discount, .subtotal").val('');
-            $("#product_id").val('');
-        });
+        $(document).on('click', '.clear_all', function(){
+				cart.clearCart();
+				printCart();
+			});
 
     });
 </script>
