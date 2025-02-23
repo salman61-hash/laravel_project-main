@@ -50,14 +50,23 @@ class SaleController extends Controller
             // 'payment_status' => 'required|exists:payment_statuses,id',
         ]);
 
-        // Create the new sale record in the database
-        Sale::create([
-            'customer_id' => $request->customer_id,
-            'user_id' => $request->user_id,
-            'sale_date' => $request->sale_date,
-            'total_amount' => $request->total_amount,
-            'payment_status' => $request->payment_status,
-        ]);
+
+
+        $sales = new Sale();
+
+        // Assign validated data to the Purchase model
+        $sales->customer_id = $request->customer_id;
+        $sales->user_id = $request->user_id;
+        $sales->sale_date = $request->sale_date;
+        $sales->total_amount = $request->total_amount;
+        $sales->payment_status_id = $request->payment_status_id;
+
+        // Save the Purchase data to the database
+        if ($sales->save()) {
+            return redirect()->route('sales')->with('success', 'Purchase has been registered successfully.');
+        } else {
+            return redirect()->route('sales')->with('error', 'Failed to register purchase.');
+        }
 
         // Redirect to the sales index page with a success message
         return redirect('sales')->with('success', 'Sale added successfully.');

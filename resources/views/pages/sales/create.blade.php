@@ -135,7 +135,7 @@
                             </div>
 
 
-                            <p><strong>Payment Status:</strong>
+
                             <div class="mb-3">
                                 <label for="payment_status_id" class="form-label payment_status">Payment Status</label>
                                 <select name="payment_status_id">
@@ -173,8 +173,11 @@
 <script src="{{asset('assets/js/cart.js')}}"></script>
     <script>
         $(function() {
-            let cart = new Cart("sales");
+
+
+           const cart = new Cart("sales");
              printCart();
+
 
             $.ajaxSetup({
                 headers: {
@@ -184,6 +187,7 @@
 
             // Fetch Customer Phone Number
             $('#customer_id').on('change', function() {
+
                 let customer_id = $(this).val();
                 $.ajax({
                     url: "{{ url('find_customer') }}",
@@ -261,6 +265,7 @@
 
             // Add to cart
             $('.add_cart_btn').on('click', function() {
+
                 let product_id = $("#product_id").val();
                 let product_name = $("#product_id option:selected").text();
                 let coupon_id = $("#cupon_id").val();
@@ -321,6 +326,9 @@
         `;
                 });
 
+                // console.log(htmldata);
+
+
                 // Update the table body
                 $('.dataAppend').html(htmldata);
 
@@ -354,9 +362,9 @@
 
             $('.btn_process').on('click', function(){
                 let customer_id = $('#customer_id').val();
-                let total_amount = $('.grandtotal').text();
-                let payment_status = $('.payment_status').text();
-                let discount = $('.discount').text();
+                let total_amount = $('.grand_total').text();
+                let payment_status = $('.payment_status_id').text();
+                let discount = $('.Discount').text();
                 let vat = $('.vat').text();
                 let products = cart.getCart();
 

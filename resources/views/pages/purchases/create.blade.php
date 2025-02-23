@@ -233,6 +233,12 @@
 
                                 </p>
                             </div>
+
+                            <div class="container text-center mt-5">
+                                <button class="btn btn-primary btn-lg px-4 py-2 shadow btn_process">
+                                    <i class="fas fa-file-invoice"></i> Process Invoice
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -374,7 +380,7 @@
             let discount = 0;
             let grandtotal = 0;
 
-       
+
 
             if(cartdata){
 
@@ -426,6 +432,52 @@
 				cart.clearCart();
 				printCart();
 			});
+
+
+
+
+            $('.btn_process').on('click', function(){
+                let supplier_id = $('#supplier_id').val();
+                let total_amount = $('.grand_total').text();
+                let payment_status = $('.payment_status').text();
+                let discount = $('.discount').text();
+                let vat = $('.vat').text();
+                let products = cart.getCart();
+
+                let data = {
+                    supplier_id: supplier_id,
+                         total_amount: total_amount,
+                        payment_status: payment_status,
+                        discount: discount,
+                        vat: vat,
+                        products: products,
+                }
+
+                console.log(data);
+
+
+
+
+
+                $.ajax({
+                    url: "{{ url('api/purchase') }}",
+                    type: 'Post',
+                    data: {
+                        supplier_id: supplier_id,
+                        total_amount: total_amount,
+                        payment_status: payment_status,
+                        discount: discount,
+                        vat: vat,
+                        products: products,
+                    },
+                    success: function(res) {
+                        console.log(res);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            });
 
     });
 </script>
