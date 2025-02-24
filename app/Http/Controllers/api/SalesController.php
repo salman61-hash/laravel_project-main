@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Sale;
 use App\Models\SaleDetail;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 
 class SalesController extends Controller
@@ -45,17 +46,27 @@ class SalesController extends Controller
 
         foreach ($productsdata as $key => $value) {
             // print_r( $value['item_id']);
-            $orderdetails= new SaleDetail;
-              $orderdetails->sale_id=$lastInsertedId;
-              $orderdetails->product_id= $value['item_id'];
-              $orderdetails->cupon_id= $value['coupon_id'];
-              $orderdetails->quantity= $value['qty'];
-              $orderdetails->price= $value['price'];
-              $orderdetails->discount= $value['discount'];
-              $orderdetails->vat= $request->vat;
+            $sales= new SaleDetail;
+              $sales->sale_id=$lastInsertedId;
+              $sales->product_id= $value['item_id'];
+              $sales->cupon_id= $value['coupon_id'];
+              $sales->quantity= $value['qty'];
+              $sales->price= $value['price'];
+              $sales->discount= $value['discount'];
+              $sales->vat= $request->vat;
+              $sales->save();
 
 
-              $orderdetails->save();
+
+              $stock= new Stock;
+              $stock->product_id=$value['item_id'];
+              $stock->quantity=$value['qty'] * (+1);
+              $stock ->payment_status_id=$request->payment_status;
+
+              $stock->save();
+
+
+
         // $lastInsertedId = $order->id;
 
         }

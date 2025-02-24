@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Purchase;
+use App\Models\PurchasesDetails;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
@@ -41,15 +43,47 @@ class PurchaseController extends Controller
 
         foreach ($productsdata as $key => $value) {
             // print_r($value['item_id']);
-            $purchase_details= new Purchase;
+            $purchase_details= new PurchasesDetails;
             $purchase_details->purchase_id=$lastInsertedId;
             $purchase_details->product_id= $value['item_id'];
             $purchase_details->quantity= $value['qty'];
             $purchase_details->price= $value['price'];
             $purchase_details->discount= $value['discount'];
             $purchase_details->vat= $request->vat;
+            date_default_timezone_set("Asia/Dhaka");
+            $purchase_details->created_at=date('Y-m-d H:i:s');
+             date_default_timezone_set("Asia/Dhaka");
+            $purchase_details->updated_at=date('Y-m-d H:i:s');
 
             $purchase_details->save();
+
+            // foreach ($productsdata as $key => $value) {
+            //     // print_r( $value['item_id']);
+            //     $orderdetails= new PurchasesDetails;
+            //       $orderdetails->sale_id=$lastInsertedId;
+            //       $orderdetails->product_id= $value['item_id'];
+            //       $orderdetails->cupon_id= $value['coupon_id'];
+            //       $orderdetails->quantity= $value['qty'];
+            //       $orderdetails->price= $value['price'];
+            //       $orderdetails->discount= $value['discount'];
+            //       $orderdetails->vat= $request->vat;
+
+
+            //       $orderdetails->save();
+
+
+
+
+
+
+
+            $stock= new Stock;
+            $stock->product_id=$value['item_id'];
+            $stock->quantity=$value['qty'] * (+1);
+            $stock ->payment_status_id=$request->payment_status;
+
+            $stock->save();
+
 
         }
 

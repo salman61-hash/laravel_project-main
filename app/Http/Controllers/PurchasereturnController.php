@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PurchaseReturn;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class PurchasereturnController extends Controller
@@ -11,7 +13,8 @@ class PurchasereturnController extends Controller
      */
     public function index()
     {
-        return view('pages.purchase_return.index');
+        $purchase_returns=PurchaseReturn::paginate(3);
+        return view('pages.purchase_return.index',compact('purchase_returns'));
     }
 
     /**
@@ -19,7 +22,8 @@ class PurchasereturnController extends Controller
      */
     public function create()
     {
-        //
+        $suppliers=Supplier::all();
+        return view('pages.purchase_return.create',compact('suppliers'));
     }
 
     /**
@@ -27,7 +31,28 @@ class PurchasereturnController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         // Validate the incoming request
+    $request->validate([
+        "supplier_id" => 'required|exists:suppliers,id',
+        "purchase_id" => 'required|exists:purchases,id',
+        "reason" => 'required|min:5',
+        "return_amount" => 'required|numeric|min:1',
+    ]);
+
+    // Create a new PurchaseReturn instance
+    $purchaseReturn = new PurchaseReturn();
+
+
+    $purchaseReturn->supplier_id = $request->supplier_id;
+    $purchaseReturn->purchase_id = $request->purchase_id;
+    $purchaseReturn->reason = $request->reason;
+    $purchaseReturn->return_amount = $request->return_amount;
+
+    // Save the purchase return to the database
+    if ($purchaseReturn->save()) {
+        return redirect('purchase_return')->with('success', "Purchase return has been recorded successfully.");
+    }
+
     }
 
     /**

@@ -134,7 +134,6 @@ CREATE TABLE sales_returns (
     id INT AUTO_INCREMENT PRIMARY KEY,
     sale_id INT,
     product_id INT,
-    quantity INT,
     return_date DATE,
     refund_amount DECIMAL(10,2),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -158,9 +157,6 @@ CREATE TABLE purchase_returns (
     id INT AUTO_INCREMENT PRIMARY KEY,
     purchase_id INT,
     product_id INT,
-    quantity INT,
-
-
     refund_amount DECIMAL(10,2),
     return_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

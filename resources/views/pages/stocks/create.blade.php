@@ -28,10 +28,10 @@
             </div>
 
             <!-- Minimum Stock Level -->
-            <div class="mb-3">
+            {{-- <div class="mb-3">
                 <label for="min_stock_level" class="form-label">Minimum Stock Level</label>
                 <input type="number" name="min_stock_level" class="form-control" value="{{ old('min_stock_level') }}" placeholder="Enter Minimum Stock Level" required>
-            </div>
+            </div> --}}
 
             <!-- Payment Status -->
 
