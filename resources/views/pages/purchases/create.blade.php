@@ -206,22 +206,22 @@
                             <div class="text-end">
                                 <p><strong>💰 Subtotal:</strong> <span class="subtotal"></p>
 
-                                <p class="vat"><strong>💸 Vat (10%):</strong>00</p>
-                                <p class="grand_total"><strong>💯 Total Amount:</strong>00</p>
+                                <p ><strong>💸 Vat (10%): <span class="vat">00</span></strong></p>
+                                <p ><strong>💯 Total Amount: <span class="grand_total"></span>00</strong></p>
 
                                 <div class="container">
                                     <p class="total-summary text-start">
-                                        <span class="Discount">Total-Discount:</span>
+                                        Total-Discount:
+                                        <span class="Discount"></span>
                                     </p>
                                 </div>
 
 
                                 <div class="mb-3">
-                                    <label for="payment_status_id" class="form-label">Payment Status</label>
-                                    <select name="payment_status_id">
+                                    <label for="payment_status_id" class="form-label payment_status">Payment Status</label>
+                                    <select name="payment_status_id" class="payment_status_button">
                                         @foreach ($payment_statuses as $status)
-                                            <option value="{{ $status->id }}"
-                                                {{ old('payment_status_id', $purchase->payment_status_id ?? '') == $status->id ? 'selected' : '' }}>
+                                            <option value="{{ $status->id }}" >
                                                 {{ $status->name }}
                                             </option>
                                         @endforeach
@@ -345,6 +345,11 @@
             let price = parseFloat($(".P_price").val()) || 0;
             let discount = parseFloat($(".discount").val()) || 0;
 
+            console.log(product_name.trim());
+
+                let name = product_name.trim();
+
+
             // Validation to prevent adding empty products
             if (!product_id) {
                 alert("Please select a product and enter a valid quantity and price.");
@@ -357,7 +362,7 @@
 
             let item = {
                 "item_id": product_id,
-                "product_name": product_name,
+                "product_name":name,
                 "qty": qty,
                 "price": price,
                 "total": total,
@@ -415,9 +420,9 @@
 
             // Update UI with calculated values
             $('.subtotal').html(subtotal);
-                $('.vat').html(`Vat (5%): $${vat}`);
-                $('.Discount').html(`discount : $${discount}`);
-                $('.grand_total').html(`Grand Total: $${grandtotal}`);
+                $('.vat').html(`${vat}`);
+                $('.Discount').html(`${discount}`);
+                $('.grand_total').html(`${grandtotal}`);
         }
 
         // **Row Remove **
@@ -439,8 +444,8 @@
             $('.btn_process').on('click', function(){
                 let supplier_id = $('#supplier_id').val();
                 let total_amount = $('.grand_total').text();
-                let payment_status = $('.payment_status').text();
-                let discount = $('.discount').text();
+                let payment_status = $('.payment_status_button').val();
+                let discount = $('.Discount').text();
                 let vat = $('.vat').text();
                 let products = cart.getCart();
 
@@ -464,14 +469,22 @@
                     type: 'Post',
                     data: {
                         supplier_id: supplier_id,
-                        total_amount: total_amount,
+                         total_amount: total_amount,
                         payment_status: payment_status,
                         discount: discount,
+
                         vat: vat,
                         products: products,
                     },
                     success: function(res) {
-                        console.log(res);
+                       if (res.success) {
+                        cart.clearCart();
+                        printCart();
+                        $('#supplier_id').val("");
+                        $(".address").text("");
+                        $(".phone").text("");
+
+                       }
                     },
                     error: function(xhr, status, error) {
                         console.log(error);

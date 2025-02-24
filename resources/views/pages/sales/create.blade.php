@@ -101,7 +101,7 @@
                                     </td>
                                     <td>
                                         <select name="cupon_id" class="form-control" id="cupon_id">
-                                            <option value="" disabled selected>Select Coupon</option>
+                                            {{-- <option value="" disabled selected>Select Coupon</option> --}}
                                             @foreach ($cupons as $cupon)
                                                 <option value="{{ $cupon->id }}">
                                                     {{ $cupon->name }}
@@ -124,12 +124,13 @@
 
                         <div class="text-end">
                             <p class="total-summary ">Subtotal: <span class="subtotal"></span> </p>
-                            <p class="total-summary vat">Vat (15%): 12.50</p>
+                            <p class="total-summary ">Vat (10%): <span class="vat"></span></p>
 
-                            <p class="total-summary grand_total">Grand Total: 262.50</p>
+                            <p class="total-summary ">Grand Total: <span class="grand_total">262.50</span></p>
 
                             <div class="container">
                                 <p class="total-summary text-start">
+                                    Total-Discount:
                                     <span class="Discount"></span>
                                 </p>
                             </div>
@@ -138,10 +139,9 @@
 
                             <div class="mb-3">
                                 <label for="payment_status_id" class="form-label payment_status">Payment Status</label>
-                                <select name="payment_status_id">
+                                <select name="payment_status_id" class="payment_status_button">
                                     @foreach ($payment_statuses as $status)
-                                        <option value="{{ $status->id }}"
-                                            {{ old('payment_status_id', $purchase->payment_status_id ?? '') == $status->id ? 'selected' : '' }}>
+                                        <option value="{{ $status->id }}" >
                                             {{ $status->name }}
                                         </option>
                                     @endforeach
@@ -267,13 +267,17 @@
             $('.add_cart_btn').on('click', function() {
 
                 let product_id = $("#product_id").val();
-                let product_name = $("#product_id option:selected").text();
+                let product_name =$("#product_id option:selected").text() ;
                 let coupon_id = $("#cupon_id").val();
                 let coupon_name = $("#cupon_id option:selected").text();
                 let qty = parseFloat($(".qty").val()) || 1;
                 let price = parseFloat($(".s_price").val()) || 0;
                 let discount = parseFloat($(".discount").val()) || 0;
 
+                console.log(product_name.trim());
+
+                let name = product_name.trim();
+                let c_name= coupon_name.trim();
                 if (!product_id) {
                     alert("Please select a product.");
                     return;
@@ -285,9 +289,9 @@
 
                 let item = {
                     "item_id": product_id,
-                    "product_name": product_name,
+                    "product_name": name,
                     "coupon_id": coupon_id,
-                    "coupon_name": coupon_name,
+                    "coupon_name": c_name,
                     "qty": qty,
                     "price": price,
                     "total": total,
@@ -307,25 +311,31 @@
                 let discount = 0;
                 let grandtotal = 0;
 
+
+
+                if(cartdata){
+
+
                 cartdata.forEach(element => {
                     subtotal += element.subtotal;
                     discount += element.discount;
 
                     htmldata += `
-            <tr>
-                <td></td>
-                <td><p class="fs-14">${element.product_name}</p></td>
-                <td><p class="fs-14 text-gray">${element.coupon_name}</p></td>
-                <td><span class="fs-14 text-gray">${element.qty}</span></td>
-                <td><span class="fs-14 text-gray">$${element.price}</span></td>
-                <td><span class="fs-14 text-gray">$${element.total}</span></td>
-                <td><span class="fs-14 text-gray">$${element.discount}</span></td>
-                <td><span class="fs-14 text-gray">$${element.subtotal}</span></td>
-                <td><button data="${element.item_id}" class='btn btn-danger remove'>❌</button></td>
-            </tr>
-        `;
-                });
+                        <tr>
+                            <td></td>
+                            <td><p class="fs-14">${element.product_name}</p></td>
+                            <td><p class="fs-14 text-gray">${element.coupon_name}</p></td>
+                            <td><span class="fs-14 text-gray">${element.qty}</span></td>
+                            <td><span class="fs-14 text-gray">$${element.price}</span></td>
+                            <td><span class="fs-14 text-gray">$${element.total}</span></td>
+                            <td><span class="fs-14 text-gray">$${element.discount}</span></td>
+                            <td><span class="fs-14 text-gray">$${element.subtotal}</span></td>
+                            <td><button data="${element.item_id}" class='btn btn-danger remove'>❌</button></td>
+                        </tr>
+                    `;
 
+                });
+            }
                 // console.log(htmldata);
 
 
@@ -339,9 +349,9 @@
 
                 // Update UI with calculated values
                 $('.subtotal').html(subtotal);
-                $('.vat').html(`Vat (5%): $${vat}`);
-                $('.Discount').html(`discount : $${discount}`);
-                $('.grand_total').html(`Grand Total: $${grandtotal}`);
+                $('.vat').html(`${vat}`);
+                $('.Discount').html(`${discount}`);
+                $('.grand_total').html(`${grandtotal}`);
             }
 
 
@@ -363,21 +373,21 @@
             $('.btn_process').on('click', function(){
                 let customer_id = $('#customer_id').val();
                 let total_amount = $('.grand_total').text();
-                let payment_status = $('.payment_status_id').text();
-                let discount = $('.Discount').text();
+                let payment_status = $('.payment_status_button').val();
+                let discount = $('.discount').text();
                 let vat = $('.vat').text();
                 let products = cart.getCart();
 
-                let data = {
-                      customer_id: customer_id,
-                         total_amount: total_amount,
-                        payment_status: payment_status,
-                        discount: discount,
-                        vat: vat,
-                        products: products,
-                }
+                // let data = {
+                //       customer_id: customer_id,
+                //          total_amount: total_amount,
+                //         payment_status: payment_status,
+                //         discount: discount,
+                //         vat: vat,
+                //         products: products,
+                // }
 
-                console.log(data);
+                // console.log(data);
 
 
 
@@ -391,11 +401,16 @@
                         total_amount: total_amount,
                         payment_status: payment_status,
                         discount: discount,
-                        vat: vat,
                         products: products,
                     },
                     success: function(res) {
-                        console.log(res);
+                      if (res.success) {
+                        cart.clearCart();
+				         printCart();
+                         $('#customer_id').val("");
+                         $(".phone").text("");
+                        $(".email").text("");
+                      }
                     },
                     error: function(xhr, status, error) {
                         console.log(error);

@@ -47,7 +47,7 @@
                             <tr>
                                 <td>{{ $purchase->id }}</td>
                                 <td>{{ $purchase->supplier->name }}</td>
-                                <td>{{ $purchase->user->name }}</td>
+                                {{-- <td>{{ $purchase->user->name }}</td> --}}
                                 <td>{{ $purchase->purchase_date }}</td>
                                 <td>{{ $purchase->total_amount }}</td>
                                 <td>{{ $purchase->payment_status->name }}</td>

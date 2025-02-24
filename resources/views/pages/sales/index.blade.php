@@ -37,7 +37,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Customer</th>
-                            <th>Seller</th>
+                            {{-- <th>Seller</th> --}}
                             <th>Sale Date</th>
                             <th>Total Amount</th>
                             <th>Payment Status</th>
@@ -49,7 +49,7 @@
                             <tr>
                                 <td>{{ $sale->id }}</td>
                                 <td>{{ $sale->customer->name }}</td>
-                                <td>{{ $sale->user->name }}</td>
+                                {{-- <td>{{option($sale->user->name) }}</td> --}}
                                 <td>{{ $sale->sale_date }}</td>
                                 <td>{{ $sale->total_amount }}</td>
                                 <td>{{$sale->payment_status->name }}</td>

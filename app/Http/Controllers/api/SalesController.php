@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Sale;
+use App\Models\SaleDetail;
 use Illuminate\Http\Request;
 
 class SalesController extends Controller
@@ -22,26 +23,44 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
-        // print_r($request->all());
-        $order = new Sale;
-		$order->customer_id=$request->customer_id;
-		$order->order_date=now();
-		// $order->delivery_date= date('Y-m-d H:i:s', strtotime('+7 days'));
-		// $order->shipping_address= "";   //$request->shipping_address;
-		$order->total_amount=$request->total_amount;
-		// $order->paid_amount=$request->paid_amount;
-		// $order->remark="";   //$request->remark;
-		$order->payment_status_id=2;
-		$order->discount=$request->discount;
-		$order->vat=$request->vat;
+
+        $sales = new Sale;
+		$sales->customer_id=$request->customer_id;
+		$sales->sale_date=now();
+
+		$sales->total_amount=$request->total_amount;
+
+		$sales->payment_status_id=$request->payment_status;
+		// $sales->discount=$request->discount;
+		// $sales->vat=$request->vat;
         date_default_timezone_set("Asia/Dhaka");
-		$order->created_at=date('Y-m-d H:i:s');
+		$sales->created_at=date('Y-m-d H:i:s');
         date_default_timezone_set("Asia/Dhaka");
-		$order->updated_at=date('Y-m-d H:i:s');
-		$order->save();
-        $lastInsertedId = $order->id;
+		$sales->updated_at=date('Y-m-d H:i:s');
+		$sales->save();
+        $lastInsertedId = $sales->id;
 
         $productsdata=$request->products;
+
+
+        foreach ($productsdata as $key => $value) {
+            // print_r( $value['item_id']);
+            $orderdetails= new SaleDetail;
+              $orderdetails->sale_id=$lastInsertedId;
+              $orderdetails->product_id= $value['item_id'];
+              $orderdetails->cupon_id= $value['coupon_id'];
+              $orderdetails->quantity= $value['qty'];
+              $orderdetails->price= $value['price'];
+              $orderdetails->discount= $value['discount'];
+              $orderdetails->vat= $request->vat;
+
+
+              $orderdetails->save();
+        // $lastInsertedId = $order->id;
+
+        }
+
+        return response()->json(['success'=>"order confirmed successfully"]);
     }
 
     /**
