@@ -80,7 +80,7 @@ class PurchaseController extends Controller
             $stock= new Stock;
             $stock->product_id=$value['item_id'];
             $stock->quantity=$value['qty'] * (+1);
-            $stock ->payment_status_id=$request->payment_status;
+            // $stock ->payment_status_id=$request->payment_status;
 
             $stock->save();
 

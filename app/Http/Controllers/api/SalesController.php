@@ -28,12 +28,8 @@ class SalesController extends Controller
         $sales = new Sale;
 		$sales->customer_id=$request->customer_id;
 		$sales->sale_date=now();
-
 		$sales->total_amount=$request->total_amount;
-
 		$sales->payment_status_id=$request->payment_status;
-		// $sales->discount=$request->discount;
-		// $sales->vat=$request->vat;
         date_default_timezone_set("Asia/Dhaka");
 		$sales->created_at=date('Y-m-d H:i:s');
         date_default_timezone_set("Asia/Dhaka");
@@ -54,14 +50,18 @@ class SalesController extends Controller
               $sales->price= $value['price'];
               $sales->discount= $value['discount'];
               $sales->vat= $request->vat;
+              date_default_timezone_set("Asia/Dhaka");
+            $sales->created_at=date('Y-m-d H:i:s');
+             date_default_timezone_set("Asia/Dhaka");
+            $sales->updated_at=date('Y-m-d H:i:s');
               $sales->save();
 
 
 
               $stock= new Stock;
               $stock->product_id=$value['item_id'];
-              $stock->quantity=$value['qty'] * (+1);
-              $stock ->payment_status_id=$request->payment_status;
+              $stock->quantity=$value['qty'] * (-1);
+            //   $stock ->payment_status_id=$request->payment_status;
 
               $stock->save();
 

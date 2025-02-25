@@ -163,10 +163,8 @@
                                     <tr>
                                         <th>Sl</th>
                                         <th>Item</th>
-
                                         <th>Quantity</th>
                                         <th>Unit Price</th>
-
                                         <th>Total</th>
                                         <th>Discount</th>
                                         <th>Sub Total</th>
@@ -376,10 +374,7 @@
         });
 
         function printCart() {
-
-
            let cartdata = cart.getCart();
-
             let htmldata = "";
             let subtotal = 0;
             let discount = 0;
@@ -449,16 +444,16 @@
                 let vat = $('.vat').text();
                 let products = cart.getCart();
 
-                let data = {
-                    supplier_id: supplier_id,
-                         total_amount: total_amount,
-                        payment_status: payment_status,
-                        discount: discount,
-                        vat: vat,
-                        products: products,
-                }
+                // let data = {
+                //     supplier_id: supplier_id,
+                //          total_amount: total_amount,
+                //         payment_status: payment_status,
+                //         discount: discount,
+                //         vat: vat,
+                //         products: products,
+                // }
 
-                console.log(data);
+                // console.log(data);
 
 
 
@@ -472,7 +467,6 @@
                          total_amount: total_amount,
                         payment_status: payment_status,
                         discount: discount,
-
                         vat: vat,
                         products: products,
                     },

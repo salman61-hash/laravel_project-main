@@ -16,7 +16,7 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchases = Purchase::with(['supplier', 'user','payment_status'])->paginate(10);
+        $purchases = Purchase::with(['supplier', 'user','payment_status'])->paginate(5);
 
         return view('pages.purchases.index', compact('purchases'));
     }

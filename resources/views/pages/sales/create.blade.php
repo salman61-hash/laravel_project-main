@@ -172,22 +172,22 @@
 @section('script')
 <script src="{{asset('assets/js/cart.js')}}"></script>
     <script>
-        $(function() {
+        $(function(){
 
 
-           const cart = new Cart("sales");
+const cart = new Cart("sales");
              printCart();
 
 
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
+                },
             });
 
             // Fetch Customer Phone Number
             $('#customer_id').on('change', function() {
-
+                // alert();
                 let customer_id = $(this).val();
                 $.ajax({
                     url: "{{ url('find_customer') }}",
@@ -259,7 +259,7 @@
                 let subtotal = total - total_discount;
 
                 $(".total").val(total.toFixed(2));
-                $(".discount").val(total_discount.toFixed(2));
+                // $(".discount").val(total_discount.toFixed(2));
                 $(".subtotal").val(subtotal.toFixed(2));
             }
 
@@ -278,6 +278,8 @@
 
                 let name = product_name.trim();
                 let c_name= coupon_name.trim();
+
+
                 if (!product_id) {
                     alert("Please select a product.");
                     return;
@@ -305,6 +307,9 @@
             });
 
             function printCart() {
+
+
+
                 let cartdata = cart.getCart();
                 let htmldata = "";
                 let subtotal = 0;
@@ -313,16 +318,19 @@
 
 
 
+
                 if(cartdata){
 
 
-                cartdata.forEach(element => {
+
+                    console.log(cartdata);
+                cartdata.forEach((element, index) => {
                     subtotal += element.subtotal;
                     discount += element.discount;
 
                     htmldata += `
                         <tr>
-                            <td></td>
+                            <td>${index + 1}</td>
                             <td><p class="fs-14">${element.product_name}</p></td>
                             <td><p class="fs-14 text-gray">${element.coupon_name}</p></td>
                             <td><span class="fs-14 text-gray">${element.qty}</span></td>
@@ -374,21 +382,9 @@
                 let customer_id = $('#customer_id').val();
                 let total_amount = $('.grand_total').text();
                 let payment_status = $('.payment_status_button').val();
-                let discount = $('.discount').text();
+                let discount = $('.Discount').text();
                 let vat = $('.vat').text();
                 let products = cart.getCart();
-
-                // let data = {
-                //       customer_id: customer_id,
-                //          total_amount: total_amount,
-                //         payment_status: payment_status,
-                //         discount: discount,
-                //         vat: vat,
-                //         products: products,
-                // }
-
-                // console.log(data);
-
 
 
 
@@ -401,6 +397,7 @@
                         total_amount: total_amount,
                         payment_status: payment_status,
                         discount: discount,
+                        vat: vat,
                         products: products,
                     },
                     success: function(res) {

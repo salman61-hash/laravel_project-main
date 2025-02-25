@@ -22,7 +22,7 @@ class Purchase extends Model
     // Define the relationship to Supplier
     public function supplier()
     {
-        return $this->belongsTo(Supplier::class);
+        return $this->belongsTo(Supplier::class,'supplier_id');
     }
 
     // Define the relationship to User

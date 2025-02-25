@@ -45,7 +45,7 @@
                         @forelse ($stocks as $stock)
                             <tr>
                                 <td>{{ $stock->id }}</td>
-                                <td>{{ $stock->product->name }}</td>
+                                <td>{{ $stock->name }}</td>
                                 <td>{{ $stock->quantity }}</td>
                                 {{-- <td>{{ $stock->min_stock_level }}</td> --}}
 

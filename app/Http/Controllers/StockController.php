@@ -6,6 +6,7 @@ use App\Models\PaymentStatus;
 use App\Models\Product;
 use App\Models\Stock;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StockController extends Controller
 {
@@ -14,7 +15,15 @@ class StockController extends Controller
      */
     public function index()
     {
-        $stocks = Stock::with('product')->paginate(10);
+
+        $stocks = DB::table('stock as s')
+        ->select('p.id', 'p.name', DB::raw('SUM(s.quantity) as quantity'))
+        ->join('products as p', 'p.id', '=', 's.product_id')
+        ->groupBy('p.id', 'p.name') // Grouping by all selected non-aggregated columns
+        ->paginate(5);
+
+
+        // $stocks = Stock::with('product')->paginate(10);
 
         // Return the view with the stock data
         return view('pages.stocks.index', compact('stocks'));
