@@ -61,7 +61,7 @@ Route::resource('users',UserController::class);
 Route::resource('sales',SaleController::class);
 Route::resource('salesdetails',SaledetailsController::class);
 Route::resource('stock',StockController::class);
-Route::resource('purchase_return',PurchasereturnController::class);
+Route::resource('purchase-returns',PurchasereturnController::class);
 
 
 // sales invoice

@@ -204,8 +204,8 @@
                             <div class="text-end">
                                 <p><strong>💰 Subtotal:</strong> <span class="subtotal"></p>
 
-                                <p ><strong>💸 Vat (10%): <span class="vat">00</span></strong></p>
-                                <p ><strong>💯 Total Amount: <span class="grand_total"></span>00</strong></p>
+                                <p><strong>💸 Vat (10%): <span class="vat">00</span></strong></p>
+                                <p><strong>💯 Total Amount: <span class="grand_total"></span>00</strong></p>
 
                                 <div class="container">
                                     <p class="total-summary text-start">
@@ -219,7 +219,7 @@
                                     <label for="payment_status_id" class="form-label payment_status">Payment Status</label>
                                     <select name="payment_status_id" class="payment_status_button">
                                         @foreach ($payment_statuses as $status)
-                                            <option value="{{ $status->id }}" >
+                                            <option value="{{ $status->id }}">
                                                 {{ $status->name }}
                                             </option>
                                         @endforeach
@@ -256,26 +256,26 @@
 
 
 @section('script')
-<script src="{{asset('assets/js/cart.js')}}"></script>
-<script>
-    $(function() {
+    <script src="{{ asset('assets/js/cart.js') }}"></script>
+    <script>
+        $(function() {
 
-        const cart = new Cart("purchase");
-          printCart();
+            const cart = new Cart("purchase");
+            printCart();
 
-        $.ajaxSetup({
+            $.ajaxSetup({
 
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            },
-        });
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            });
 
-        // **Supplier Information**
-        $("#supplier_id").on("change", function() {
+            // **Supplier Information**
+            $("#supplier_id").on("change", function() {
 
 
-            let supplier_id = $(this).val();
-            $.ajax({
+                let supplier_id = $(this).val();
+                $.ajax({
                     url: "{{ url('find_supplier') }}",
                     type: 'POST',
                     data: {
@@ -291,11 +291,11 @@
                         console.error(error);
                     }
                 });
-        });
+            });
 
-        // **Product Selection**
-        $('#product_id').on('change', function() {
-            // alert();
+            // **Product Selection**
+            $('#product_id').on('change', function() {
+                // alert();
                 let product_id = $(this).val();
                 $.ajax({
                     url: '{{ url('find_product') }}',
@@ -316,79 +316,80 @@
                 });
             });
 
-        // **Quantity, Price, or Discount Update**
-        $('.qty, .P_price, .discount').on('input', function() {
+            // **Quantity, Price, or Discount Update**
+            $('.qty, .P_price, .discount').on('input', function() {
                 updateTotalAndSubtotal();
             });
-        function updateTotalAndSubtotal() {
-            let qty = parseFloat($(".qty").val()) || 0;
-            let price = parseFloat($(".P_price").val()) || 0;
-            let discount = parseFloat($(".discount").val()) || 0;
 
-            let total = price * qty;
+            function updateTotalAndSubtotal() {
+                let qty = parseFloat($(".qty").val()) || 0;
+                let price = parseFloat($(".P_price").val()) || 0;
+                let discount = parseFloat($(".discount").val()) || 0;
+
+                let total = price * qty;
                 let total_discount = discount;
                 let subtotal = total - total_discount;
 
-            $(".total").val(total.toFixed(2));
-            // $(".discount").val(total_discount.toFixed(2));
-            $(".subtotal").val(subtotal.toFixed(2));
-        }
+                $(".total").val(total.toFixed(2));
+                // $(".discount").val(total_discount.toFixed(2));
+                $(".subtotal").val(subtotal.toFixed(2));
+            }
 
-        // **Add Button Click, Add a New Row**
-        $(".add_cart_btn").on('click', function() {
+            // **Add Button Click, Add a New Row**
+            $(".add_cart_btn").on('click', function() {
 
-            let product_id = $("#product_id").val();
-            let product_name = $("#product_id option:selected").text();
-            let qty = parseFloat($(".qty").val()) || 1;
-            let price = parseFloat($(".P_price").val()) || 0;
-            let discount = parseFloat($(".discount").val()) || 0;
+                let product_id = $("#product_id").val();
+                let product_name = $("#product_id option:selected").text();
+                let qty = parseFloat($(".qty").val()) || 1;
+                let price = parseFloat($(".P_price").val()) || 0;
+                let discount = parseFloat($(".discount").val()) || 0;
 
-            console.log(product_name.trim());
+                console.log(product_name.trim());
 
                 let name = product_name.trim();
 
 
-            // Validation to prevent adding empty products
-            if (!product_id) {
-                alert("Please select a product and enter a valid quantity and price.");
-                return;
-            }
+                // Validation to prevent adding empty products
+                if (!product_id) {
+                    alert("Please select a product and enter a valid quantity and price.");
+                    return;
+                }
 
-            let total = price * qty;
+                let total = price * qty;
                 let total_discount = discount;
                 let subtotal = total - total_discount;
 
-            let item = {
-                "item_id": product_id,
-                "product_name":name,
-                "qty": qty,
-                "price": price,
-                "total": total,
-                "discount": discount,
-                "total_discount": total_discount,
-                "subtotal": subtotal
-            };
+                let item = {
+                    "item_id": product_id,
+                    "product_name": name,
+                    "qty": qty,
+                    "price": price,
+                    "total": total,
+                    "discount": discount,
+                    "total_discount": total_discount,
+                    "subtotal": subtotal
+                };
 
-            cart.save(item);
-            printCart();
-        });
+                cart.save(item);
+                printCart();
+            });
 
-        function printCart() {
-           let cartdata = cart.getCart();
-            let htmldata = "";
-            let subtotal = 0;
-            let discount = 0;
-            let grandtotal = 0;
+            function printCart() {
+                let cartdata = cart.getCart();
+                let htmldata = "";
+                let subtotal = 0;
+                let discount = 0;
+                let grandtotal = 0;
 
 
 
-            if(cartdata){
+                if (cartdata) {
 
-                cartdata.forEach((element, index) => {
-                subtotal += element.subtotal;
-                discount += element.discount;
+                    cartdata.forEach((element, index) => {
+                        subtotal += element.subtotal;
+                        discount += element.discount;
 
-                htmldata += `
+                        htmldata += `
                 <tr>
                     <td>${index + 1}</td>
                     <td><p class="fs-14">${element.product_name}</p></td>
@@ -400,43 +401,43 @@
                     <td><button data-id="${element.item_id}" class='btn btn-danger remove'>❌</button></td>
                 </tr>
             `;
-            });
+                    });
 
-        }
+                }
 
 
 
-            $('.dataAppend').html(htmldata);
+                $('.dataAppend').html(htmldata);
 
-            // Calculate VAT (5%) and Grand Total
-            subtotal = subtotal.toFixed(2);
+                // Calculate VAT (5%) and Grand Total
+                subtotal = subtotal.toFixed(2);
                 let vat = (subtotal * 0.05).toFixed(2); // Calculate VAT
                 grandtotal = (parseFloat(subtotal) + parseFloat(vat)).toFixed(2); // Calculate Grand Total
 
-            // Update UI with calculated values
-            $('.subtotal').html(subtotal);
+                // Update UI with calculated values
+                $('.subtotal').html(subtotal);
                 $('.vat').html(`${vat}`);
                 $('.Discount').html(`${discount}`);
                 $('.grand_total').html(`${grandtotal}`);
-        }
+            }
 
-        // **Row Remove **
-        $(document).on('click', '.remove', function(){
-				let id = $(this).attr('data-id');
-				cart.delItem(id);
-				printCart();
-			})
+            // **Row Remove **
+            $(document).on('click', '.remove', function() {
+                let id = $(this).attr('data-id');
+                cart.delItem(id);
+                printCart();
+            })
 
-        // **Clear All Button Click**
-        $(document).on('click', '.clear_all', function(){
-				cart.clearCart();
-				printCart();
-			});
-
-
+            // **Clear All Button Click**
+            $(document).on('click', '.clear_all', function() {
+                cart.clearCart();
+                printCart();
+            });
 
 
-            $('.btn_process').on('click', function(){
+
+
+            $('.btn_process').on('click', function() {
                 let supplier_id = $('#supplier_id').val();
                 let total_amount = $('.grand_total').text();
                 let payment_status = $('.payment_status_button').val();
@@ -464,21 +465,21 @@
                     type: 'Post',
                     data: {
                         supplier_id: supplier_id,
-                         total_amount: total_amount,
+                        total_amount: total_amount,
                         payment_status: payment_status,
                         discount: discount,
                         vat: vat,
                         products: products,
                     },
                     success: function(res) {
-                       if (res.success) {
-                        cart.clearCart();
-                        printCart();
-                        $('#supplier_id').val("");
-                        $(".address").text("");
-                        $(".phone").text("");
+                        if (res.success) {
+                            cart.clearCart();
+                            printCart();
+                            $('#supplier_id').val("");
+                            $(".address").text("");
+                            $(".phone").text("");
 
-                       }
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.log(error);
@@ -486,7 +487,6 @@
                 });
             });
 
-    });
-</script>
-
+        });
+    </script>
 @endsection
