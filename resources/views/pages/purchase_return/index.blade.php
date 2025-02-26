@@ -33,7 +33,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Purchase ID</th>
-                            <th>Product ID</th>
+                            <th>Product</th>
                             <th>Refund Amount</th>
                             <th>Return Date</th>
                             <th>Action</th>

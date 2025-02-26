@@ -239,6 +239,7 @@
                                     <tr class="table-success text-dark">
                                         <th>Sl</th>
                                         <th>Item</th>
+                                        
                                         <th>Description</th>
                                         <th>Quantity</th>
                                         <th>Unit Price</th>
@@ -260,6 +261,7 @@
                                                 @endforeach
                                             </select>
                                         </td>
+
                                         <td>
                                             <textarea rows="3" placeholder="Enter reason for return..." class="description"></textarea>
                                         </td>
@@ -295,13 +297,6 @@
                                         <span class="Discount"></span>
                                     </p>
                                 </div>
-
-
-
-
-
-
-
                                 </p>
                             </div>
 
@@ -329,144 +324,144 @@
         $(function() {
 
 
-                    const cart = new Cart("purchase");
-                    printCart();
+            const cart = new Cart("purchase");
+            printCart();
 
 
-                    $.ajaxSetup({
+            $.ajaxSetup({
 
-                        headers: {
-                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-                        },
-                    });
-                    // alert();
-
-
-
-                    $("#supplier_id").on("change", function() {
-                        // alert();
-                        let supplier_id = $(this).val();
-                        $.ajax({
-                            url: "{{ url('find_supplier') }}",
-                            type: 'POST',
-                            data: {
-                                id: supplier_id
-                            },
-                            success: function(res) {
-
-                                $(".address").text(res.supplier?.address);
-                                $(".phone").text(res.supplier?.phone);
-
-                            },
-                            error: function(xhr, status, error) {
-                                console.error(error);
-                            }
-                        });
-                    });
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            });
+            // alert();
 
 
-                    // **Product Selection**
-                    $('#product_id').on('change', function() {
-                        // alert();
-                        let product_id = $(this).val();
-                        $.ajax({
-                            url: '{{ url('find_product') }}',
-                            method: 'POST',
-                            data: {
-                                id: product_id
-                            },
-                            success: function(res) {
-                                console.log(res);
-                                $(".qty").val(1);
-                                $(".P_price").val(res.product?.purchase_price);
-                                // updateTotalAndSubtotal();
 
-                            },
-                            error: function(xhr, status, error) {
-                                console.error(error);
-                            }
-                        });
-                    });
+            $("#supplier_id").on("change", function() {
+                // alert();
+                let supplier_id = $(this).val();
+                $.ajax({
+                    url: "{{ url('find_supplier') }}",
+                    type: 'POST',
+                    data: {
+                        id: supplier_id
+                    },
+                    success: function(res) {
 
+                        $(".address").text(res.supplier?.address);
+                        $(".phone").text(res.supplier?.phone);
 
-                    // **Quantity, Price, or Discount Update**
-                    $('.qty, .P_price, .discount').on('input', function() {
-                        updateTotalAndSubtotal();
-                    });
-
-                    function updateTotalAndSubtotal() {
-                        let qty = parseFloat($(".qty").val()) || 0;
-                        let price = parseFloat($(".P_price").val()) || 0;
-                        let discount = parseFloat($(".discount").val()) || 0;
-
-                        let total = price * qty;
-                        let total_discount = discount;
-                        let subtotal = total - total_discount;
-
-                        $(".total").val(total.toFixed(2));
-                        // $(".discount").val(total_discount.toFixed(2));
-                        $(".subtotal").val(subtotal.toFixed(2));
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
                     }
+                });
+            });
 
 
-                    // **Add Button Click, Add a New Row**
-                    $(".add_cart_btn").on('click', function() {
+            // **Product Selection**
+            $('#product_id').on('change', function() {
+                // alert();
+                let product_id = $(this).val();
+                $.ajax({
+                    url: '{{ url('find_product') }}',
+                    method: 'POST',
+                    data: {
+                        id: product_id
+                    },
+                    success: function(res) {
+                        console.log(res);
+                        $(".qty").val(1);
+                        $(".P_price").val(res.product?.purchase_price);
+                        // updateTotalAndSubtotal();
 
-                        let product_id = $("#product_id").val();
-                        let product_name = $("#product_id option:selected").text();
-                        let description = $(".description").val();
-                        let qty = parseFloat($(".qty").val()) || 1;
-                        let price = parseFloat($(".P_price").val()) || 0;
-                        let discount = parseFloat($(".discount").val()) || 0;
-
-                        console.log(product_name.trim());
-
-                        let name = product_name.trim();
-
-
-                        // Validation to prevent adding empty products
-                        if (!product_id) {
-                            alert("Please select a product and enter a valid quantity and price.");
-                            return;
-                        }
-
-                        let total = price * qty;
-                        let total_discount = discount;
-                        let subtotal = total - total_discount;
-
-                        let item = {
-                            "item_id": product_id,
-                            "product_name": name,
-                            "description": description,
-                            "qty": qty,
-                            "price": price,
-                            "total": total,
-                            "discount": discount,
-                            "total_discount": total_discount,
-                            "subtotal": subtotal
-                        };
-
-                        cart.save(item);
-                        printCart();
-                    });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
 
 
-                    function printCart() {
-                        let cartdata = cart.getCart();
-                        let htmldata = "";
-                        let subtotal = 0;
-                        let discount = 0;
-                        let grandtotal = 0;
+            // **Quantity, Price, or Discount Update**
+            $('.qty, .P_price, .discount').on('input', function() {
+                updateTotalAndSubtotal();
+            });
+
+            function updateTotalAndSubtotal() {
+                let qty = parseFloat($(".qty").val()) || 0;
+                let price = parseFloat($(".P_price").val()) || 0;
+                let discount = parseFloat($(".discount").val()) || 0;
+
+                let total = price * qty;
+                let total_discount = discount;
+                let subtotal = total - total_discount;
+
+                $(".total").val(total.toFixed(2));
+                // $(".discount").val(total_discount.toFixed(2));
+                $(".subtotal").val(subtotal.toFixed(2));
+            }
+
+
+            // **Add Button Click, Add a New Row**
+            $(".add_cart_btn").on('click', function() {
+
+                let product_id = $("#product_id").val();
+                let product_name = $("#product_id option:selected").text();
+                let description = $(".description").val();
+                let qty = parseFloat($(".qty").val()) || 1;
+                let price = parseFloat($(".P_price").val()) || 0;
+                let discount = parseFloat($(".discount").val()) || 0;
+
+                console.log(product_name.trim());
+
+                let name = product_name.trim();
+
+
+                // Validation to prevent adding empty products
+                if (!product_id) {
+                    alert("Please select a product and enter a valid quantity and price.");
+                    return;
+                }
+
+                let total = price * qty;
+                let total_discount = discount;
+                let subtotal = total - total_discount;
+
+                let item = {
+                    "item_id": product_id,
+                    "product_name": name,
+                    "description": description,
+                    "qty": qty,
+                    "price": price,
+                    "total": total,
+                    "discount": discount,
+                    "total_discount": total_discount,
+                    "subtotal": subtotal
+                };
+
+                cart.save(item);
+                printCart();
+            });
+
+
+            function printCart() {
+                let cartdata = cart.getCart();
+                let htmldata = "";
+                let subtotal = 0;
+                let discount = 0;
+                let grandtotal = 0;
 
 
 
-                        if (cartdata) {
+                if (cartdata) {
 
-                            cartdata.forEach((element, index) => {
-                                subtotal += element.subtotal;
-                                discount += element.discount;
+                    cartdata.forEach((element, index) => {
+                        subtotal += element.subtotal;
+                        discount += element.discount;
 
-                                htmldata += `
+                        htmldata += `
                 <tr>
                     <td>${index + 1}</td>
                     <td><p class="fs-14">${element.product_name}</p></td>
@@ -479,94 +474,82 @@
                     <td><button data-id="${element.item_id}" class='btn btn-danger remove'>❌</button></td>
                 </tr>
             `;
-                            });
-
-                        }
-
-
-
-                        $('.dataAppend').html(htmldata);
-
-                        // Calculate VAT (5%) and Grand Total
-                        subtotal = subtotal.toFixed(2);
-                        let vat = (subtotal * 0.05).toFixed(2); // Calculate VAT
-                        grandtotal = (parseFloat(subtotal) + parseFloat(vat)).toFixed(2); // Calculate Grand Total
-
-                        // Update UI with calculated values
-                        $('.subtotal').html(subtotal);
-                        $('.vat').html(`${vat}`);
-                        $('.Discount').html(`${discount}`);
-                        $('.grand_total').html(`${grandtotal}`);
-                    }
-
-
-                    // **Row Remove **
-                    $(document).on('click', '.remove', function() {
-                        let id = $(this).attr('data-id');
-                        cart.delItem(id);
-                        printCart();
-                    })
-
-                    $(document).on("change", ".description", function() {
-                        console.log("Description:", $(this).val());
                     });
 
-
-                    // **Clear All Button Click**
-                    $(document).on('click', '.clear_all', function() {
-                        cart.clearCart();
-                        printCart();
-                    });
+                }
 
 
-                    $('.btn_process').on('click', function() {
+
+                $('.dataAppend').html(htmldata);
+
+                // Calculate VAT (5%) and Grand Total
+                subtotal = subtotal.toFixed(2);
+                let vat = (subtotal * 0.05).toFixed(2); // Calculate VAT
+                grandtotal = (parseFloat(subtotal) + parseFloat(vat)).toFixed(2); // Calculate Grand Total
+
+                // Update UI with calculated values
+                $('.subtotal').html(subtotal);
+                $('.vat').html(`${vat}`);
+                $('.Discount').html(`${discount}`);
+                $('.grand_total').html(`${grandtotal}`);
+            }
+
+
+            // **Row Remove **
+            $(document).on('click', '.remove', function() {
+                let id = $(this).attr('data-id');
+                cart.delItem(id);
+                printCart();
+            })
+
+            $(document).on("change", ".description", function() {
+                console.log("Description:", $(this).val());
+            });
+
+
+            // **Clear All Button Click**
+            $(document).on('click', '.clear_all', function() {
+                cart.clearCart();
+                printCart();
+            });
+
+
+
+            // alert();
+            $('.btn_process').on('click', function() {
+                // alert();
                 let supplier_id = $('#supplier_id').val();
                 let total_amount = $('.grand_total').text();
-                // let payment_status = $('.payment_status_button').val();
+
                 let discount = $('.Discount').text();
                 let vat = $('.vat').text();
                 let products = cart.getCart();
 
-                // let data = {
-                //     supplier_id: supplier_id,
-                //          total_amount: total_amount,
-                //         payment_status: payment_status,
-                //         discount: discount,
-                //         vat: vat,
-                //         products: products,
-                // }
-
-                // console.log(data);
-
-
-
 
 
                 $.ajax({
-                    url: "{{ url('api/purchaseReturn') }}",
+                    url: "{{ url('api/purchaseReturn/') }}",
                     type: 'Post',
                     data: {
                         supplier_id: supplier_id,
                         total_amount: total_amount,
-                        // payment_status: payment_status,
+
                         discount: discount,
                         vat: vat,
                         products: products,
                     },
                     success: function(res) {
-                        if (res.success) {
-                            // cart.clearCart();
-                            // printCart();
-                            // $('#supplier_id').val("");
-                            // $(".address").text("");
-                            // $(".phone").text("");
+                        console.log(res)
 
-                        }
                     },
                     error: function(xhr, status, error) {
                         console.log(error);
                     }
                 });
             });
+
+
+
+        });
     </script>
 @endsection

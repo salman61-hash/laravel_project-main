@@ -141,7 +141,7 @@
                                 <label for="payment_status_id" class="form-label payment_status">Payment Status</label>
                                 <select name="payment_status_id" class="payment_status_button">
                                     @foreach ($payment_statuses as $status)
-                                        <option value="{{ $status->id }}" >
+                                        <option value="{{ $status->id }}">
                                             {{ $status->name }}
                                         </option>
                                     @endforeach
@@ -170,13 +170,13 @@
 @endsection
 
 @section('script')
-<script src="{{asset('assets/js/cart.js')}}"></script>
+    <script src="{{ asset('assets/js/cart.js') }}"></script>
     <script>
-        $(function(){
+        $(function() {
 
 
-const cart = new Cart("sales");
-             printCart();
+            const cart = new Cart("sales");
+            printCart();
 
 
             $.ajaxSetup({
@@ -267,7 +267,7 @@ const cart = new Cart("sales");
             $('.add_cart_btn').on('click', function() {
 
                 let product_id = $("#product_id").val();
-                let product_name =$("#product_id option:selected").text() ;
+                let product_name = $("#product_id option:selected").text();
                 let coupon_id = $("#cupon_id").val();
                 let coupon_name = $("#cupon_id option:selected").text();
                 let qty = parseFloat($(".qty").val()) || 1;
@@ -277,7 +277,7 @@ const cart = new Cart("sales");
                 console.log(product_name.trim());
 
                 let name = product_name.trim();
-                let c_name= coupon_name.trim();
+                let c_name = coupon_name.trim();
 
 
                 if (!product_id) {
@@ -319,16 +319,16 @@ const cart = new Cart("sales");
 
 
 
-                if(cartdata){
+                if (cartdata) {
 
 
 
                     console.log(cartdata);
-                cartdata.forEach((element, index) => {
-                    subtotal += element.subtotal;
-                    discount += element.discount;
+                    cartdata.forEach((element, index) => {
+                        subtotal += element.subtotal;
+                        discount += element.discount;
 
-                    htmldata += `
+                        htmldata += `
                         <tr>
                             <td>${index + 1}</td>
                             <td><p class="fs-14">${element.product_name}</p></td>
@@ -342,8 +342,8 @@ const cart = new Cart("sales");
                         </tr>
                     `;
 
-                });
-            }
+                    });
+                }
                 // console.log(htmldata);
 
 
@@ -364,21 +364,21 @@ const cart = new Cart("sales");
 
 
             // Remove item from cart
-            $(document).on('click', '.remove', function(){
-				let id = $(this).attr('data');
-				cart.delItem(id);
-				printCart();
-			})
+            $(document).on('click', '.remove', function() {
+                let id = $(this).attr('data');
+                cart.delItem(id);
+                printCart();
+            })
 
             // Clear All Cart
-            $(document).on('click', '.clear_all', function(){
-				cart.clearCart();
-				printCart();
-			});
+            $(document).on('click', '.clear_all', function() {
+                cart.clearCart();
+                printCart();
+            });
 
 
 
-            $('.btn_process').on('click', function(){
+            $('.btn_process').on('click', function() {
                 let customer_id = $('#customer_id').val();
                 let total_amount = $('.grand_total').text();
                 let payment_status = $('.payment_status_button').val();
@@ -401,13 +401,13 @@ const cart = new Cart("sales");
                         products: products,
                     },
                     success: function(res) {
-                      if (res.success) {
-                        cart.clearCart();
-				         printCart();
-                         $('#customer_id').val("");
-                         $(".phone").text("");
-                        $(".email").text("");
-                      }
+                        if (res.success) {
+                            cart.clearCart();
+                            printCart();
+                            $('#customer_id').val("");
+                            $(".phone").text("");
+                            $(".email").text("");
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.log(error);
