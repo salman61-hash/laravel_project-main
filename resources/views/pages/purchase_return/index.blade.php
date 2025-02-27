@@ -32,8 +32,7 @@
                     <thead class="table-dark">
                         <tr>
                             <th>ID</th>
-                            <th>Purchase ID</th>
-                            <th>Product</th>
+                            <th>Supplier</th>
                             <th>Refund Amount</th>
                             <th>Return Date</th>
                             <th>Action</th>
@@ -43,8 +42,7 @@
                         @forelse ($purchaseReturns as $return)
                             <tr>
                                 <td>{{ $return->id }}</td>
-                                <td>{{ $return->purchase_id }}</td>
-                                <td>{{ $return->products->name }}</td>
+                                <td>{{ $return->suppliers->name }}</td>
                                 <td>{{ $return->refund_amount }}</td>
                                 <td>{{ $return->return_date }}</td>
                                 <td>

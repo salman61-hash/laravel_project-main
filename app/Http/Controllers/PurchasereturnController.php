@@ -15,7 +15,7 @@ class PurchasereturnController extends Controller
      */
     public function index()
     {
-        $purchaseReturns=PurchaseReturn::with('products')->paginate(5);
+        $purchaseReturns=PurchaseReturn::with('suppliers')->paginate(5);
         return view('pages.purchase_return.index',compact('purchaseReturns'));
     }
 

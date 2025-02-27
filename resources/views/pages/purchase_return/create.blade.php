@@ -203,7 +203,7 @@
                                     <p><strong>Debit Note No:</strong> <span class="text-primary">37</span></p>
                                 </div>
                                 <div class="col-md-6 text-end">
-                                    <p><strong>Date:</strong> 18 August 2017</p>
+                                    <p><strong>Date:</strong>{{ now()->format('d F Y') }}</p>
                                 </div>
                             </div>
 
@@ -226,7 +226,7 @@
                                     <p><strong>Phone:</strong> <span class="phone"></span></p>
                                 </div>
                                 <div class="col-md-6 text-end">
-                                    <p><strong>And Date:</strong> 18 August 2017</p>
+                                    <p><strong>And Date:</strong> {{ now()->addDays(30)->format('d F Y') }}</p>
                                 </div>
                             </div>
 
@@ -239,7 +239,6 @@
                                     <tr class="table-success text-dark">
                                         <th>Sl</th>
                                         <th>Item</th>
-                                        
                                         <th>Description</th>
                                         <th>Quantity</th>
                                         <th>Unit Price</th>
@@ -502,9 +501,9 @@
                 printCart();
             })
 
-            $(document).on("change", ".description", function() {
-                console.log("Description:", $(this).val());
-            });
+            // $(document).on("change", ".description", function() {
+            //     console.log("Description:", $(this).val());
+            // });
 
 
             // **Clear All Button Click**
@@ -533,7 +532,6 @@
                     data: {
                         supplier_id: supplier_id,
                         total_amount: total_amount,
-
                         discount: discount,
                         vat: vat,
                         products: products,

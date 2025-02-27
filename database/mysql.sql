@@ -102,6 +102,17 @@ CREATE TABLE purchase_details (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+CREATE TABLE purchase_return_details (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    purchase_id INT,
+    product_id INT,
+    quantity INT,
+    price DECIMAL(10,2),
+    discount DECIMAL(10,2) DEFAULT 0.00,
+    vat DECIMAL(10,2) DEFAULT 0.00,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 -- 8. Sales Table (Tracking Customer Purchases & Accounts Receivable)
 CREATE TABLE sales (
@@ -163,30 +174,36 @@ CREATE TABLE purchase_returns (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE TABLE purchase_return_details (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    supplier_id INT,
-    purchase_return_id INT,
-    product_id INT,
-    quantity INT,
-    unit_price DECIMAL(10,2),
-    total_price DECIMAL(10,2),
-    reason TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+-- CREATE TABLE purchase_return_details (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     supplier_id INT,
+--     purchase_return_id INT,
+--     product_id INT,
+--     quantity INT,
+--     unit_price DECIMAL(10,2),
+--     total_price DECIMAL(10,2),
+--     reason TEXT,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-);
+-- );
 
 
 -- 12. Payments Table (For Recording Payments on Pending Accounts)
 CREATE TABLE payments (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    transaction_type ,
-    transaction_id INT,
-    amount_paid DECIMAL(12,2),
-    payment_date DATE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    account_id INT NOT NULL,  -- Assuming this refers to an account table
+    transaction_type VARCHAR(50) NOT NULL,  -- Specify a suitable length
+    debit DECIMAL(12,2) DEFAULT 0,  -- Assuming monetary value
+    credit DECIMAL(12,2) DEFAULT 0,  -- Assuming monetary value
+    account_against INT NOT NULL,  -- Assuming it's another account reference
+    amount_paid DECIMAL(12,2) NOT NULL,
+    payment_date DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT NOT NULL  -- Assuming this refers to a user/admin
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
 
 -- 13. Expenses Table (Tracking Operational Costs)
 CREATE TABLE expenses (

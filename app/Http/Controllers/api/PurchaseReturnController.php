@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\PurchaseReturn;
+use App\Models\PurchaseReturndetails;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 
 class PurchaseReturnController extends Controller
@@ -23,13 +25,13 @@ class PurchaseReturnController extends Controller
     public function store(Request $request)
     {
 
-        print_r($request->all());
+        // print_r($request->all());
 
 
 
-        
 
-        $returnpurchase = new PurchaseReturn();
+
+        $returnpurchase = new PurchaseReturn;
 
         $returnpurchase->supplier_id = $request->supplier_id;
         $returnpurchase->refund_amount = $request->total_amount;
@@ -43,9 +45,45 @@ class PurchaseReturnController extends Controller
 
         $returnpurchase->save(); // Save the object to the database
 
-        // if($ss){
-        //     return redirect('')->with('success', 'fuck you');
-        // }
+
+
+
+
+
+        $lastInsertedId = $returnpurchase->id;
+
+        $productsdata=$request->products;
+
+
+
+        foreach($productsdata as $key => $value) {
+
+
+            // print_r($value['price']);
+            $returnDetails=new PurchaseReturndetails;
+            $returnDetails->purchasereturn_id=$lastInsertedId;
+            $returnDetails->product_id= $value['item_id'];
+            $returnDetails->description= $value['description'];
+            $returnDetails->quantity= $value['qty'];
+            $returnDetails->price= $value['price'];
+            $returnDetails->discount= $value['discount'];
+            $returnDetails->vat= $request->vat;
+            date_default_timezone_set("Asia/Dhaka");
+            $returnDetails->created_at=date('Y-m-d H:i:s');
+             date_default_timezone_set("Asia/Dhaka");
+            $returnDetails->updated_at=date('Y-m-d H:i:s');
+
+            $returnDetails->save();
+
+
+            $stock= new Stock;
+            $stock->product_id=$value['item_id'];
+            $stock->quantity=$value['qty'] * (-1);
+            // $stock ->payment_status_id=$request->payment_status;
+
+            $stock->save();
+        }
+
 
     }
 
