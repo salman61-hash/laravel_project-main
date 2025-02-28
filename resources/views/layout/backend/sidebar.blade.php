@@ -190,6 +190,19 @@
                                 </ul>
                             </div>
                         </li>
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#purchaseReturndetailsMenu" aria-expanded="false"
+                                aria-controls="purchaseReturndetailsMenu" class="side-nav-link">
+                                <span> Purchase Return Details</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="purchaseReturndetailsMenu">
+                                <ul class="side-nav-third-level">
+                                    <li><a href="{{ url('purchase-return-details') }}">View Purchase Return Details List</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
                     </ul>
                 </div>
             </li>
@@ -242,10 +255,23 @@
                             </a>
                             <div class="collapse" id="salesReturnMenu">
                                 <ul class="side-nav-third-level">
-                                    <li><a href="{{ url('sales-return') }}">View Sales Return List</a></li>
+                                    <li><a href="{{ url('sales-returns') }}">View Sales Return List</a></li>
                                 </ul>
                             </div>
                         </li>
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#salesReturnMenu" aria-expanded="false"
+                                aria-controls="salesReturnMenu" class="side-nav-link">
+                                <span> Sales Return Details</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="salesReturnMenu">
+                                <ul class="side-nav-third-level">
+                                    <li><a href="{{ url('sales-return-details') }}">View Sales Return Details List</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
                     </ul>
                 </div>
             </li>
@@ -307,11 +333,11 @@
                 </a>
                 <div class="collapse" id="paymentsmenu">
                     <ul class="side-nav-second-level">
-                        <li><a href="{{ url('suppliers') }}">View Payments List</a></li>
+                        <li><a href="{{ url('payments') }}">View Payments List</a></li>
                     </ul>
                 </div>
             </li>
-            <li class="side-nav-item">
+            {{-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#transectionmenu" aria-expanded="false" aria-controls="transectionmenu"
                     class="side-nav-link">
                     <i class="ri-bank-line"></i>
@@ -320,10 +346,10 @@
                 </a>
                 <div class="collapse" id="transectionmenu">
                     <ul class="side-nav-second-level">
-                        <li><a href="{{ url('suppliers') }}">View Transaction List</a></li>
+                        <li><a href="{{ url('payments') }}">View Transaction List</a></li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
 
             <li class="side-nav-item">

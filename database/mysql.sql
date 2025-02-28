@@ -104,8 +104,9 @@ CREATE TABLE purchase_details (
 );
 CREATE TABLE purchase_return_details (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    purchase_id INT,
+    purchasereturn_id INT,
     product_id INT,
+    description varchar(250) DEFAULT NULL,
     quantity INT,
     price DECIMAL(10,2),
     discount DECIMAL(10,2) DEFAULT 0.00,
@@ -142,33 +143,35 @@ CREATE TABLE sales_details (
 
 -- 10. Sales Returns Table (Handling Customer Returns)
 CREATE TABLE sales_returns (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    sale_id INT,
-    product_id INT,
-    return_date DATE,
+      id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
     refund_amount DECIMAL(10,2),
+    discount DECIMAL(10,2) DEFAULT 0.00,
+    vat DECIMAL(10,2) DEFAULT 0.00,
+    return_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 CREATE TABLE sales_returns_details (
      id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT,
-    sales_return_id INT,
+    salereturn_id INT,
     product_id INT,
+    description varchar(250) DEFAULT NULL,
     quantity INT,
-    unit_price DECIMAL(10,2),
-    total_price DECIMAL(10,2),
-    reason TEXT,
+    price DECIMAL(10,2),
+    discount DECIMAL(10,2) DEFAULT 0.00,
+    vat DECIMAL(10,2) DEFAULT 0.00,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- 11. Purchase Returns Table (Handling Defective or Unwanted Purchases)
 CREATE TABLE purchase_returns (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    purchase_id INT,
-    product_id INT,
+      id INT AUTO_INCREMENT PRIMARY KEY,
+    supplier_id INT,
     refund_amount DECIMAL(10,2),
+    discount DECIMAL(10,2) DEFAULT 0.00,
+    vat DECIMAL(10,2) DEFAULT 0.00,
     return_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

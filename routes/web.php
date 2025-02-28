@@ -4,18 +4,23 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CuponController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentstatusController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\PurchasereturnController;
+use App\Http\Controllers\PurchasereturndetailsController;
 use App\Http\Controllers\PurchasesdetailsController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SaledetailsController;
+use App\Http\Controllers\SalesreturnController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\UserController;
+use App\Models\Payment;
 use App\Models\Product;
+use App\Models\Salereturndetail;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -61,7 +66,13 @@ Route::resource('users',UserController::class);
 Route::resource('sales',SaleController::class);
 Route::resource('salesdetails',SaledetailsController::class);
 Route::resource('stock',StockController::class);
+
 Route::resource('purchase-returns',PurchasereturnController::class);
+Route::resource('sales-returns',SalesreturnController::class);
+Route::resource('purchase-return-details',PurchasereturndetailsController::class);
+Route::resource('sales-return-details',Salereturndetail::class);
+
+Route::resource('payments', PaymentController::class);
 
 
 // sales invoice
