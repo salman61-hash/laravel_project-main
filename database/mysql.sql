@@ -208,14 +208,30 @@ CREATE TABLE payments (
 );
 
 
+CREATE TABLE accounts (
+         id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(150),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
 -- 13. Expenses Table (Tracking Operational Costs)
 CREATE TABLE expenses (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    staff_id INT,
+    user_id INT,
     expense_type VARCHAR(100),
     amount DECIMAL(12,2),
     expense_date DATE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE withdraw_type (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- 14. Staff Table (Tracking Employee Roles in Transactions)
@@ -223,13 +239,20 @@ CREATE TABLE expenses (
 -- 15. Withdraw Table (Tracking Cash and Product Withdrawals)
 CREATE TABLE withdraw (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    staff_id INT,
-    withdraw_type,
+    user_id INT,
+    withdraw_type_id,
     amount DECIMAL(12,2) ,
     product_id INT
     quantity INT,
     withdraw_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+CREATE TABLE withdraw_type (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 -- 15.Income statement Table
 CREATE TABLE income_statement (
@@ -238,7 +261,8 @@ CREATE TABLE income_statement (
     total_sales DECIMAL(12,2),
     total_purchases DECIMAL(12,2),
     total_expenses DECIMAL(12,2),
-    total_withdrawals DECIMAL(12,2),
-    gross_profit DECIMAL(12,2),
-    net_profit DECIMAL(12,2) GENERATED ALWAYS AS (gross_profit - total_expenses - total_withdrawals) STORED,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+    net_profit DECIMAL(12,2),
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    );

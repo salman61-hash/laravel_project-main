@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CuponController;
@@ -50,6 +51,7 @@ Route::resource('product',ProductController::class);
 
 
 Route::resource('categories',CategoriesController::class);
+Route::resource('accounts',AccountController::class);
 
 
 Route::get('customers/search', [CustomerController::class, 'search'])->name('customers.search');

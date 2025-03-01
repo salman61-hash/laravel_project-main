@@ -47,7 +47,7 @@
                         @forelse ($Payments as $payment)
                             <tr>
                                 <td>{{ $payment->id }}</td>
-                                <td>{{ $payment->account_id }}</td>
+                                <td>{{ $payment->accounts->name }}</td>
                                 <td>{{ $payment->transaction_type }}</td>
                                 <td>{{ number_format($payment->debit, 2) }}</td>
                                 <td>{{ number_format($payment->credit, 2) }}</td>

@@ -12,4 +12,9 @@ class Payment extends Model
     protected $fillable = [
         'account_id', 'transaction_type', 'debit', 'credit', 'amount_paid', 'payment_date'
     ];
+
+    public function accounts()
+    {
+        return $this->belongsTo(Account::class,'account_id');
+    }
 }

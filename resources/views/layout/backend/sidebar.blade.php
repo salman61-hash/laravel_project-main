@@ -97,6 +97,20 @@
                 </div>
             </li>
             <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#accountsMenu" aria-expanded="false" aria-controls="accountsMenu"
+                    class="side-nav-link">
+                    <i class="ri-user-line"></i> <!-- Changed Icon -->
+                    <span> Accounts </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="accountsMenu">
+                    <ul class="side-nav-second-level">
+                        <li><a href="{{ url('accounts') }}">View Accounts List</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-item">
                 <a data-bs-toggle="collapse" data-bs-target="#paymentstatus" aria-expanded="false"
                     aria-controls="paymentstatus" class="side-nav-link">
                     <i class="ri-wallet-line"></i>
@@ -337,19 +351,7 @@
                     </ul>
                 </div>
             </li>
-            {{-- <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#transectionmenu" aria-expanded="false" aria-controls="transectionmenu"
-                    class="side-nav-link">
-                    <i class="ri-bank-line"></i>
-                    <span> Transaction </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="transectionmenu">
-                    <ul class="side-nav-second-level">
-                        <li><a href="{{ url('payments') }}">View Transaction List</a></li>
-                    </ul>
-                </div>
-            </li> --}}
+
 
 
             <li class="side-nav-item">
@@ -359,9 +361,14 @@
                     <span> Expense </span>
                     <span class="menu-arrow"></span>
                 </a>
+                <div class="collapse" id="expensetypemenu">
+                    <ul class="side-nav-second-level">
+                        <li><a href="{{ url('expense_type') }}">View Expense Type List</a></li>
+                    </ul>
+                </div>
                 <div class="collapse" id="expensemenu">
                     <ul class="side-nav-second-level">
-                        <li><a href="{{ url('expenses') }}">View Expense List</a></li>
+                        <li><a href="{{ url('expense') }}">View Expense List</a></li>
                     </ul>
                 </div>
             </li>
@@ -373,6 +380,11 @@
                     <span> Withdraw </span>
                     <span class="menu-arrow"></span>
                 </a>
+                <div class="collapse" id="withdrawtypemenu">
+                    <ul class="side-nav-second-level">
+                        <li><a href="{{ url('withdraw_type') }}">View Withdraw Type List</a></li>
+                    </ul>
+                </div>
                 <div class="collapse" id="withdrawmenu">
                     <ul class="side-nav-second-level">
                         <li><a href="{{ url('withdraw') }}">View Withdraw List</a></li>
@@ -381,33 +393,8 @@
             </li>
 
 
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#receivablemenu" aria-expanded="false" aria-controls="receivablemenu"
-                    class="side-nav-link">
-                    <i class="ri-hand-coin-line"></i>
-                    <span> Accounts Receivable </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="receivablemenu">
-                    <ul class="side-nav-second-level">
-                        <li><a href="{{ url('accounts-receivable') }}">View Receivable List</a></li>
-                    </ul>
-                </div>
-            </li>
 
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#payablemenu" aria-expanded="false" aria-controls="payablemenu"
-                    class="side-nav-link">
-                    <i class="ri-exchange-funds-line"></i>
-                    <span> Accounts Payable </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="payablemenu">
-                    <ul class="side-nav-second-level">
-                        <li><a href="{{ url('accounts-payable') }}">View Payable List</a></li>
-                    </ul>
-                </div>
-            </li>
+
 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#incomestatementmenu" aria-expanded="false" aria-controls="incomestatementmenu"

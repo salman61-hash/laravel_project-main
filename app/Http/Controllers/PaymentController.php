@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,8 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        return view('pages.payments.create');
+        $accounts=Account::all();
+        return view('pages.payments.create',compact('accounts'));
     }
 
     /**
