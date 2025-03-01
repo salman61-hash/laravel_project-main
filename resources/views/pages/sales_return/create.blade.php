@@ -488,7 +488,6 @@
                 // alert();
                 let customer_id = $('#customer_id').val();
                 let total_amount = $('.grand_total').text();
-
                 let discount = $('.Discount').text();
                 let vat = $('.vat').text();
                 let products = cart.getCart();

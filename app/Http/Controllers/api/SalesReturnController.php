@@ -25,7 +25,8 @@ class SalesReturnController extends Controller
      */
     public function store(Request $request)
     {
-        // print_r($request->all());
+        print_r($request->all());
+
         $returnsales = new Salereturn;
 
         $returnsales->customer_id = $request->customer_id;
@@ -40,46 +41,56 @@ class SalesReturnController extends Controller
 
         $returnsales->save(); // Save the object to the database
 
-
-
-
-
-
         $lastInsertedId = $returnsales->id;
 
-        $productsdata=$request->products;
+        $productsdata = $request->products;
 
+        // $subtotal=0;
 
-
-        foreach($productsdata as $key => $value) {
-
-
-            // print_r($value['price']);
-            $returnDetails=new Salereturndetail;
-            $returnDetails->salereturn_id=$lastInsertedId;
-            $returnDetails->product_id= $value['item_id'];
-            $returnDetails->description= $value['description'];
-            $returnDetails->quantity= $value['qty'];
-            $returnDetails->price= $value['price'];
-            $returnDetails->discount= $value['discount'];
-            $returnDetails->vat= $request->vat;
+        foreach ($productsdata as $value) {
+            $salesreturnsdetail = new Salereturndetail();
+            $salesreturnsdetail->salereturn_id =  $lastInsertedId ;
+            $salesreturnsdetail->product_id = $value['item_id'];
+            $salesreturnsdetail->description = $value['description'];
+            $salesreturnsdetail->quantity = $value['qty'];
+            $salesreturnsdetail->price = $value['price'];
+            $salesreturnsdetail->total = $value['total'];
+            $salesreturnsdetail->discount = $value['discount'];
+            $salesreturnsdetail->total_discount = $value['total_discount'];
+            $salesreturnsdetail->vat =$request->vat;
             date_default_timezone_set("Asia/Dhaka");
-            $returnDetails->created_at=date('Y-m-d H:i:s');
-             date_default_timezone_set("Asia/Dhaka");
-            $returnDetails->updated_at=date('Y-m-d H:i:s');
+            $salesreturnsdetail->created_at = date('Y-m-d H:i:s');
+            date_default_timezone_set("Asia/Dhaka");
+            $salesreturnsdetail->updated_at = date('Y-m-d H:i:s');
 
-            $returnDetails->save();
+            $salesreturnsdetail->save();
 
 
-            // $stock= new Stock;
-            // $stock->product_id=$value['item_id'];
-            // $stock->quantity=$value['qty'] * (-1);
-            // // $stock ->payment_status_id=$request->payment_status;
 
-            // $stock->save();
+            // $preturnDetails = new Salereturndetail();
+            // // print_r($value['price']);
+            // $preturnDetails->salereturn_id = $lastInsertedId;
+            // $preturnDetails->product_id = $value['item_id'];
+            // $preturnDetails->description = $value['description'];
+            // $preturnDetails->quantity = $value['qty'];
+            // $preturnDetails->price = $value['price'];
+            // $preturnDetails->total = $value['total'];
+            // $preturnDetails->discount = $value['discount'];
+            // $preturnDetails->total_discount = $value['total_discount'];
+            // $preturnDetails->vat = $request->vat;
+            // $preturnDetails->subtotal = $value['subtotal'];
+
+            // $preturnDetails->created_at = date('Y-m-d H:i:s');
+            // $preturnDetails->updated_at = date('Y-m-d H:i:s');
+
+
+
+            // Uncomment if stock needs to be updated
+            $stock = new Stock;
+            $stock->product_id = $value['item_id'];
+            $stock->quantity = $value['qty'] * (+1);
+            $stock->save();
         }
-
-
     }
 
     /**

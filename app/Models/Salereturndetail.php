@@ -6,21 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Salereturndetail extends Model
 {
-    protected $table = 'sales_return_details'; // Explicitly set table name
 
+    protected $table="sales_returns_details";
+
+    
     protected $fillable = [
-        'salereturn_id',
-        'product_id',
-        'description',
-        'quantity',
-        'price',
-        'discount',
-        'vat'
+        'salereturn_id', 'product_id', 'description', 'quantity',
+        'price', 'discount', 'total_discount', 'vat', 'subtotal'
     ];
-
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class,'product_id');
-    }
 }

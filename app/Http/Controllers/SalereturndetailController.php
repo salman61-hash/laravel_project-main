@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Salereturndetail;
 use Illuminate\Http\Request;
 
-class SaleturndetailsController extends Controller
+class SalereturndetailController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $salesReturnDetails = Salereturndetail::with('product')->paginate(5); // Fetch all records
-        return view('sales_return_details.index', compact('salesReturnDetails'));
+        $SaleReturnDetails=Salereturndetail::with('product')->paginate(5);
+       return view('pages.sales_return_details.index',compact('SaleReturnDetails'));
     }
 
     /**
