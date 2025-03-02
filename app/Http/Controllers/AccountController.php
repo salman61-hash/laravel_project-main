@@ -12,8 +12,8 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $results=Account::with('accounts')->paginate(3);
-        return view('pages.accounts.index',compact('results'));
+        $accounts = Account::with('payments')->paginate(10); // Ensure 'payments' is the correct relationship
+        return view('pages.accounts.index', compact('accounts'));
     }
 
     /**

@@ -29,7 +29,7 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($results as $result)
+                @forelse ($accounts as $result)
                     <tr>
                         <td>{{ $result->id }}</td>
                         <td>{{ $result->name }}</td>
@@ -57,7 +57,7 @@
         </table>
 
         <div class="d-flex justify-content-end mt-4">
-            {!! $results->links('pagination::bootstrap-5') !!}
+            {!! $accounts->links('pagination::bootstrap-5') !!}
         </div>
     </div>
 @endsection

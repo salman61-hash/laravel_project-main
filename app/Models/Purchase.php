@@ -35,6 +35,10 @@ class Purchase extends Model
     {
         return $this->belongsTo(PaymentStatus::class);
     }
+    public function cupon()
+    {
+        return $this->belongsTo(cupon::class,'cupon_id');
+    }
     // public function products()
     // {
     //     return $this->belongsTo(Product::class);

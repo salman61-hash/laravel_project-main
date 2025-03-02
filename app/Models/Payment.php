@@ -9,12 +9,11 @@ class Payment extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'account_id', 'transaction_type', 'debit', 'credit', 'amount_paid', 'payment_date'
-    ];
+    protected $fillable = ['account_id', 'transaction_type', 'debit', 'credit', 'amount_paid', 'payment_date'];
 
-    public function accounts()
+    // Each payment belongs to one account
+    public function account()
     {
-        return $this->belongsTo(Account::class,'account_id');
+        return $this->belongsTo(Account::class, 'account_id');
     }
 }

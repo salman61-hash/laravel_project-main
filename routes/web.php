@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Api\SalesReturnController as ApiSalesReturnController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CuponController;
@@ -10,11 +11,13 @@ use App\Http\Controllers\PaymentstatusController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\PurchaseReportController;
 use App\Http\Controllers\PurchasereturnController;
 use App\Http\Controllers\PurchasereturndetailsController;
 use App\Http\Controllers\PurchasesdetailsController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SaledetailsController;
+use App\Http\Controllers\SalesReportController;
 use App\Http\Controllers\SalesreturnController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\SuppliersController;
@@ -87,6 +90,17 @@ Route::post('find_cupon', [SaleController::class, 'find_cupon']);
 //purchase invoice
 Route::post('find_supplier', [PurchaseController::class, 'find_supplier']);
 Route::post('find_product', [PurchaseController::class, 'find_product']);
+
+
+
+//Purchase Report
+Route::get('/purchase-report', [PurchaseReportController::class, 'index']);
+Route::post('/purchase-report', [PurchaseReportController::class, 'show']);
+
+
+// Sales Report
+Route::get('/sales-report', [SalesReportController::class, 'index']);
+Route::post('/sales-report', [SalesReportController::class, 'show']);
 
 
 

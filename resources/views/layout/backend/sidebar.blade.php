@@ -217,6 +217,20 @@
                             </div>
                         </li>
 
+
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#purchaseReportdetailsMenu" aria-expanded="false"
+                                aria-controls="purchaseReturndetailsMenu" class="side-nav-link">
+                                <span> Purchase Report</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="purchaseReportdetailsMenu">
+                                <ul class="side-nav-third-level">
+                                    <li><a href="{{ url('purchase-report') }}">View Purchase Report List</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
                     </ul>
                 </div>
             </li>
@@ -285,6 +299,24 @@
                                 </ul>
                             </div>
                         </li>
+
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#salesReportMenu" aria-expanded="false"
+                                aria-controls="salesReturnMenu" class="side-nav-link">
+                                <span> Sales Report Details</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="salesReportMenu">
+                                <ul class="side-nav-third-level">
+                                    <li><a href="{{ url('sales-report') }}">View Sales Report Details List</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+
+
+
+
 
                     </ul>
                 </div>
@@ -361,13 +393,10 @@
                     <span> Expense </span>
                     <span class="menu-arrow"></span>
                 </a>
-                <div class="collapse" id="expensetypemenu">
-                    <ul class="side-nav-second-level">
-                        <li><a href="{{ url('expense_type') }}">View Expense Type List</a></li>
-                    </ul>
-                </div>
+
                 <div class="collapse" id="expensemenu">
                     <ul class="side-nav-second-level">
+                        <li><a href="{{ url('expense_type') }}">View Expense Type List</a></li>
                         <li><a href="{{ url('expense') }}">View Expense List</a></li>
                     </ul>
                 </div>
@@ -380,13 +409,10 @@
                     <span> Withdraw </span>
                     <span class="menu-arrow"></span>
                 </a>
-                <div class="collapse" id="withdrawtypemenu">
-                    <ul class="side-nav-second-level">
-                        <li><a href="{{ url('withdraw_type') }}">View Withdraw Type List</a></li>
-                    </ul>
-                </div>
+
                 <div class="collapse" id="withdrawmenu">
                     <ul class="side-nav-second-level">
+                        <li><a href="{{ url('withdraw_type') }}">View Withdraw Type List</a></li>
                         <li><a href="{{ url('withdraw') }}">View Withdraw List</a></li>
                     </ul>
                 </div>
@@ -406,6 +432,24 @@
                 <div class="collapse" id="incomestatementmenu">
                     <ul class="side-nav-second-level">
                         <li><a href="{{ url('income-statement') }}">View Income Statement</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#incomestatementmenu" aria-expanded="false" aria-controls="incomestatementmenu"
+                    class="side-nav-link">
+                    <i class="ri-bar-chart-box-line"></i>
+                    <span> Reports </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="incomestatementmenu">
+                    <ul class="side-nav-second-level">
+                        <li><a href="{{ url('income-statement') }}">Purchase Report</a></li>
+                        <li><a href="{{ url('income-statement') }}">Sales Report</a></li>
+                        <li><a href="{{ url('income-statement') }}">Stock Report</a></li>
+                        <li><a href="{{ url('income-statement') }}">Accounts Receivable</a></li>
+                        <li><a href="{{ url('income-statement') }}">Accounts Payable</a></li>
+                        <li><a href="{{ url('income-statement') }}">Income Statement</a></li>
                     </ul>
                 </div>
             </li>
