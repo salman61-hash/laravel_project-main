@@ -214,13 +214,19 @@ CREATE TABLE accounts (
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+CREATE TABLE expense_type (
+         id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(150),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 
 -- 13. Expenses Table (Tracking Operational Costs)
 CREATE TABLE expenses (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
-    expense_type VARCHAR(100),
+    expense_type_id INT,
     amount DECIMAL(12,2),
     expense_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

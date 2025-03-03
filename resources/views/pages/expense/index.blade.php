@@ -9,18 +9,17 @@
 
     <div class="card shadow-lg">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h4 class="mb-0">Stock List</h4>
-            <a href="{{ url('stock/create') }}" class="btn btn-light">
-                <i class="fas fa-plus-circle"></i> Add Stock
+            <h4 class="mb-0">Expense List</h4>
+            <a href="{{ url('expense/create') }}" class="btn btn-light">
+                <i class="fas fa-plus-circle"></i> Add Expense
             </a>
         </div>
 
         <div class="mb-3 mt-3">
-            <!-- Search form centered -->
-            <form action="{{ url('stock/search') }}" method="get" class="d-flex justify-content-center">
+            <form action="{{ url('expense/search') }}" method="get" class="d-flex justify-content-center">
                 @csrf
                 <div class="input-group" style="max-width: 400px;">
-                    <input type="text" name="query" class="form-control rounded" placeholder="Search stock..." required>
+                    <input type="text" name="query" class="form-control rounded" placeholder="Search expenses..." required>
                     <button type="submit" class="btn btn-warning d-flex align-items-center rounded">
                         <i class="fas fa-search me-2"></i> Search
                     </button>
@@ -34,29 +33,29 @@
                     <thead class="table-dark">
                         <tr>
                             <th>ID</th>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Min Stock Level</th>
-
+                            <th>User ID</th>
+                            <th>Expense Type</th>
+                            <th>Amount</th>
+                            <th>Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($stocks as $stock)
+                        @forelse ($expenses as $expense)
                             <tr>
-                                <td>{{ $stock->id }}</td>
-                                <td>{{ $stock->name }}</td>
-                                <td>{{ $stock->quantity }}</td>
-                                <td>{{ $stock->min_stock_level }}</td>
-
+                                <td>{{ $expense->id }}</td>
+                                <td>{{ $expense->user->name }}</td>
+                                <td>{{ $expense->expense_type->name }}</td>
+                                <td>{{ $expense->amount }}</td>
+                                <td>{{ $expense->expense_date }}</td>
                                 <td>
-                                    <a href="{{ url("stock/{$stock->id}/edit") }}" class="btn btn-sm btn-warning">
+                                    <a href="{{ url("expense/{$expense->id}/edit") }}" class="btn btn-sm btn-warning">
                                         Edit <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="{{ url("stock/{$stock->id}") }}" class="btn btn-sm btn-info">
+                                    <a href="{{ url("expense/{$expense->id}") }}" class="btn btn-sm btn-info">
                                         Show <i class="fas fa-eye"></i>
                                     </a>
-                                    <form action="{{ url("stock/{$stock->id}") }}" method="post" class="d-inline">
+                                    <form action="{{ url("expense/{$expense->id}") }}" method="post" class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
@@ -67,13 +66,13 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center text-danger">No Stock Found</td>
+                                <td colspan="6" class="text-center text-danger">No Expenses Found</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-end mt-4">
-                    {!! $stocks->links('pagination::bootstrap-5') !!}
+                    {!! $expenses->links('pagination::bootstrap-5') !!}
                 </div>
             </div>
         </div>

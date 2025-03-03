@@ -7,6 +7,8 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CuponController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerReportController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\ExpenseTypeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentstatusController;
 use App\Http\Controllers\ProductController;
@@ -81,6 +83,8 @@ Route::resource('purchase-return-details',PurchasereturndetailsController::class
 Route::resource('sales-return-details',Salereturndetail::class);
 
 Route::resource('payments', PaymentController::class);
+Route::resource('expense_type', ExpenseTypeController::class);
+Route::resource('expense', ExpenseController::class);
 
 
 // sales invoice

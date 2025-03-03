@@ -50,6 +50,7 @@
                                     <th>ID</th>
                                     <th>Product</th>
                                     <th>Quantity</th>
+                                    <th>Min.stock Leve</th>
                                     <th>Date</th>
                                 </tr>
                             </thead>
@@ -59,6 +60,7 @@
                                         <td>{{ $stock->id }}</td>
                                         <td>{{ optional($stock->product)->name }}</td>
                                         <td>{{ $stock->quantity }}</td>
+                                        <td>{{ $stock->min_stock_leve }}</td>
                                         <td>{{ $stock->created_at }}</td>
                                     </tr>
                                 @endforeach

@@ -38,13 +38,13 @@
                 </div>
 
                 <!-- Minimum Stock Level -->
-                {{-- <div class="mb-3">
+                <div class="mb-3">
                     <label for="min_stock_level" class="form-label">Minimum Stock Level</label>
                     <input type="number" name="min_stock_level" class="form-control @error('min_stock_level') is-invalid @enderror" value="{{ old('min_stock_level', $stock->min_stock_level) }}" placeholder="Enter Minimum Stock Level" required>
                     @error('min_stock_level')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
-                </div> --}}
+                </div>
 
                 <!-- Payment Status -->
 

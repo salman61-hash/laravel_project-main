@@ -13,7 +13,7 @@ class Stock extends Model
     protected $table = 'stock';
 
     // Define the fillable attributes to allow mass assignment
-    protected $fillable = ['product_id', 'quantity', 'updated_at'];
+    protected $fillable = ['product_id', 'quantity','min_stock_leve','updated_at'];
 
     // Define relationships
     public function product()
