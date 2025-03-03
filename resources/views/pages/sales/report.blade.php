@@ -24,6 +24,41 @@
                                     <input type="date" id="end_date" name="end_date" class="form-control"
                                         value="{{ old('end_date', $endDate ?? '') }}" required>
                                 </div>
+
+                                <div class="col-md-4">
+                                    <label for="customer_id" class="form-label">Supplier</label>
+                                    <select id="customer_id" name="customer_id" class="form-control">
+                                        <option value="">All Customer</option>
+                                        @foreach ($customers as $customer)
+                                            <option value="{{ $customer->id }}"
+                                                {{ old('customer_id', $selectedCustomer ?? '') == $customer->id ? 'selected' : '' }}>
+                                                {{ $customer->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label for="payment_status_id" class="form-label">Payment Status</label>
+                                    <select id="payment_status_id" name="payment_status_id" class="form-control">
+                                        <option value="">All Statuses</option>
+                                        @foreach ($payment_statuses as $status)
+                                            <option value="{{ $status->id }}"
+                                                {{ old('payment_status_id', $selectedStatus ?? '') == $status->id ? 'selected' : '' }}>
+                                                {{ $status->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+
+
+
+
+
+
                                 <div class="col-md-4 d-flex align-items-end">
                                     <button type="submit" class="btn btn-primary">Generate Report</button>
                                 </div>
@@ -54,6 +89,13 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="4" class="text-end">Total:</th>
+                                        <th>{{ $totalAmount }}</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         @else
                             <p class="mt-4 text-center">No sales found for the selected date range.</p>

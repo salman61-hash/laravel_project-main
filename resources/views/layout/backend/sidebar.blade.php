@@ -350,12 +350,12 @@
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#stockAdjustmentMenu" aria-expanded="false"
                                 aria-controls="stockAdjustmentMenu" class="side-nav-link">
-                                <span> Stock Adjustment </span>
+                                <span> Stock Report </span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <div class="collapse" id="stockAdjustmentMenu">
                                 <ul class="side-nav-third-level">
-                                    <li><a href="{{ url('stock-adjustment/list') }}">View Stock Adjustment List</a>
+                                    <li><a href="{{ url('stocks-report') }}">View Stock Report List</a>
                                     </li>
                                 </ul>
                             </div>

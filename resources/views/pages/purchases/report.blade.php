@@ -24,11 +24,40 @@
                                     <input type="date" id="end_date" name="end_date" class="form-control"
                                         value="{{ old('end_date', $endDate ?? '') }}" required>
                                 </div>
+
+                                <div class="col-md-4">
+                                    <label for="supplier_id" class="form-label">Supplier</label>
+                                    <select id="supplier_id" name="supplier_id" class="form-control">
+                                        <option value="">All Suppliers</option>
+                                        @foreach ($suppliers as $supplier)
+                                            <option value="{{ $supplier->id }}"
+                                                {{ old('supplier_id', $selectedSupplier ?? '') == $supplier->id ? 'selected' : '' }}>
+                                                {{ $supplier->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="payment_status_id" class="form-label">Payment Status</label>
+                                    <select id="payment_status_id" name="payment_status_id" class="form-control">
+                                        <option value="">All Statuses</option>
+                                        @foreach ($payment_statuses as $status)
+                                            <option value="{{ $status->id }}"
+                                                {{ old('payment_status_id', $selectedStatus ?? '') == $status->id ? 'selected' : '' }}>
+                                                {{ $status->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
                                 <div class="col-md-4 d-flex align-items-end">
                                     <button type="submit" class="btn btn-primary">Generate Report</button>
                                 </div>
                             </div>
                         </form>
+
 
                         @if (!empty($purchases))
                             <table class="table table-bordered mt-4">
@@ -46,14 +75,21 @@
                                     @foreach ($purchases as $purchase)
                                         <tr>
                                             <td>{{ $purchase->id }}</td>
-                                <td>{{ $purchase->supplier->name }}</td>
-                                <td>{{optional($purchase->user) ->name }}</td>
-                                <td>{{ $purchase->purchase_date }}</td>
-                                <td>{{ $purchase->total_amount }}</td>
-                                <td>{{ $purchase->payment_status->name }}</td>
+                                            <td>{{ $purchase->supplier->name }}</td>
+                                            <td>{{ optional($purchase->user)->name }}</td>
+                                            <td>{{ $purchase->purchase_date }}</td>
+                                            <td>{{ $purchase->total_amount }}</td>
+                                            <td>{{ $purchase->payment_status->name }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="4" class="text-end">Total:</th>
+                                        <th>{{ $totalAmount }}</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         @else
                             <p class="mt-4 text-center">No purchases found for the selected date range.</p>

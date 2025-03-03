@@ -13,14 +13,12 @@ class Stock extends Model
     protected $table = 'stock';
 
     // Define the fillable attributes to allow mass assignment
-    protected $fillable = [
-        'product_id', 'quantity'
-    ];
+    protected $fillable = ['product_id', 'quantity', 'updated_at'];
 
     // Define relationships
     public function product()
     {
-        return $this->belongsTo(Product::class); // Assuming you have a Product model
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
 

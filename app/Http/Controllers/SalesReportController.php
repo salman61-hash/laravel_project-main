@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\PaymentStatus;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 
@@ -12,7 +14,9 @@ class SalesReportController extends Controller
      */
     public function index()
     {
-        return view('pages.sales.report',['sales' => []]);
+        $customers = Customer::all();
+        $payment_statuses = PaymentStatus::all(); // Fetch all payment statuses
+        return view('pages.sales.report', ['purchases' => [], 'customers' => $customers, 'payment_statuses' => $payment_statuses]);
     }
 
     /**
@@ -36,23 +40,43 @@ class SalesReportController extends Controller
      */
     public function show(Request $request)
     {
-        $startDate = $request->start_date;
-        $endDate = $request->end_date;
+        {
+            $startDate = $request->start_date;
+            $endDate = $request->end_date;
+            $customer_id = $request->customer_id;
+            $payment_status_id = $request->payment_status_id;
 
-        $query = Sale::query();
+            $query = Sale::query();
 
-        if ($startDate && $endDate) {
-            $query->whereBetween('sale_date', [$startDate, $endDate]);
+            if ($startDate && $endDate) {
+                $query->whereBetween('sale_date', [$startDate, $endDate]);
+            }
 
+            if ($customer_id) {
+                $query->where('customer_id', $customer_id);
+            }
+
+            if ($payment_status_id) {
+                $query->where('payment_status_id', $payment_status_id);
+            }
+
+            $sales = $query->orderBy('sale_date', 'asc')->get();
+            $totalAmount = $query->sum('total_amount'); // Total Amount Calculation
+
+            $customers = Customer::all();
+            $payment_statuses = PaymentStatus::all();
+
+            return view('pages.sales.report', compact(
+                'sales',
+                'startDate',
+                'endDate',
+                'customers',
+                'customer_id',
+                'payment_statuses',
+                'payment_status_id',
+                'totalAmount'
+            ));
         }
-        // if ($supplier_id) {
-        //     $query->where('supplier_id',$supplier_id);
-
-        // }
-
-        $sales = $query->orderBy('sale_date', 'asc')->get();
-
-        return view('pages.sales.report', compact('sales', 'startDate', 'endDate'));
     }
 
     /**

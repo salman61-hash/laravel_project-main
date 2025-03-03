@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PaymentStatus;
 use App\Models\Purchase;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class PurchaseReportController extends Controller
@@ -12,7 +14,9 @@ class PurchaseReportController extends Controller
      */
     public function index()
     {
-        return view('pages.purchases.report', ['purchases' => []]);
+        $suppliers = Supplier::all();
+        $payment_statuses = PaymentStatus::all(); // Fetch all payment statuses
+        return view('pages.purchases.report', ['purchases' => [], 'suppliers' => $suppliers, 'payment_statuses' => $payment_statuses]);
     }
 
     /**
@@ -38,22 +42,41 @@ class PurchaseReportController extends Controller
     {
         $startDate = $request->start_date;
         $endDate = $request->end_date;
+        $supplier_id = $request->supplier_id;
+        $payment_status_id = $request->payment_status_id;
 
         $query = Purchase::query();
 
         if ($startDate && $endDate) {
             $query->whereBetween('purchase_date', [$startDate, $endDate]);
-
         }
-        // if ($supplier_id) {
-        //     $query->where('supplier_id',$supplier_id);
 
-        // }
+        if ($supplier_id) {
+            $query->where('supplier_id', $supplier_id);
+        }
+
+        if ($payment_status_id) {
+            $query->where('payment_status_id', $payment_status_id);
+        }
 
         $purchases = $query->orderBy('purchase_date', 'asc')->get();
+        $totalAmount = $query->sum('total_amount'); // Total Amount Calculation
 
-        return view('pages.purchases.report', compact('purchases', 'startDate', 'endDate'));
+        $suppliers = Supplier::all();
+        $payment_statuses = PaymentStatus::all();
+
+        return view('pages.purchases.report', compact(
+            'purchases',
+            'startDate',
+            'endDate',
+            'suppliers',
+            'supplier_id',
+            'payment_statuses',
+            'payment_status_id',
+            'totalAmount'
+        ));
     }
+
 
     /**
      * Show the form for editing the specified resource.

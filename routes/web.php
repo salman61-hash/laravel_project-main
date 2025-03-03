@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CuponController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerReportController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentstatusController;
 use App\Http\Controllers\ProductController;
@@ -20,6 +21,8 @@ use App\Http\Controllers\SaledetailsController;
 use App\Http\Controllers\SalesReportController;
 use App\Http\Controllers\SalesreturnController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\StockReportController;
+use App\Http\Controllers\SupplierReportController;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\UserController;
 use App\Models\Payment;
@@ -101,6 +104,23 @@ Route::post('/purchase-report', [PurchaseReportController::class, 'show']);
 // Sales Report
 Route::get('/sales-report', [SalesReportController::class, 'index']);
 Route::post('/sales-report', [SalesReportController::class, 'show']);
+
+
+// Stock report
+Route::get('/stocks-report', [StockReportController::class, 'index']);
+Route::post('/stocks-report', [StockReportController::class, 'show']);
+
+
+// Supplier report
+Route::get('/suppliers-report', [SupplierReportController::class, 'index']);
+Route::post('/suppliers-report', [SupplierReportController::class, 'show']);
+
+
+// Customer report
+
+Route::get('/customers-report', [CustomerReportController::class, 'index']);
+Route::post('/customers-report', [CustomerReportController::class, 'show']);
+
 
 
 
