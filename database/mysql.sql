@@ -246,10 +246,11 @@ CREATE TABLE withdraw_type (
 CREATE TABLE withdraw (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
-    withdraw_type_id,
-    amount DECIMAL(12,2) ,
+    withdraw_type_id INT,
+
     product_id INT
     quantity INT,
+    amount DECIMAL(12,2),
     withdraw_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

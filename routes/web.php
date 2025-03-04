@@ -28,6 +28,8 @@ use App\Http\Controllers\StockReportController;
 use App\Http\Controllers\SupplierReportController;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WithdrawController;
+use App\Http\Controllers\WithdrawTypeController;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Salereturndetail;
@@ -86,6 +88,8 @@ Route::resource('sales-return-details',Salereturndetail::class);
 Route::resource('payments', PaymentController::class);
 Route::resource('expense_type', ExpenseTypeController::class);
 Route::resource('expense', ExpenseController::class);
+Route::resource('withdraw_type', WithdrawTypeController::class);
+Route::resource('withdraw', WithdrawController::class);
 
 
 // sales invoice
