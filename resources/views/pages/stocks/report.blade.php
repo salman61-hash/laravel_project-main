@@ -36,6 +36,19 @@
                             </div>
                         </div>
 
+
+                        <div class="col-md-4">
+                            <label for="remarks" class="form-label">Select Remarks</label>
+                            <select id="remarks" name="remarks" class="form-control">
+                                <option value="">All</option>
+                                <option value="Sales" {{ old('remarks', $remarks ?? '') == 'Sales' ? 'selected' : '' }}>Sales</option>
+                                <option value="Purchase" {{ old('remarks', $remarks ?? '') == 'Purchase' ? 'selected' : '' }}>Purchase</option>
+                                <option value="Sales Return" {{ old('remarks', $remarks ?? '') == 'Sales Return' ? 'selected' : '' }}>Sales Return</option>
+                                <option value="Purchase Return" {{ old('remarks', $remarks ?? '') == 'Purchase Return' ? 'selected' : '' }}>Purchase Return</option>
+                            </select>
+                        </div>
+
+
                         <div class="row mb-3">
                             <div class="col-md-12 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary">Generate Report</button>
@@ -50,21 +63,23 @@
                                     <th>ID</th>
                                     <th>Product</th>
                                     <th>Quantity</th>
-                                    <th>Min.stock Leve</th>
+                                    <th>Remarks</th>
                                     <th>Date</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($stocks as $stock)
-                                    <tr>
+                                    <tr class="{{ $stock->remarks == 'Sales' ? 'table-danger' : ($stock->remarks == 'Purchase' ? 'table-success' : ($stock->remarks == 'Sales Return' ? 'table-warning' : 'table-info')) }}">
                                         <td>{{ $stock->id }}</td>
                                         <td>{{ optional($stock->product)->name }}</td>
                                         <td>{{ $stock->quantity }}</td>
-                                        <td>{{ $stock->min_stock_leve }}</td>
+                                        <td>{{ $stock->remarks }}</td>
+
                                         <td>{{ $stock->created_at }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
+
                         </table>
                     @else
                         <p class="mt-4 text-center">No stocks found for the selected filters.</p>

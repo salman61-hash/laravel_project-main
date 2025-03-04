@@ -36,7 +36,7 @@
                             <th>ID</th>
                             <th>Product</th>
                             <th>Quantity</th>
-                            <th>Min Stock Level</th>
+                            {{-- <th>Remarks</th> --}}
 
                             <th>Action</th>
                         </tr>
@@ -47,7 +47,7 @@
                                 <td>{{ $stock->id }}</td>
                                 <td>{{ $stock->name }}</td>
                                 <td>{{ $stock->quantity }}</td>
-                                <td>{{ $stock->min_stock_level }}</td>
+                                {{-- <td>{{ $stock->remarks }}</td> --}}
 
                                 <td>
                                     <a href="{{ url("stock/{$stock->id}/edit") }}" class="btn btn-sm btn-warning">

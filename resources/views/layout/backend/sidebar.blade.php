@@ -398,6 +398,7 @@
                     <ul class="side-nav-second-level">
                         <li><a href="{{ url('expense_type') }}">View Expense Type List</a></li>
                         <li><a href="{{ url('expense') }}">View Expense List</a></li>
+                        <li><a href="{{ url('expense-report') }}">View Expense Report List</a></li>
                     </ul>
                 </div>
             </li>

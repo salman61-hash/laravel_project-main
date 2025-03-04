@@ -14,15 +14,16 @@ class StockController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-{
-    $stocks = DB::table('stock as s')
-        ->select('p.id', 'p.name', DB::raw('SUM(s.quantity) as quantity'), 's.min_stock_level')
-        ->join('products as p', 'p.id', '=', 's.product_id')
-        ->groupBy('p.id', 'p.name', 's.min_stock_level')
-        ->paginate(5);
+    {
+        $stocks = DB::table('stock as s')
+            ->select('p.id', 'p.name', DB::raw('SUM(s.quantity) as quantity'))
+            ->join('products as p', 'p.id', '=', 's.product_id')
+            ->groupBy('p.id', 'p.name')
+            ->paginate(5);
 
-    return view('pages.stocks.index', compact('stocks'));
-}
+        return view('pages.stocks.index', compact('stocks'));
+    }
+
 
 
     /**
@@ -44,7 +45,7 @@ class StockController extends Controller
         $request->validate([
             'product_id' => 'required',
             'quantity' => 'required',
-            'min_stock_leve' => 'required',
+            'remarks' => 'required',
 
 
         ]);

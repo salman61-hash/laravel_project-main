@@ -89,6 +89,7 @@ class SalesReturnController extends Controller
             $stock = new Stock;
             $stock->product_id = $value['item_id'];
             $stock->quantity = $value['qty'] * (+1);
+            $stock->remarks ="Sales_Return";
             $stock->save();
         }
     }

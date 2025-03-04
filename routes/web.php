@@ -8,6 +8,7 @@ use App\Http\Controllers\CuponController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerReportController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\ExpenseReportController;
 use App\Http\Controllers\ExpenseTypeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentstatusController;
@@ -124,6 +125,12 @@ Route::post('/suppliers-report', [SupplierReportController::class, 'show']);
 
 Route::get('/customers-report', [CustomerReportController::class, 'index']);
 Route::post('/customers-report', [CustomerReportController::class, 'show']);
+
+
+// Expense Report
+
+Route::get('/expense-report', [ExpenseReportController::class, 'index']);
+Route::post('/expense-report', [ExpenseReportController::class, 'generateReport']);
 
 
 

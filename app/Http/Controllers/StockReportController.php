@@ -44,23 +44,29 @@ class StockReportController extends Controller
         $startDate = $request->start_date;
         $endDate = $request->end_date;
         $productId = $request->product_id;
+        $remarks = $request->remarks; // নতুনভাবে remarks গ্রহণ করা হলো
 
         $query = Stock::with('product');
 
-
         if ($startDate && $endDate) {
-            $query->whereBetween('updated_at', [$startDate, $endDate]);
+            $query->whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
         }
 
         if (!empty($productId)) {
             $query->where('product_id', $productId);
         }
 
-        $stocks = $query->orderBy('updated_at', 'asc')->get();
+        if (!empty($remarks)) {
+            $query->where('remarks', $remarks);
+        }
+
+        $stocks = $query->orderBy('created_at', 'asc')->get();
         $products = Product::all();
 
-        return view('pages.stocks.report', compact('stocks', 'startDate', 'endDate', 'products', 'productId'));
+        return view('pages.stocks.report', compact('stocks', 'startDate', 'endDate', 'products', 'productId', 'remarks'));
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
