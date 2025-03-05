@@ -78,7 +78,13 @@ Route::resource('cupons',CuponController::class);
 Route::resource('users',UserController::class);
 Route::resource('sales',SaleController::class);
 Route::resource('salesdetails',SaledetailsController::class);
+
+
+
+Route::post('/update_stock', [StockController::class, 'updateStock']);
 Route::resource('stock',StockController::class);
+
+
 
 Route::resource('purchase-returns',PurchasereturnController::class);
 Route::resource('sales-returns',SalesreturnController::class);

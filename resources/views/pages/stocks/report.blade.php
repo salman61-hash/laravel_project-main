@@ -10,6 +10,9 @@
 
                     <h2 class="mb-4">Stock Report</h2>
 
+                    <!-- Print Button (Initially hidden) -->
+                    <button id="printButton" onclick="printReport()" class="btn btn-secondary mb-4" style="display: none;">Print Report</button>
+
                     <form method="POST" action="{{ url('/stocks-report') }}">
                         @csrf
                         <div class="row mb-3">
@@ -36,7 +39,6 @@
                             </div>
                         </div>
 
-
                         <div class="col-md-4">
                             <label for="remarks" class="form-label">Select Remarks</label>
                             <select id="remarks" name="remarks" class="form-control">
@@ -45,9 +47,9 @@
                                 <option value="Purchase" {{ old('remarks', $remarks ?? '') == 'Purchase' ? 'selected' : '' }}>Purchase</option>
                                 <option value="Sales Return" {{ old('remarks', $remarks ?? '') == 'Sales Return' ? 'selected' : '' }}>Sales Return</option>
                                 <option value="Purchase Return" {{ old('remarks', $remarks ?? '') == 'Purchase Return' ? 'selected' : '' }}>Purchase Return</option>
+                                <option value="withdraw" {{ old('remarks', $remarks ?? '') == 'withdraw' ? 'selected' : '' }}>withdraw</option>
                             </select>
                         </div>
-
 
                         <div class="row mb-3">
                             <div class="col-md-12 d-flex justify-content-end">
@@ -57,6 +59,14 @@
                     </form>
 
                     @if (!empty($stocks))
+                        <!-- Show Print Button after report generation -->
+                        <script>
+                            // Show the print button after generating the report
+                            window.onload = function() {
+                                document.getElementById('printButton').style.display = 'inline-block';
+                            };
+                        </script>
+
                         <table class="table table-bordered mt-4">
                             <thead>
                                 <tr>
@@ -74,12 +84,10 @@
                                         <td>{{ optional($stock->product)->name }}</td>
                                         <td>{{ $stock->quantity }}</td>
                                         <td>{{ $stock->remarks }}</td>
-
                                         <td>{{ $stock->created_at }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
-
                         </table>
                     @else
                         <p class="mt-4 text-center">No stocks found for the selected filters.</p>
@@ -91,4 +99,14 @@
     </div>
 </div>
 
+@endsection
+
+@section('scripts')
+<script>
+    // Function to hide the Print button after printing
+    function printReport() {
+        document.getElementById('printButton').style.display = 'none'; // Hide the print button
+        window.print(); // Trigger the print dialog
+    }
+</script>
 @endsection

@@ -182,7 +182,7 @@
 
                             <div class="row mt-4">
                                 <div class="col-md-6">
-                                    <h5><strong>Supplier</strong></h5>
+                                    <h5><strong>Customer</strong></h5>
                                     <select name="customer_id" id="customer_id" class="form-control">
                                         <option value="" disabled selected>Select Customer</option>
                                         @foreach ($customers as $customer)

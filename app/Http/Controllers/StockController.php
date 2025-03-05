@@ -61,7 +61,6 @@ class StockController extends Controller
 
         // Redirect back with a success message
         return redirect('stock')->with('success', 'Stock added successfully!');
-
     }
 
     /**
@@ -111,7 +110,6 @@ class StockController extends Controller
 
         // Redirect back with a success message
         return redirect('stock')->with('success', 'Stock updated successfully!');
-
     }
 
     /**
@@ -122,4 +120,38 @@ class StockController extends Controller
         Stock::destroy($id);
         return redirect('stock')->with('success', 'Stock deleted successfully!');
     }
+
+
+
+
+
+    public function updateStock(Request $request)
+{
+    $request->validate([
+        'product_id' => 'required|exists:products,id',
+        'quantity' => 'required|integer|min:1',
+    ]);
+
+    $stock = Stock::where('product_id', $request->product_id)->first();
+
+    if (!$stock) {
+        return response()->json(['success' => false, 'message' => 'Stock not found!']);
+    }
+
+    if ($stock->quantity < $request->quantity) {
+        return response()->json(['success' => false, 'message' => 'Not enough stock available!']);
+    }
+
+    // Create a new row in the stock table for the withdrawal
+    $newStock = new Stock();
+    $newStock->product_id = $request->product_id;
+    $newStock->quantity = -$request->quantity; // Use negative quantity for withdrawal
+    $newStock->remarks = 'withdraw';
+    $newStock->save();
+
+    // You may also want to track the original stock update elsewhere, like a transaction log
+
+    return response()->json(['success' => true, 'message' => 'Stock withdrawal recorded successfully!']);
+}
+
 }
