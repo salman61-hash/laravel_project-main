@@ -537,7 +537,14 @@
                         products: products,
                     },
                     success: function(res) {
-                        console.log(res)
+                        if (res.success) {
+                            cart.clearCart();
+                            printCart();
+                            $('#supplier_id').val("");
+                            $(".address").text("");
+                            $(".phone").text("");
+
+                        }
 
                     },
                     error: function(xhr, status, error) {

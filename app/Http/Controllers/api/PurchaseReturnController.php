@@ -85,6 +85,8 @@ class PurchaseReturnController extends Controller
             $stock->save();
         }
 
+        return response()->json(['success'=>"order confirmed successfully"]);
+
 
     }
 

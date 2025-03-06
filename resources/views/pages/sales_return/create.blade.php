@@ -505,7 +505,13 @@
                         products: products,
                     },
                     success: function(res) {
-                        console.log(res)
+                        if (res.success) {
+                            cart.clearCart();
+                            printCart();
+                            $('#customer_id').val("");
+                            $(".phone").text("");
+                            $(".email").text("");
+                        }
 
                     },
                     error: function(xhr, status, error) {

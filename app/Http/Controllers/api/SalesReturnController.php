@@ -25,7 +25,7 @@ class SalesReturnController extends Controller
      */
     public function store(Request $request)
     {
-        print_r($request->all());
+        // print_r($request->all());
 
         $returnsales = new Salereturn;
 
@@ -92,6 +92,8 @@ class SalesReturnController extends Controller
             $stock->remarks ="Sales_Return";
             $stock->save();
         }
+
+        return response()->json(['success'=>"sales confirmed successfully"]);
     }
 
     /**
