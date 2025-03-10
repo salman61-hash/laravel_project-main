@@ -71,7 +71,7 @@ class PurchaseController extends Controller
     public function show(string $id)
     {
         // Get the purchase by its ID
-        $purchase = Purchase::findOrFail($id);
+        $purchase = Purchase::with('supplier', 'purchaseDetails')->find($id);
         $suppliers = Supplier::get();  // Get all suppliers
         $users = User::get();  // Get all users
         $payment_statuses = PaymentStatus::get();  // Get all Payment Status

@@ -50,7 +50,7 @@
                                 {{-- <td>{{ $purchase->user->name }}</td> --}}
                                 <td>{{ $purchase->purchase_date }}</td>
                                 <td>{{ $purchase->total_amount }}</td>
-                                <td>{{ $purchase->payment_status->name }}</td>
+                                <td>{{ optional($purchase->payment_status)->name }}</td>
                                 <td>
                                     <a href="{{ url("purchases/{$purchase->id}/edit") }}" class="btn btn-sm btn-warning">
                                         Edit <i class="fas fa-edit"></i>

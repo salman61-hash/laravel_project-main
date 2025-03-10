@@ -36,10 +36,15 @@ class Purchase extends Model
     }
     public function cupon()
     {
-        return $this->belongsTo(cupon::class,'cupon_id');
+        return $this->belongsTo(cupon::class, 'cupon_id');
     }
-    // public function products()
-    // {
-    //     return $this->belongsTo(Product::class);
-    // }
+    public function purchaseDetails()
+    {
+        return $this->hasMany(PurchasesDetails::class);
+    }
+
+
+
+
+
 }

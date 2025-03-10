@@ -46,5 +46,9 @@ class Sale extends Model
    {
        return $this->belongsTo(Cupon::class);
    }
+   public function saleDetails()
+   {
+       return $this->belongsTo(SaleDetail::class);
+   }
 
 }

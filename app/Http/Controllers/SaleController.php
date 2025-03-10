@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\PaymentStatus;
 use App\Models\Product;
 use App\Models\Sale;
+use App\Models\SaleDetail;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -82,8 +83,10 @@ class SaleController extends Controller
     $customers = Customer::all(); // Retrieve customers
     $users = User::all(); // Retrieve users
     $payment_statuses = PaymentStatus::all(); // Retrieve payment statuses
+    $saleDetails= SaleDetail::where("sale_id",$sale->id)->get();
+    $products=Product::all();
 
-    return view('pages.sales.show', compact('sale', 'customers', 'users', 'payment_statuses'));
+    return view('pages.sales.show', compact('sale', 'customers', 'users', 'payment_statuses','saleDetails','products'));
     }
 
     /**

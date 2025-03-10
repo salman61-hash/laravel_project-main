@@ -1,82 +1,131 @@
-@extends('layout.backend.main')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('page_content')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Invoice</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sales-box {
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s;
+        }
 
-<div class="container mt-4">
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Update Sale</h5>
-        </div>
+        .sales-box:hover {
+            transform: scale(1.02);
+        }
 
+        .table th {
+            background-color: #42a5f5;
+            color: white;
+        }
 
-                <!-- Customer ID -->
-                <div class="mb-3">
-                    <label for="customer_id" class="form-label">Customer</label>
-                    <select name="customer_id" class="form-control @error('customer_id') is-invalid @enderror" required>
-                        <option value="" disabled selected>Select Customer</option>
-                        @foreach ($customers as $customer)
-                            <option value="{{ $customer->id }}" {{ old('customer_id', $sale->customer_id) == $customer->id ? 'selected' : '' }}>
-                                {{ $customer->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('customer_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+        .total-summary {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Hide print button during printing */
+        @media print {
+            .btn-process, .print_btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="sales-box">
+            <h2 class="text-center mb-4">Sales Invoice 🧾</h2>
+            <div class="d-flex justify-content-between mb-4">
+                <div>
+                    <strong>Customer Information:</strong><br>
+                    Name: {{$sale->customer->name}} <br>
+                    Contact:{{$sale->customer->phone}} <br>
+                    Email: {{$sale->customer->email}}
+                </div>
+                <div class="text-start">
+                    @php
+                    $subtotal = null;
+                    $vat = null;
+                    $grandtotal = null;
+                    $totaldiscount = null;
+                    @endphp
+                    <strong>Invoice Details:</strong><br>
+                    Invoice #: SAL-100{{$sale->id}}<br>
+                    Date: {{ $sale->sale_date }}<br>
+                </div>
+            </div>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="table-dark">
+                        <th>Sl</th>
+                        <th>Item</th>
+                        <th>Coupon</th>
+                        <th>Qty</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                        <th>Discount</th>
+                        <th>Sub-total</th>
+                    </tr>
+                    @foreach ($saleDetails as $key => $item)
+                    <tr>
+                        <td>{{$key + 1}}</td>
+                        <td>{{ $item->product->name }}</td>
+                        <td>{{ $item->cupon->name }}</td>
+                        <td> {{ $item->quantity }}</td>
+                        <td> {{ $item->price }}</td>
+                        <td> {{ $item->quantity * $item->price }}</td>
+                        <td> {{ $item->discount }}</td>
+                        <td> {{ $item->quantity * $item->price - $item->discount }}</td>
+                        @php
+                        $subtotal += $item->quantity * $item->price - $item->discount;
+                        $totaldiscount += $item->discount;
+                        @endphp
+                    </tr>
+                    @endforeach
+                </thead>
+            </table>
+
+            <div class="text-end">
+                <p>Subtotal:{{$subtotal}}</p>
+                <p>Vat (10%):{{$subtotal * .10}} </p>
+                <p>Grand Total:{{$subtotal + $subtotal * .10}}</p>
+
+                <div class="container">
+                    <p class="total-summary text-start">
+                        Total-Discount:{{$totaldiscount}}
+                    </p>
                 </div>
 
-                <!-- User ID -->
                 <div class="mb-3">
-                    <label for="user_id" class="form-label">User</label>
-                    <select name="user_id" class="form-control @error('user_id') is-invalid @enderror" required>
-                        <option value="" disabled selected>Select User</option>
-                        @foreach ($users as $user)
-                            <option value="{{ $user->id }}" {{ old('user_id', $sale->user_id) == $user->id ? 'selected' : '' }}>
-                                {{ $user->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('user_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                    <label for="payment_status_id" class="form-label">Payment Status: {{optional($sale->payment_status)->name }}</label>
                 </div>
+            </div>
 
-                <!-- Sale Date -->
-                <div class="mb-3">
-                    <label for="sale_date" class="form-label">Sale Date</label>
-                    <input type="date" name="sale_date" class="form-control @error('sale_date') is-invalid @enderror" value="{{ old('sale_date', $sale->sale_date) }}" required>
-                    @error('sale_date')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Total Amount -->
-                <div class="mb-3">
-                    <label for="total_amount" class="form-label">Total Amount</label>
-                    <input type="number" name="total_amount" class="form-control @error('total_amount') is-invalid @enderror" value="{{ old('total_amount', $sale->total_amount) }}" step="0.01" placeholder="Enter Total Amount" required>
-                    @error('total_amount')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Payment Status -->
-                <div class="mb-3">
-                    <label for="payment_status_id" class="form-label">Payment Status</label>
-                    <select name="payment_status_id" class="form-control @error('payment_status_id') is-invalid @enderror">
-                        @foreach($payment_statuses as $status)
-                            <option value="{{ $status->id }}" {{ old('payment_status_id', $sale->payment_status_id) == $status->id ? 'selected' : '' }}>
-                                {{ $status->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('payment_status_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-
+            <div class="container text-center mt-5">
+                <button class="print_btn btn btn-primary btn-lg px-4 py-2 shadow btn_process" onclick="window.print()">
+                    <i class="fas fa-file-invoice"></i> Print
+                </button>
+            </div>
         </div>
     </div>
-</div>
 
-@endsection
+
+    <script>
+        function hideButtonAndPrint() {
+            // Hide the print button
+            document.getElementById("printButton").style.display = "none";
+            // Trigger the print dialog
+            window.print();
+        }
+    </script>
+
+</body>
+
+</html>
