@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PaymentStatus;
 use App\Models\Product;
 use App\Models\Purchase;
+use App\Models\PurchasesDetails;
 use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -75,8 +76,9 @@ class PurchaseController extends Controller
         $suppliers = Supplier::get();  // Get all suppliers
         $users = User::get();  // Get all users
         $payment_statuses = PaymentStatus::get();  // Get all Payment Status
+        $purchaseDetails=PurchasesDetails::where("purchase_id",$purchase->id)->get();
 
-        return view('pages.purchases.show', compact('purchase', 'suppliers', 'users', 'payment_statuses'));
+        return view('pages.purchases.show', compact('purchase', 'suppliers', 'users', 'payment_statuses','purchaseDetails'));
     }
 
     /**

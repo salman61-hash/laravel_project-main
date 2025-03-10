@@ -15,4 +15,8 @@ class PurchaseReturn extends Model
     {
         return $this->belongsTo(Supplier::class,'supplier_id');
     }
+    public function purchasereturnDetails()
+    {
+        return $this->belongsTo(PurchaseReturndetails::class,'purchasereturn_id');
+    }
 }

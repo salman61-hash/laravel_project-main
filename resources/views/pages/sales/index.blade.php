@@ -48,7 +48,7 @@
                         @forelse ($sales as $sale)
                             <tr>
                                 <td>{{ $sale->id }}</td>
-                                <td>{{ $sale->customer->name }}</td>
+                                <td>{{ optional($sale->customer)->name }}</td>
                                 {{-- <td>{{option($sale->user->name) }}</td> --}}
                                 <td>{{ $sale->sale_date }}</td>
                                 <td>{{ $sale->total_amount }}</td>

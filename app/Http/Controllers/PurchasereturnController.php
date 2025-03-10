@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\PurchaseReturn;
+use App\Models\PurchaseReturndetails;
+use App\Models\PurchasesDetails;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 
@@ -62,8 +64,10 @@ class PurchasereturnController extends Controller
         $purchaseReturn = PurchaseReturn::findOrFail($id);
         $purchases = Purchase::all();
         $products = Product::all();
+        // $supplier=Supplier::all();
+        $purchasereturnDetails=PurchaseReturndetails::where("purchasereturn_id",$purchaseReturn->id)->get();
 
-        return view('pages.purchase_return.show', compact('purchaseReturn', 'purchases', 'products'));
+        return view('pages.purchase_return.show', compact('purchaseReturn', 'purchases', 'products','purchasereturnDetails'));
     }
 
     /**
@@ -75,7 +79,8 @@ class PurchasereturnController extends Controller
         $purchaseReturn = PurchaseReturn::findOrFail($id);
         $purchases = Purchase::all();
         $products = Product::all();
-        $suppliers=Supplier::all();
+        $suppliers=Supplier::get();
+
 
         return view('pages.purchase_return.update', compact('purchaseReturn', 'purchases', 'products','suppliers'));
     }

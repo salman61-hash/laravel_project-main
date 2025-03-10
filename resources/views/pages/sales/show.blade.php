@@ -76,7 +76,7 @@
                     @foreach ($saleDetails as $key => $item)
                     <tr>
                         <td>{{$key + 1}}</td>
-                        <td>{{ $item->product->name }}</td>
+                        <td>{{ optional($item->product)->name }}</td>
                         <td>{{ $item->cupon->name }}</td>
                         <td> {{ $item->quantity }}</td>
                         <td> {{ $item->price }}</td>
