@@ -33,29 +33,43 @@ class PaymentController extends Controller
     {
 
             // Validate the incoming request
-            $request->validate([
-                "account_id" => 'required|integer',
-                "transaction_type" => 'required|string',
-                "debit" => 'nullable|numeric|min:0',
-                "credit" => 'nullable|numeric|min:0',
-                "created_by" => 'required',
-                "account_against" => 'required',
-                "amount_paid" => 'required|numeric|min:0',
-                "payment_date" => 'required|date',
-            ]);
+            // $request->validate([
+            //     "account_id" => 'required|integer',
+            //     "transaction_type" => 'required|string',
+            //     "debit" => 'nullable|numeric|min:0',
+            //     "created_by" => 'required',
+            //     "account_against" => 'required',
+            //     "amount_paid" => 'required|numeric|min:0',
+            //     "payment_date" => 'required|date',
+            // ]);
 
             // Create a new Payment instance
+
+
+            $payment = new Payment();
+            $payment->account_id = $request->account_against ;
+            $payment->transaction_type = $request->transaction_type;
+            $payment->debit = $request->debit ??0;
+            $payment->credit =0;
+            $payment->created_by = 1;
+            $payment->account_against = $request->account_id;
+            $payment->amount_paid =$request->debit ;
+            $payment->payment_date = $request->payment_date;
+            $payment->save();
+
+
             $payment = new Payment();
             $payment->account_id = $request->account_id;
             $payment->transaction_type = $request->transaction_type;
-            $payment->debit = $request->debit ?? 0;
-            $payment->credit = $request->credit ?? 0;
-            $payment->created_by = $request->created_by;
+            $payment->debit =0;
+            $payment->credit = $request->debit ?? 0;
+            $payment->created_by = 1;
             $payment->account_against = $request->account_against;
-            $payment->amount_paid = $request->amount_paid;
+            $payment->amount_paid = $request->debit ;
             $payment->payment_date = $request->payment_date;
 
             // Save the payment to the database
+
             if ($payment->save()) {
                 return redirect('payments')->with('success', "Payment has been recorded successfully.");
             } else {

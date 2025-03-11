@@ -35,47 +35,55 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Debit Amount</label>
+                            <label class="form-label">Amount</label>
                             <input type="number" step="0.01" class="form-control" name="debit" value="{{ old('debit') }}">
                             @error('debit')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
 
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label class="form-label">Credit Amount</label>
                             <input type="number" step="0.01" class="form-control" name="credit" value="{{ old('credit') }}">
                             @error('credit')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
-                        </div>
+                        </div> --}}
                     </div>
 
                     <!-- Right Side -->
                     <div class="col-md-6">
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label class="form-label">Created By</label>
                             <input type="text" class="form-control" name="created_by" value="{{ old('created_by') }}">
                             @error('created_by')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
-                        </div>
+                        </div> --}}
 
                         <div class="mb-3">
                             <label class="form-label">Account Against</label>
-                            <input type="text" class="form-control" name="account_against" value="{{ old('account_against') }}">
+                            {{-- <input type="text" class="form-control" name="account_against" value="{{ old('account_against') }}"> --}}
+
+                            <select class="form-control" name="account_against">
+                                <option value="">Select Account</option>
+                                @foreach($accounts as $account)
+                                    <option value="{{ $account->id }}">{{ $account->name }}</option>
+                                @endforeach
+                            </select>
+
                             @error('account_against')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
 
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label class="form-label">Amount Paid</label>
                             <input type="number" step="0.01" class="form-control" name="amount_paid" value="{{ old('amount_paid') }}">
                             @error('amount_paid')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
-                        </div>
+                        </div> --}}
 
                         <div class="mb-3">
                             <label class="form-label">Payment Date</label>
