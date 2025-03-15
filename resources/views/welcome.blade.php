@@ -16,6 +16,25 @@
     </div>
 </div>
 <!-- end page title -->
+@php
+    $totalsales=DB::select('SELECT sum(total_amount) totalsales FROM laravel.sales');
+    $totalpurchases=DB::select('SELECT sum(total_amount) totalpurchases FROM laravel.purchases');
+    $totalexpenses=DB::select('SELECT sum(amount) totalexpenses FROM laravel.expenses');
+    $netprofit = DB::select('
+    SELECT
+        (
+            (SELECT SUM(total_amount) FROM laravel.sales) -
+            (SELECT SUM(total_amount) FROM laravel.purchases) -
+            (SELECT SUM(amount) FROM laravel.expenses)
+        ) AS netprofit
+');
+
+    // print_r($totalexpenses[0]->totalexpenses);
+    // print_r($netprofit[0]->netprofit);
+    // print_r($netprofit);
+
+@endphp
+
 
 <div class="row">
     <div class="col-xxl-3 col-sm-6">
@@ -24,8 +43,8 @@
                 <div class="float-end">
                     <i class="ri-eye-line widget-icon"></i>
                 </div>
-                <h6 class="text-uppercase mt-0" title="Customers">Daily Visits</h6>
-                <h2 class="my-2">8,652</h2>
+                <h6 class="text-uppercase mt-0" title="Customers">Total Sales</h6>
+                <h2 class="my-2">TK {{$totalsales[0]->totalsales}}</h2>
                 <p class="mb-0">
                     <span class="badge bg-white bg-opacity-10 me-1">2.97%</span>
                     <span class="text-nowrap">Since last month</span>
@@ -40,8 +59,8 @@
                 <div class="float-end">
                     <i class="ri-wallet-2-line widget-icon"></i>
                 </div>
-                <h6 class="text-uppercase mt-0" title="Customers">Revenue</h6>
-                <h2 class="my-2">$9,254.62</h2>
+                <h6 class="text-uppercase mt-0" title="Customers">Total purchase</h6>
+                <h2 class="my-2">TK {{$totalpurchases[0]->totalpurchases}}</h2>
                 <p class="mb-0">
                     <span class="badge bg-white bg-opacity-10 me-1">18.25%</span>
                     <span class="text-nowrap">Since last month</span>
@@ -56,8 +75,8 @@
                 <div class="float-end">
                     <i class="ri-shopping-basket-line widget-icon"></i>
                 </div>
-                <h6 class="text-uppercase mt-0" title="Customers">Orders</h6>
-                <h2 class="my-2">753</h2>
+                <h6 class="text-uppercase mt-0" title="Customers">Total Expense</h6>
+                <h2 class="my-2"> TK {{$totalexpenses[0]->totalexpenses}}</h2>
                 <p class="mb-0">
                     <span class="badge bg-white bg-opacity-25 me-1">-5.75%</span>
                     <span class="text-nowrap">Since last month</span>
@@ -72,8 +91,8 @@
                 <div class="float-end">
                     <i class="ri-group-2-line widget-icon"></i>
                 </div>
-                <h6 class="text-uppercase mt-0" title="Customers">Users</h6>
-                <h2 class="my-2">63,154</h2>
+                <h6 class="text-uppercase mt-0" title="Customers">Net Profit</h6>
+                <h2 class="my-2"> TK {{$netprofit[0]->netprofit}}</h2>
                 <p class="mb-0">
                     <span class="badge bg-white bg-opacity-10 me-1">8.21%</span>
                     <span class="text-nowrap">Since last month</span>

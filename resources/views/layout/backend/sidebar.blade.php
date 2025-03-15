@@ -432,11 +432,11 @@
                 </a>
                 <div class="collapse" id="incomestatementmenu">
                     <ul class="side-nav-second-level">
-                        <li><a href="{{ url('income-statement') }}">View Income Statement</a></li>
+                        <li><a href="{{ url('income-report') }}">View Income Statement</a></li>
                     </ul>
                 </div>
             </li>
-            <li class="side-nav-item">
+            {{-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#incomestatementmenu" aria-expanded="false" aria-controls="incomestatementmenu"
                     class="side-nav-link">
                     <i class="ri-bar-chart-box-line"></i>
@@ -453,7 +453,7 @@
                         <li><a href="{{ url('income-statement') }}">Income Statement</a></li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
 
 

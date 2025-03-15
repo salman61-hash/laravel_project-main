@@ -116,6 +116,7 @@ class PurchasereturnController extends Controller
      */
     public function destroy(string $id)
     {
+        
         PurchaseReturn::destroy($id);
         return redirect('purchase-returns')->with('success', 'Return deleted successfully!');
     }

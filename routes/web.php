@@ -10,6 +10,7 @@ use App\Http\Controllers\CustomerReportController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ExpenseReportController;
 use App\Http\Controllers\ExpenseTypeController;
+use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentstatusController;
 use App\Http\Controllers\ProductController;
@@ -141,6 +142,10 @@ Route::post('/customers-report', [CustomerReportController::class, 'show']);
 
 Route::get('/expense-report', [ExpenseReportController::class, 'index']);
 Route::post('/expense-report', [ExpenseReportController::class, 'generateReport']);
+// Income Statement Report
+
+Route::get('/income-report', [IncomeController::class, 'index']);
+Route::post('/income-report', [IncomeController::class, 'generateReport']);
 
 
 

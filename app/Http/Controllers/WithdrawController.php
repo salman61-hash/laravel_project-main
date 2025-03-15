@@ -16,7 +16,7 @@ class WithdrawController extends Controller
     public function index()
     {
         $withdraws=Withdraw::with(['product','withdrawtype','user'])->paginate(5);
-        return view('pages.Withdraw.index',compact('withdraws'));
+        return view('pages.withdraw.index',compact('withdraws'));
     }
 
     /**
