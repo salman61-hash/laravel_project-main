@@ -8,6 +8,7 @@ use App\Models\PaymentStatus;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleDetail;
+use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -136,6 +137,10 @@ class SaleController extends Controller
     public function find_customer(Request $request){
 		$customer = Customer::find($request->id);
 		return response()->json(['customer'=> $customer]);
+	}
+    public function find_supplier(Request $request){
+		$supplier = Supplier::find($request->id);
+		return response()->json(['supplier'=> $supplier]);
 	}
     public function find_product(Request $request){
 		$products = Product::find($request->id);

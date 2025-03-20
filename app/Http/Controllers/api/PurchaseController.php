@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Purchase;
 use App\Models\PurchasesDetails;
 use App\Models\Stock;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
@@ -91,6 +92,74 @@ class PurchaseController extends Controller
         return response()->json(['success'=>"Purchase confirmed successfully"]);
     }
 
+
+
+
+
+
+
+    public function react_store(Request $request)
+    {
+
+        print_r($request->all());
+
+        // try {
+            //code...
+
+
+    //    $purchase = new Purchase;
+    //    $purchase->supplier_id=$request->supplier_id;
+    //    $purchase->purchase_date=now();
+    //    $purchase->total_amount=$request->total_amount;
+    //    $purchase->payment_status_id=$request->payment_status;
+    //    date_default_timezone_set("Asia/Dhaka");
+	// 	$purchase->created_at=date('Y-m-d H:i:s');
+    //     date_default_timezone_set("Asia/Dhaka");
+	// 	$purchase->updated_at=date('Y-m-d H:i:s');
+	// 	$purchase->save();
+    //     $lastInsertedId = $purchase->id;
+
+    //     $productsdata=$request->products;
+
+
+
+    //     foreach ($productsdata as $key => $value) {
+    //         // print_r($value['item_id']);
+    //         $purchase_details= new PurchasesDetails;
+    //         $purchase_details->purchase_id=$lastInsertedId;
+    //         $purchase_details->product_id= $value['item_id'];
+    //         $purchase_details->quantity= $value['qty'];
+    //         $purchase_details->price= $value['price'];
+    //         $purchase_details->discount= $value['discount'];
+    //         $purchase_details->vat= $request->vat;
+    //         date_default_timezone_set("Asia/Dhaka");
+    //         $purchase_details->created_at=date('Y-m-d H:i:s');
+    //          date_default_timezone_set("Asia/Dhaka");
+    //         $purchase_details->updated_at=date('Y-m-d H:i:s');
+
+    //         $purchase_details->save();
+
+
+    //         $stock= new Stock;
+    //         $stock->product_id=$value['item_id'];
+    //         $stock->quantity=$value['qty'] * (+1);
+    //         $stock->remarks="Purchase";
+    //         // $stock ->payment_status_id=$request->payment_status;
+
+    //         $stock->save();
+
+
+        // }
+
+        // return response()->json(['success'=>"Purchase confirmed successfully"]);
+
+    // } catch (\Throwable $th) {
+    //     //throw $th;
+    // }
+}
+
+
+
     /**
      * Display the specified resource.
      */
@@ -114,4 +183,6 @@ class PurchaseController extends Controller
     {
         //
     }
+
+
 }
