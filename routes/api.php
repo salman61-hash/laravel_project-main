@@ -24,6 +24,8 @@ Route::resource('purchaseReturn',PurchaseReturnController ::class);
 Route::resource('saleReturn',SalesReturnController ::class);
 Route::resource('stock',StockController::class);
 Route::resource('supplier',SupplierController::class);
+Route::post('supplier/save', [SupplierController::class, 'store']);
+
 Route::resource('customers',CustomerController::class);
 Route::post('customer/save', [CustomerController::class, 'store']);
 Route::delete('customers/delete/{id}', [CustomerController::class, 'destroy']);

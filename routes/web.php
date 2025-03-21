@@ -142,6 +142,7 @@ Route::post('/customers-report', [CustomerReportController::class, 'show']);
 
 Route::get('/expense-report', [ExpenseReportController::class, 'index']);
 Route::post('/expense-report', [ExpenseReportController::class, 'generateReport']);
+
 // Income Statement Report
 
 Route::get('/income-report', [IncomeController::class, 'index']);

@@ -11,6 +11,11 @@ class SupplierController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function index()
+    {
+        $supplier = Supplier::get();
+		return response()->json(['supplier'=> $supplier]);
+    }
     public function find_supplier()
     {
         $supplier = Supplier::get();
@@ -30,15 +35,30 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $supplier = Supplier::create([
+                'name' => $request->name,
+                'contact_persone' => $request->contact_persone,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address
+            ]);
+
+            return response()->json(['status' => 201, 'message' => 'Supplier created successfully!', 'data' => $supplier]);
+
+        } catch (\Exception $e) {
+            return response()->json(['status' => 500, 'error' => $e->getMessage()]);
+        }
     }
+
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        $suppliers=Supplier::find($id);
+        return response()->json(['suppliers' =>   $suppliers]);
     }
 
     /**

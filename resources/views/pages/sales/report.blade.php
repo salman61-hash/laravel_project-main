@@ -85,7 +85,7 @@
                                             <td>{{optional($sale->user)->name }}</td>
                                             <td>{{ $sale->sale_date }}</td>
                                             <td>{{ $sale->total_amount }}</td>
-                                            <td>{{ $sale->payment_status->name }}</td>
+                                            <td>{{ optional($sale->payment_status)->name }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
