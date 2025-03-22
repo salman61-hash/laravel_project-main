@@ -16,9 +16,9 @@ class StockController extends Controller
     {
         $stocks = DB::table('stock as s')
         ->select('p.id', 'p.name', DB::raw('SUM(s.quantity) as quantity'))
-        ->join('products as p', 'p.id', '=', 's.product_id')
-        ->groupBy('p.id', 'p.name')
-        ->paginate(5);
+
+        ->groupBy('p.id', 'p.name');
+
         return response()->json(['purchase'=>$stocks]);
     }
     public function stock_join()
