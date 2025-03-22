@@ -14,7 +14,16 @@ class StockController extends Controller
      */
     public function index()
     {
-        $stocks=Stock::all();
+        $stocks = DB::table('stock as s')
+        ->select('p.id', 'p.name', DB::raw('SUM(s.quantity) as quantity'))
+        ->join('products as p', 'p.id', '=', 's.product_id')
+        ->groupBy('p.id', 'p.name')
+        ->paginate(5);
+        return response()->json(['purchase'=>$stocks]);
+    }
+    public function stock_join()
+    {
+        $stocks=Stock::with("product")->get();
         return response()->json(['purchase'=>$stocks]);
     }
 
@@ -79,8 +88,8 @@ class StockController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+    // public function stock()
+    // {
+    //    $stock=
+    // }
 }

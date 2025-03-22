@@ -38,7 +38,7 @@ class SupplierController extends Controller
         try {
             $supplier = Supplier::create([
                 'name' => $request->name,
-                'contact_persone' => $request->contact_persone,
+                'contact_person' => $request->contact_person,
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'address' => $request->address
@@ -59,6 +59,8 @@ class SupplierController extends Controller
     {
         $suppliers=Supplier::find($id);
         return response()->json(['suppliers' =>   $suppliers]);
+
+
     }
 
     /**
@@ -66,7 +68,8 @@ class SupplierController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $suppliers=Supplier::find($id);
+        return response()->json(['message' => 'suppliers updated successfully']);
     }
 
     /**
@@ -74,7 +77,28 @@ class SupplierController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            "name" => 'required|min:3',
+            "contact_person" => 'required|min:3',
+            "phone" => 'required',
+            "email" => 'required|email|min:3',
+            "address" => 'required|min:3',
+        ]);
+
+        // Create a new supplier instance
+        $supplier = Supplier::find($id);
+        $supplier->name = $request->name;
+        $supplier->contact_person = $request->name;
+        $supplier->phone = $request->phone;
+        $supplier->email = $request->email;
+        $supplier->address = $request->address;
+
+        // Save the supplier to the database
+        if ($supplier->save()) {
+            return response()->json(['message' => 'supplier Update Successfully Done!', 'status'=> 201]);
+        } else {
+            return back()->with('error', "There was an issue with supplier Update.");
+        }
     }
 
     /**

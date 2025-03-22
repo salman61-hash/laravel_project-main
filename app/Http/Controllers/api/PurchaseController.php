@@ -16,7 +16,7 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchase=Purchase::all();
+        $purchase=Purchase::with(['payment_status', 'supplier'])->get();
         return response()->json(['purchase'=>$purchase]);
     }
 

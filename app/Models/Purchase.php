@@ -32,7 +32,7 @@ class Purchase extends Model
     // Define the relationship to payment_status
     public function payment_status()
     {
-        return $this->belongsTo(PaymentStatus::class);
+        return $this->belongsTo(PaymentStatus::class,'payment_status_id');
     }
     public function cupon()
     {

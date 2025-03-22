@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function find_product()
     {
         $product = Product::get();
-		return response()->json(['product'=> $product]);
+        return response()->json(['product' => $product]);
     }
 
     /**
@@ -80,54 +80,51 @@ class ProductController extends Controller
 
 
 
-       $purchase = new Purchase();
-       $purchase->supplier_id=$request->supplier['id'];
-       $purchase->purchase_date=now();
-       $purchase->total_amount=$request->total;
-       $purchase->payment_status_id=1;
-       date_default_timezone_set("Asia/Dhaka");
-		$purchase->created_at=date('Y-m-d H:i:s');
-        date_default_timezone_set("Asia/Dhaka");
-		$purchase->updated_at=date('Y-m-d H:i:s');
-		$purchase->save();
-        $lastInsertedId = $purchase->id;
-
-        $productsdata=$request->items;
-
-
-
-        foreach ($productsdata as $key => $value) {
-            // print_r($value['item_id']);
-            $purchase_details= new PurchasesDetails();
-            $purchase_details->purchase_id=$lastInsertedId;
-            $purchase_details->product_id= $value['product_id'];
-            $purchase_details->quantity= $value['quantity'];
-            $purchase_details->price= $value['unit_price'];
-            $purchase_details->discount= $value['discount'];
-            $purchase_details->vat= null;
+            $purchase = new Purchase();
+            $purchase->supplier_id = $request->supplier['id'];
+            $purchase->purchase_date = now();
+            $purchase->total_amount = $request->total;
+            $purchase->payment_status_id = 1;
             date_default_timezone_set("Asia/Dhaka");
-            $purchase_details->created_at=date('Y-m-d H:i:s');
-             date_default_timezone_set("Asia/Dhaka");
-            $purchase_details->updated_at=date('Y-m-d H:i:s');
+            $purchase->created_at = date('Y-m-d H:i:s');
+            date_default_timezone_set("Asia/Dhaka");
+            $purchase->updated_at = date('Y-m-d H:i:s');
+            $purchase->save();
+            $lastInsertedId = $purchase->id;
 
-            $purchase_details->save();
-
-
-            $stock= new Stock();
-            $stock->product_id=$value['product_id'];
-            $stock->quantity=$value['quantity'] * (+1);
-            $stock->remarks="Purchase";
-            // $stock ->payment_status_id=$request->payment_status;
-
-            $stock->save();
+            $productsdata = $request->items;
 
 
+
+            foreach ($productsdata as $key => $value) {
+                // print_r($value['item_id']);
+                $purchase_details = new PurchasesDetails();
+                $purchase_details->purchase_id = $lastInsertedId;
+                $purchase_details->product_id = $value['product_id'];
+                $purchase_details->quantity = $value['quantity'];
+                $purchase_details->price = $value['unit_price'];
+                $purchase_details->discount = $value['discount'];
+                $purchase_details->vat = null;
+                date_default_timezone_set("Asia/Dhaka");
+                $purchase_details->created_at = date('Y-m-d H:i:s');
+                date_default_timezone_set("Asia/Dhaka");
+                $purchase_details->updated_at = date('Y-m-d H:i:s');
+
+                $purchase_details->save();
+
+
+                $stock = new Stock();
+                $stock->product_id = $value['product_id'];
+                $stock->quantity = $value['quantity'] * (+1);
+                $stock->remarks = "Purchase";
+                // $stock ->payment_status_id=$request->payment_status;
+
+                $stock->save();
+            }
+
+            return response()->json(['success' => "Purchase confirmed successfully"]);
+        } catch (\Throwable $th) {
+            return response()->json(['err' => $th->getMessage()]);
         }
-
-        return response()->json(['success'=>"Purchase confirmed successfully"]);
-
-    } catch (\Throwable $th) {
-        return response()->json(['err'=> $th->getMessage()]);
     }
-}
 }

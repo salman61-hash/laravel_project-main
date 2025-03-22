@@ -32,15 +32,24 @@ Route::delete('customers/delete/{id}', [CustomerController::class, 'destroy']);
 
 
 
+Route::get('stock',[StockController::class,'stock_join']);
+
+
+
 
 
 
 Route::get('find_supplier',[SupplierController::class,'find_supplier']);
+
+Route::get('find_customer',[SalesController::class,'find_customer']);
 
 
 Route::get('find_product',[ProductController::class,'find_product']);
 
 
 Route::post('purchase/react_store',[ProductController::class,'react_store']);
+
+
+Route::post('sales/react_store',[SalesController::class,'react_store']);
 
 
