@@ -33,7 +33,7 @@ Route::delete('customers/delete/{id}', [CustomerController::class, 'destroy']);
 
 
 Route::get('stock',[StockController::class,'stock_join']);
-
+Route::get('stock_report',[StockController::class,'index']);
 
 
 

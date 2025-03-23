@@ -15,12 +15,13 @@ class StockController extends Controller
     public function index()
     {
         $stocks = DB::table('stock as s')
-        ->select('p.id', 'p.name', DB::raw('SUM(s.quantity) as quantity'))
-
-        ->groupBy('p.id', 'p.name');
-
-        return response()->json(['purchase'=>$stocks]);
+            ->select('p.id', 'p.name', DB::raw('SUM(s.quantity) as quantity'))
+            ->join('products as p', 'p.id', '=', 's.product_id')
+            ->groupBy('p.id', 'p.name')
+            ->get();
+        return response()->json(['stocks'=>$stocks]);
     }
+
     public function stock_join()
     {
         $stocks=Stock::with("product")->get();

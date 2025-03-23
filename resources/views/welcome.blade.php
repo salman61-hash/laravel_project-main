@@ -17,15 +17,15 @@
 </div>
 <!-- end page title -->
 @php
-    $totalsales=DB::select('SELECT sum(total_amount) totalsales FROM laravel.sales');
-    $totalpurchases=DB::select('SELECT sum(total_amount) totalpurchases FROM laravel.purchases');
-    $totalexpenses=DB::select('SELECT sum(amount) totalexpenses FROM laravel.expenses');
+    $totalsales=DB::select('SELECT sum(total_amount) totalsales FROM sales');
+    $totalpurchases=DB::select('SELECT sum(total_amount) totalpurchases FROM purchases');
+    $totalexpenses=DB::select('SELECT sum(amount) totalexpenses FROM expenses');
     $netprofit = DB::select('
     SELECT
         (
-            (SELECT SUM(total_amount) FROM laravel.sales) -
-            (SELECT SUM(total_amount) FROM laravel.purchases) -
-            (SELECT SUM(amount) FROM laravel.expenses)
+            (SELECT SUM(total_amount) FROM sales) -
+            (SELECT SUM(total_amount) FROM purchases) -
+            (SELECT SUM(amount) FROM expenses)
         ) AS netprofit
 ');
 
