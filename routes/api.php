@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\SalesReturnController;
 use App\Http\Controllers\api\StockController;
 use App\Http\Controllers\api\SupplierController;
 use App\Http\Controllers\api\vue\CustomerController as VueCustomerController;
+use App\Http\Controllers\api\vue\SupplierController as VueSupplierController;
+use App\Http\Controllers\api\vue\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -57,5 +59,7 @@ Route::post('sales/react_store',[SalesController::class,'react_store']);
 
 // For Vue
 Route::resource('customers', VueCustomerController::class);
+Route::resource('users', UserController::class);
+Route::resource('suppliers', VueSupplierController::class);
 
 

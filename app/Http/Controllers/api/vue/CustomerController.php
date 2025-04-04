@@ -8,9 +8,7 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
 
@@ -28,37 +26,66 @@ class CustomerController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
-        //
+        try {
+            $customer = new Customer();
+            $customer->name = $request->name;
+            $customer->phone = $request->phone;
+            $customer->email = $request->email;
+            $customer->address = $request->address;
+            $customer->save();
+
+            return response()->json(["res" => $customer]);
+        } catch (\Throwable $th) {
+            return response()->json(["err" => $th->getMessage()]);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
-        //
+        try {
+            $customer = Customer::find($id);
+
+            if (!$customer) {
+                return response()->json(["message" => "No Data found"]);
+            }
+
+            return response()->json(["customer" => $customer]);
+        } catch (\Throwable $th) {
+            return response()->json(["error" => $th->getMessage()]);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            $customer = Customer::find($request->id);
+
+            if (!$customer) {
+                return response()->json(["message" => "Customer not found"]);
+            }
+
+            $customer->name = $request->name;
+            $customer->phone = $request->phone;
+            $customer->email = $request->email;
+            $customer->address = $request->address;
+            $customer->save();
+
+            return response()->json(["res" => $customer]);
+        } catch (\Throwable $th) {
+            return response()->json(["err" => $th->getMessage()]);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         try {
-            $customers=  Customer::destroy($id);      
+            $customers=  Customer::destroy($id);
             return response()->json(["customers"=> $customers]);
         } catch (\Throwable $th) {
             return response()->json(["customers"=>$th]);
