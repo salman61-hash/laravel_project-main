@@ -26,6 +26,7 @@ class SupplierController extends Controller
         try {
             $supplier = new Supplier();
             $supplier->name = $request->name;
+            $supplier->contact_person = $request->contact_person;
             $supplier->phone = $request->phone;
             $supplier->email = $request->email;
             $supplier->address = $request->address;
@@ -59,6 +60,7 @@ class SupplierController extends Controller
             }
 
             $supplier->name = $request->name;
+            $supplier->contact_person = $request->contact_person;
             $supplier->phone = $request->phone;
             $supplier->email = $request->email;
             $supplier->address = $request->address;
