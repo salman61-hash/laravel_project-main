@@ -8,26 +8,19 @@ use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         try {
             $suppliers = Supplier::all();
-            if (!$suppliers) {
-                $suppliers ="Data Not Found";
+            if ($suppliers->isEmpty()) {
+                return response()->json(["message" => "No suppliers found"]);
             }
-            return response()->json(["suppliers"=> Supplier::all()]);
+            return response()->json(["suppliers" => $suppliers]);
         } catch (\Throwable $th) {
-
-            return response()->json(["error"=> $th->getMessage()]);
+            return response()->json(["error" => $th->getMessage()]);
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         try {
@@ -44,55 +37,51 @@ class SupplierController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         try {
-            $suppliers = Supplier::find();
-            if(!$suppliers){
+            $supplier = Supplier::find($id);
+            if (!$supplier) {
                 return response()->json(["message" => "No Data found"]);
             }
-            return response()->json(["suppliers" => $suppliers]);
+            return response()->json(["supplier" => $supplier]);
         } catch (\Throwable $th) {
             return response()->json(["error" => $th->getMessage()]);
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         try {
-                $supplier = Supplier::find($request->id);
-                if (!$supplier) {
-                    return response()->json(["message" => "suppliers not found"]);
-                }
+            $supplier = Supplier::find($id);
+            if (!$supplier) {
+                return response()->json(["message" => "Supplier not found"]);
+            }
 
-                $supplier->name = $request->name;
-                $supplier->phone = $request->phone;
-                $supplier->email = $request->email;
-                $supplier->address = $request->address;
-                $supplier->save();
+            $supplier->name = $request->name;
+            $supplier->phone = $request->phone;
+            $supplier->email = $request->email;
+            $supplier->address = $request->address;
+            $supplier->save();
 
-                return response()->json(["res" => $supplier]);
+            return response()->json(["res" => $supplier]);
         } catch (\Throwable $th) {
             return response()->json(["err" => $th->getMessage()]);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         try {
-            $suppliers=  Supplier::destroy($id);
-            return response()->json(["suppliers"=> $suppliers]);
+            $supplier = Supplier::find($id);
+            if (!$supplier) {
+                return response()->json(["message" => "Supplier not found"]);
+            }
+
+            $supplier->delete();
+            return response()->json(["message" => "Supplier deleted successfully"]);
         } catch (\Throwable $th) {
-            return response()->json(["suppliers"=>$th]);
+            return response()->json(["error" => $th->getMessage()]);
         }
     }
 }

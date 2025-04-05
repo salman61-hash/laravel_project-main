@@ -58,8 +58,8 @@ Route::post('sales/react_store',[SalesController::class,'react_store']);
 
 
 // For Vue
-Route::resource('customers', VueCustomerController::class);
-Route::resource('users', UserController::class);
-Route::resource('suppliers', VueSupplierController::class);
+Route::apiResource('customers', VueCustomerController::class);
+Route::apiResource('users', UserController::class);
+Route::apiResource('suppliers', VueSupplierController::class);
 
 
