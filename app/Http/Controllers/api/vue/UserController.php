@@ -11,18 +11,17 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        try {
-            $users = User::all();
-            if (!$users) {
-                $users ="Data Not Found";
-            }
-            return response()->json(["user"=> User::all()]);
-        } catch (\Throwable $th) {
+        $query = User::query();
 
-            return response()->json(["error"=> $th->getMessage()]);
+        if ($request->search) {
+            $query->where('name', 'like', "%{$request->search}%");
         }
+
+        $users = $query->paginate(5); // Paginate 5 users per page
+
+        return response()->json($users);
     }
 
     /**
