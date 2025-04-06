@@ -3,94 +3,92 @@
 namespace App\Http\Controllers\api\vue;
 
 use App\Http\Controllers\Controller;
-use App\Models\Categories;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
-class SelfController extends Controller
+class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
+
+
         try {
-            $selfs = Categories::all();
-            if ($selfs->isEmpty()) {
-                return response()->json(["message" => "No suppliers found"]);
+            $customers = Customer::all();
+            if (!$customers) {
+                $customers ="Data Not Found";
             }
-            return response()->json(["selfs" => $selfs]);
+            return response()->json(["customer"=> Customer::all()]);
         } catch (\Throwable $th) {
-            return response()->json(["error" => $th->getMessage()]);
+
+            return response()->json(["error"=> $th->getMessage()]);
         }
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         try {
-            $self = new Categories();
+            $customer = new Customer();
+            $customer->name = $request->name;
+            $customer->phone = $request->phone;
+            $customer->email = $request->email;
+            $customer->address = $request->address;
+            $customer->save();
 
-            $self->name = $request->name;
-            $self->save();
-
-            return response()->json(["selfs" => $self]); // changed to "selfs" for consistency
+            return response()->json(["res" => $customer]);
         } catch (\Throwable $th) {
             return response()->json(["err" => $th->getMessage()]);
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
         try {
-            $self = Categories::find($id);
-            if (!$self) {
+            $customer = Customer::find($id);
+
+            if (!$customer) {
                 return response()->json(["message" => "No Data found"]);
             }
-            return response()->json(["selfs" => $self]); // changed to "selfs" to match frontend
+
+            return response()->json(["customer" => $customer]);
         } catch (\Throwable $th) {
             return response()->json(["error" => $th->getMessage()]);
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
         try {
-            $self = Categories::find($id);
-            if (!$self) {
-                return response()->json(["message" => "Supplier not found"]);
+            $customer = Customer::find($request->id);
+
+            if (!$customer) {
+                return response()->json(["message" => "Customer not found"]);
             }
 
-            $self->name = $request->name;
-            $self->save();
+            $customer->name = $request->name;
+            $customer->phone = $request->phone;
+            $customer->email = $request->email;
+            $customer->address = $request->address;
+            $customer->save();
 
-            return response()->json(["selfs" => $self]); // changed to "selfs"
+            return response()->json(["res" => $customer]);
         } catch (\Throwable $th) {
             return response()->json(["err" => $th->getMessage()]);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         try {
-            $selfs = Categories::find($id);
-            if (!$selfs) {
-                return response()->json(["message" => "selfs not found"]);
-            }
-            $selfs->delete();
-            return response()->json(["message" => "selfs deleted successfully"]);
+            $customers=  Customer::destroy($id);
+            return response()->json(["customers"=> $customers]);
         } catch (\Throwable $th) {
-            return response()->json(["error" => $th->getMessage()]);
+            return response()->json(["customers"=>$th]);
         }
     }
 }

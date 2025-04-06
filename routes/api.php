@@ -59,9 +59,16 @@ Route::post('sales/react_store',[SalesController::class,'react_store']);
 
 
 // For Vue
-Route::apiResource('customers', VueCustomerController::class);
+Route::apiResource('customers',VueCustomerController::class);
 Route::apiResource('users', UserController::class);
 Route::apiResource('suppliers', VueSupplierController::class);
 Route::apiResource('self', SelfController::class);
+
+// Route::prefix('vue')->group(function () {
+//     Route::apiResource('customers', VueCustomerController::class);
+//     Route::apiResource('users', UserController::class);
+//     Route::apiResource('suppliers', VueSupplierController::class);
+//     Route::apiResource('self', SelfController::class);
+// });
 
 
