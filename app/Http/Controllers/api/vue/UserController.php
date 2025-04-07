@@ -29,7 +29,32 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $user = new User();
+            $user->name=$request->name;
+            if(isset($request->photo)){
+                $user->photo=$request->photo;
+            }
+            $user->email=$request->email;
+            $user->role_id=$request->role_id;
+
+            date_default_timezone_set("Asia/Dhaka");
+            $user->created_at=date('Y-m-d H:i:s');
+            $user->updated_at=date('Y-m-d H:i:s');
+
+
+
+            $user->save();
+            if(isset($request->photo)){
+                $imageName=$user->id.'.'.$request->photo->extension();
+                $user->photo=$imageName;
+                $user->update();
+                $request->photo->move(public_path('uploads/users'),$imageName);
+            }
+            return response()->json(["roles"=>  $user ]);
+        } catch (\Throwable $th) {
+           return response()->json(["error"=> $th->getMessage()]);
+        }
     }
 
     /**
