@@ -12,6 +12,7 @@ use App\Http\Controllers\api\vue\CouponController;
 use App\Http\Controllers\api\vue\CustomerController as VueCustomerController;
 use App\Http\Controllers\api\vue\RoleController;
 use App\Http\Controllers\api\vue\SelfController;
+use App\Http\Controllers\api\vue\StatusController;
 use App\Http\Controllers\api\vue\SupplierController as VueSupplierController;
 use App\Http\Controllers\api\vue\UserController;
 use Illuminate\Http\Request;
@@ -67,6 +68,7 @@ Route::apiResource('suppliers', VueSupplierController::class);
 Route::apiResource('self', SelfController::class);
 Route::apiResource('roles', RoleController::class);
 Route::apiResource('coupons', CouponController::class);
+Route::apiResource('status', StatusController::class);
 
 // Route::prefix('vue')->group(function () {
 //     Route::apiResource('customers', VueCustomerController::class);

@@ -8,17 +8,17 @@ use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        try {
-            $suppliers = Supplier::all();
-            if ($suppliers->isEmpty()) {
-                return response()->json(["message" => "No suppliers found"]);
-            }
-            return response()->json(["suppliers" => $suppliers]);
-        } catch (\Throwable $th) {
-            return response()->json(["error" => $th->getMessage()]);
+        $query = Supplier::query();
+
+        if ($request->search) {
+            $query->where('name', 'like', "%{$request->search}%");
         }
+
+        $suppliers = $query->paginate(2); // Paginate 5 users per page
+
+        return response()->json($suppliers);
     }
 
     public function store(Request $request)

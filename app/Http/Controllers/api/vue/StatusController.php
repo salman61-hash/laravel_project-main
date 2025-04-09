@@ -3,25 +3,25 @@
 namespace App\Http\Controllers\api\vue;
 
 use App\Http\Controllers\Controller;
-use App\Models\Categories;
+use App\Models\PaymentStatus;
 use Illuminate\Http\Request;
 
-class SelfController extends Controller
+class StatusController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $query = Categories::query();
+        $query = PaymentStatus::query();
 
         if ($request->search) {
             $query->where('name', 'like', "%{$request->search}%");
         }
 
-        $categories = $query->paginate(2); // Paginate 5 users per page
+        $status = $query->paginate(2); // Paginate 5 users per page
 
-        return response()->json($categories);
+        return response()->json($status);
     }
 
     /**
@@ -30,12 +30,12 @@ class SelfController extends Controller
     public function store(Request $request)
     {
         try {
-            $self = new Categories();
+            $status = new PaymentStatus();
 
-            $self->name = $request->name;
-            $self->save();
+            $status->name = $request->name;
+            $status->save();
 
-            return response()->json(["self" => $self]);
+            return response()->json(["status" => $status]);
         } catch (\Throwable $th) {
             return response()->json(["err" => $th->getMessage()]);
         }
@@ -47,11 +47,11 @@ class SelfController extends Controller
     public function show(string $id)
     {
         try {
-            $self = Categories::find($id);
-            if (!$self) {
+            $status = PaymentStatus::find($id);
+            if (!$status) {
                 return response()->json(["message" => "No Data found"]);
             }
-            return response()->json(["self" => $self]);
+            return response()->json(["status" => $status]);
         } catch (\Throwable $th) {
             return response()->json(["error" => $th->getMessage()]);
         }
@@ -63,16 +63,16 @@ class SelfController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-            $self = Categories::find($id);
-            if (!$self) {
-                return response()->json(["message" => "Supplier not found"]);
+            $status = PaymentStatus::find($id);
+            if (!$status) {
+                return response()->json(["message" => "Status not found"]);
             }
 
-            $self->name = $request->name;
+            $status->name = $request->name;
 
-            $self->save();
+            $status->save();
 
-            return response()->json(["res" => $self]);
+            return response()->json(["res" => $status]);
         } catch (\Throwable $th) {
             return response()->json(["err" => $th->getMessage()]);
         }
@@ -84,12 +84,12 @@ class SelfController extends Controller
     public function destroy(string $id)
     {
         try {
-            $selfs = Categories::find($id);
-            if (!$selfs) {
-                return response()->json(["message" => "selfs not found"]);
+            $status = PaymentStatus::find($id);
+            if (!$status) {
+                return response()->json(["message" => "status not found"]);
             }
-            $selfs->delete();
-            return response()->json(["message" => "selfs deleted successfully"]);
+            $status->delete();
+            return response()->json(["message" => "status deleted successfully"]);
         } catch (\Throwable $th) {
             return response()->json(["error" => $th->getMessage()]);
         }

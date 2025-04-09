@@ -9,20 +9,19 @@ use Illuminate\Http\Request;
 class CustomerController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
 
 
-        try {
-            $customers = Customer::all();
-            if (!$customers) {
-                $customers ="Data Not Found";
-            }
-            return response()->json(["customer"=> Customer::all()]);
-        } catch (\Throwable $th) {
+        $query = Customer::query();
 
-            return response()->json(["error"=> $th->getMessage()]);
+        if ($request->search) {
+            $query->where('name', 'like', "%{$request->search}%");
         }
+
+        $customers = $query->paginate(2); // Paginate 5 users per page
+
+        return response()->json($customers);
 
     }
 

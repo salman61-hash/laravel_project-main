@@ -12,17 +12,17 @@ class UserController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
-        $query = User::query();
+{
+    $query = User::query();
 
-        if ($request->search) {
-            $query->where('name', 'like', "%{$request->search}%");
-        }
-
-        $users = $query->paginate(5); // Paginate 5 users per page
-
-        return response()->json($users);
+    if ($request->search) {
+        $query->where('name', 'like', '%' . $request->search . '%');
     }
+
+    $users = $query->paginate(5)->appends(['search' => $request->search]);
+
+    return response()->json($users);
+}
 
     /**
      * Store a newly created resource in storage.
