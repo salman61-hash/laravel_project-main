@@ -18,17 +18,13 @@ class CustomerController extends Controller
         return view('pages.customer.index',compact('Customers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
        return view('pages.customer.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+   
     public function store(Request $request)
 {
     // Validate the incoming request

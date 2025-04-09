@@ -31,29 +31,29 @@ class UserController extends Controller
     {
         try {
             $user = new User();
-            $user->name=$request->name;
-            if(isset($request->photo)){
-                $user->photo=$request->photo;
+            $user->name = $request->name;
+            if (isset($request->photo)) {
+                $user->photo = $request->photo;
             }
-            $user->email=$request->email;
-            $user->role_id=$request->role_id;
+            $user->email = $request->email;
+            $user->role_id = $request->role_id;
 
             date_default_timezone_set("Asia/Dhaka");
-            $user->created_at=date('Y-m-d H:i:s');
-            $user->updated_at=date('Y-m-d H:i:s');
+            $user->created_at = date('Y-m-d H:i:s');
+            $user->updated_at = date('Y-m-d H:i:s');
 
 
 
             $user->save();
-            if(isset($request->photo)){
-                $imageName=$user->id.'.'.$request->photo->extension();
-                $user->photo=$imageName;
+            if (isset($request->photo)) {
+                $imageName = $user->id . '.' . $request->photo->extension();
+                $user->photo = $imageName;
                 $user->update();
-                $request->photo->move(public_path('uploads/users'),$imageName);
+                $request->photo->move(public_path('uploads/users'), $imageName);
             }
-            return response()->json(["roles"=>  $user ]);
+            return response()->json(["roles" =>  $user]);
         } catch (\Throwable $th) {
-           return response()->json(["error"=> $th->getMessage()]);
+            return response()->json(["error" => $th->getMessage()]);
         }
     }
 
@@ -62,16 +62,49 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $user = User::findOrFail($id);
+            return response()->json($user);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
     }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            $user = User::findOrFail($id);
+
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->role_id = $request->role_id;
+
+            date_default_timezone_set("Asia/Dhaka");
+            $user->updated_at = date('Y-m-d H:i:s');
+
+            if (isset($request->photo)) {
+                // Remove old photo if needed (optional)
+                if ($user->photo && file_exists(public_path('uploads/users/' . $user->photo))) {
+                    unlink(public_path('uploads/users/' . $user->photo));
+                }
+
+                $imageName = $user->id . '.' . $request->photo->extension();
+                $user->photo = $imageName;
+                $request->photo->move(public_path('uploads/users'), $imageName);
+            }
+
+            $user->update();
+
+            return response()->json(["user" => $user]);
+        } catch (\Throwable $th) {
+            return response()->json(["error" => $th->getMessage()]);
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -79,10 +112,10 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         try {
-            $users=  User::destroy($id);
-            return response()->json(["users"=> $users]);
+            $users =  User::destroy($id);
+            return response()->json(["users" => $users]);
         } catch (\Throwable $th) {
-            return response()->json(["users"=>$th]);
+            return response()->json(["users" => $th]);
         }
     }
 }

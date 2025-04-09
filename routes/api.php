@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\SalesController;
 use App\Http\Controllers\Api\SalesReturnController;
 use App\Http\Controllers\api\StockController;
 use App\Http\Controllers\api\SupplierController;
+use App\Http\Controllers\api\vue\CouponController;
 use App\Http\Controllers\api\vue\CustomerController as VueCustomerController;
 use App\Http\Controllers\api\vue\RoleController;
 use App\Http\Controllers\api\vue\SelfController;
@@ -65,6 +66,7 @@ Route::apiResource('users', UserController::class);
 Route::apiResource('suppliers', VueSupplierController::class);
 Route::apiResource('self', SelfController::class);
 Route::apiResource('roles', RoleController::class);
+Route::apiResource('coupons', CouponController::class);
 
 // Route::prefix('vue')->group(function () {
 //     Route::apiResource('customers', VueCustomerController::class);
