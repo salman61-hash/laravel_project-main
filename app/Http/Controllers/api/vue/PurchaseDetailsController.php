@@ -53,6 +53,11 @@ class PurchaseDetailsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $PurchasesDetails =  PurchasesDetails::destroy($id);
+            return response()->json(["PurchasesDetails" => $PurchasesDetails]);
+        } catch (\Throwable $th) {
+            return response()->json(["PurchasesDetails" => $th]);
+        }
     }
 }

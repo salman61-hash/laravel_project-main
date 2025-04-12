@@ -13,15 +13,16 @@ use App\Http\Controllers\api\vue\CouponController;
 use App\Http\Controllers\api\vue\CustomerController as VueCustomerController;
 use App\Http\Controllers\api\vue\ProductController as VueProductController;
 use App\Http\Controllers\api\vue\PurchaseController as VuePurchaseController;
+use App\Http\Controllers\api\vue\PurchaseDetailsController;
 use App\Http\Controllers\api\vue\RoleController;
 use App\Http\Controllers\api\vue\SaleController;
 use App\Http\Controllers\api\vue\SelfController;
 use App\Http\Controllers\api\vue\StatusController;
 use App\Http\Controllers\api\vue\SupplierController as VueSupplierController;
 use App\Http\Controllers\api\vue\UserController;
-use App\Http\Controllers\PurchasesdetailsController;
+
 use App\Http\Controllers\SaledetailsController;
-use App\Models\PurchasesDetails;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -80,7 +81,7 @@ Route::apiResource('products', VueProductController::class);
 Route::apiResource('categories', CategoryController::class);
 Route::get('allcategories',[ CategoryController::class, 'getAllCategories']);
 Route::apiResource('purchase', VuePurchaseController::class);
-Route::apiResource('purchase_details', PurchasesdetailsController::class);
+Route::apiResource('purchase_details', PurchaseDetailsController::class);
 Route::apiResource('sales', SaleController::class);
 Route::apiResource('sales_details', SaledetailsController::class);
 
