@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\SalesController;
 use App\Http\Controllers\Api\SalesReturnController;
 use App\Http\Controllers\api\StockController;
 use App\Http\Controllers\api\SupplierController;
+use App\Http\Controllers\api\vue\AuthController;
 use App\Http\Controllers\api\vue\CategoryController;
 use App\Http\Controllers\api\vue\CouponController;
 use App\Http\Controllers\api\vue\CustomerController as VueCustomerController;
@@ -69,6 +70,12 @@ Route::post('sales/react_store',[SalesController::class,'react_store']);
 
 
 
+
+
+
+
+
+
 // For Vue
 Route::apiResource('customers',VueCustomerController::class);
 Route::apiResource('users', UserController::class);
@@ -93,3 +100,7 @@ Route::apiResource('sales_details', SaledetailsController::class);
 // });
 
 
+Route::post('register',[AuthController::class,'register']);
+Route::post('login', [AuthController::class,'login']);
+Route::post('refresh', [AuthController::class,'refresh']);
+Route::post('logout', [AuthController::class,'logout']);
