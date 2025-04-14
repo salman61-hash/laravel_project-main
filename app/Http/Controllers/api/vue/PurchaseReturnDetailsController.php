@@ -3,29 +3,28 @@
 namespace App\Http\Controllers\api\vue;
 
 use App\Http\Controllers\Controller;
-use App\Models\SaleDetail;
+use App\Models\Purchasereturndetail;
 use Illuminate\Http\Request;
 
-class SaleDetailsController extends Controller
+class PurchaseReturnDetailsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
-{
-    $query = SaleDetail::with(['product','cupon']);
+    {
+        $query = Purchasereturndetail::with('product');
 
-    if ($request->search) {
-        $query->whereHas('product', function ($q) use ($request) {
-            $q->where('name', 'like', '%' . $request->search . '%');
-        });
+        if ($request->search) {
+            $query->where('name', 'like', "%{$request->search}%");
+
+
+        }
+
+        $purchase_return_details = $query->paginate(2)->appends(['search' => $request->search]);
+
+        return response()->json($purchase_return_details);
     }
-
-    $sales_details = $query->paginate(2)->appends(['search' => $request->search]);
-
-    return response()->json($sales_details);
-}
-
 
     /**
      * Store a newly created resource in storage.

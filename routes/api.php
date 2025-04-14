@@ -15,6 +15,8 @@ use App\Http\Controllers\api\vue\CustomerController as VueCustomerController;
 use App\Http\Controllers\api\vue\ProductController as VueProductController;
 use App\Http\Controllers\api\vue\PurchaseController as VuePurchaseController;
 use App\Http\Controllers\api\vue\PurchaseDetailsController;
+use App\Http\Controllers\api\vue\PurchaseReturnController as VuePurchaseReturnController;
+use App\Http\Controllers\api\vue\PurchaseReturnDetailsController;
 use App\Http\Controllers\api\vue\RoleController;
 use App\Http\Controllers\api\vue\SaleController;
 use App\Http\Controllers\api\vue\SelfController;
@@ -89,6 +91,8 @@ Route::apiResource('categories', CategoryController::class);
 Route::get('allcategories',[ CategoryController::class, 'getAllCategories']);
 Route::apiResource('purchase', VuePurchaseController::class);
 Route::apiResource('purchase_details', PurchaseDetailsController::class);
+Route::apiResource('purchase_return', VuePurchaseReturnController::class);
+Route::apiResource('purchaseDetails_return', PurchaseReturnDetailsController::class);
 Route::apiResource('sales', SaleController::class);
 Route::apiResource('sales_details', SaledetailsController::class);
 

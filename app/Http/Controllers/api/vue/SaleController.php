@@ -13,16 +13,23 @@ class SaleController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Sale::with(['customer','payment_status']);
+        $query = Sale::with(['customer', 'payment_status']);
 
         if ($request->search) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $search = $request->search;
+
+            $query->whereHas('customer', function($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            })
+            ->orWhere('total_amount', 'like', '%' . $search . '%')
+            ->orWhere('sale_date', 'like', '%' . $search . '%');
         }
 
-        $sales = $query->paginate(5)->appends(['search' => $request->search]);
+        $sales = $query->orderBy('id', 'desc')->paginate(5)->appends(['search' => $request->search]);
 
         return response()->json($sales);
     }
+
 
     /**
      * Store a newly created resource in storage.

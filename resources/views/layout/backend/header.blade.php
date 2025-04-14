@@ -340,13 +340,13 @@
             <li class="dropdown">
                 <a class="nav-link dropdown-toggle arrow-none nav-user" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="false" aria-expanded="false">
-                    <span class="account-user-avatar">
+                    {{-- <span class="account-user-avatar">
                         <img src="{{asset('assets')}}/images/users/{{Auth::user()->photo}}" alt="user-image" width="32" class="rounded-circle">
-                    </span>
-                    <span class="d-lg-block d-none">
+                    </span> --}}
+                    {{-- <span class="d-lg-block d-none">
                         <h5 class="my-0 fw-normal">{{Auth::user()->name}} <i
                                 class="ri-arrow-down-s-line d-none d-sm-inline-block align-middle"></i></h5>
-                    </span><br>
+                    </span><br> --}}
                     {{-- <span class="d-lg-block d-none">
                         <h6 class="my-0 fw-normal">{{Auth::user()->role->name}} <i
                                 class="ri-arrow-down-s-line d-none d-sm-inline-block align-middle"></i></h6>
@@ -354,9 +354,9 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
                     <!-- item-->
-                    <div class=" dropdown-header noti-title">
+                    {{-- <div class=" dropdown-header noti-title">
                         <h6 class="text-overflow m-0">{{Auth::user()->role->name}}</h6>
-                    </div>
+                    </div> --}}
                     <div class=" dropdown-header noti-title">
                         <h6 class="text-overflow m-0">Welcome !</h6>
                     </div>

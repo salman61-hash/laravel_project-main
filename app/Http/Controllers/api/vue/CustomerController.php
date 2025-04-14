@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api\vue;
+namespace App\Http\Controllers\Api\vue;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
