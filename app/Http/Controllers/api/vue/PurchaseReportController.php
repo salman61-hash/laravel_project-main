@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\vue;
 
+use App\Http\Controllers\Controller;
 use App\Models\PaymentStatus;
 use App\Models\Purchase;
 use App\Models\Supplier;
@@ -16,8 +17,8 @@ class PurchaseReportController extends Controller
     {
         $suppliers = Supplier::all();
         $payment_statuses = PaymentStatus::all(); // Fetch all payment statuses
-        return view('pages.purchases.report', ['purchases' => [], 'suppliers' => $suppliers, 'payment_statuses' => $payment_statuses]);
-
+        return response()->json( ['suppliers' => $suppliers, 'payment_statuses' => $payment_statuses]);
+        // return view('pages.purchases.report', ['purchases' => [], 'suppliers' => $suppliers, 'payment_statuses' => $payment_statuses]);
     }
 
     /**
@@ -39,7 +40,7 @@ class PurchaseReportController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function purcahseReport(Request $request)
     {
         $startDate = $request->start_date;
         $endDate = $request->end_date;
@@ -64,18 +65,11 @@ class PurchaseReportController extends Controller
         $totalAmount = $query->sum('total_amount'); // Total Amount Calculation
 
         $suppliers = Supplier::all();
-        $payment_statuses = PaymentStatus::all();
+         
 
-        return view('pages.purchases.report', compact(
-            'purchases',
-            'startDate',
-            'endDate',
-            'suppliers',
-            'supplier_id',
-            'payment_statuses',
-            'payment_status_id',
-            'totalAmount'
-        ));
+
+
+        // return view('pages.purchases.report', );
     }
 
 
