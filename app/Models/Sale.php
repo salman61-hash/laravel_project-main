@@ -42,7 +42,7 @@ class Sale extends Model
    {
        return $this->belongsTo(Product::class);
    }
-   public function cupos()
+   public function cupons()
    {
        return $this->belongsTo(Cupon::class);
    }

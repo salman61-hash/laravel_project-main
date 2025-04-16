@@ -3,40 +3,36 @@
 namespace App\Http\Controllers\api\vue;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cupon;
 use App\Models\Customer;
 use App\Models\Product;
-use App\Models\Sale;
 use Illuminate\Http\Request;
 
-class SaleController extends Controller
+class SalesDocumentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        try {
+
+         try {
             $customers= Customer::all();
 
             $products= Product::all();
-            $cupons = Cupon::all();
-            return response()->json(compact('customers','products','cupons'));
+            return response()->json(compact('customers','products'));
          } catch (\Throwable $th) {
             return response()->json(["error"=> $th->getMessage()]);
          }
+
+
     }
-
-
-
 
     /**
      * Store a newly created resource in storage.
      */
-    public function process(Request $request)
+    public function store(Request $request)
     {
-     $allData= $request->all();
-     return response()->json(["allData"=> $allData]);
+        //
     }
 
     /**

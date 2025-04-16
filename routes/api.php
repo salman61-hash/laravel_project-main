@@ -26,6 +26,7 @@ use App\Http\Controllers\api\vue\SupplierController as VueSupplierController;
 use App\Http\Controllers\api\vue\UserController;
 
 use App\Http\Controllers\api\vue\SaleDetailsController;
+use App\Http\Controllers\api\vue\SalesDocumentController;
 use App\Http\Controllers\api\vue\SalesReportController;
 use App\Http\Controllers\api\vue\SalesReturnController as VueSalesReturnController;
 use Illuminate\Http\Request;
@@ -108,6 +109,13 @@ Route::post('purchaseReport',[ PurchaseReportController::class, "purcahseReport"
 
 Route::get('/purchaseReport/data', [SalesReportController::class, 'index']);
 Route::post('/purchaseReport', [SalesReportController::class, 'search']);
+
+
+
+//sales documents
+
+Route::get('sales/data', [SalesDocumentController::class, "index"]);
+Route::post('/sales/processOrder', [SalesDocumentController::class, "process"]);
 
 // Route::prefix('vue')->group(function () {
 //     Route::apiResource('customers', VueCustomerController::class);
