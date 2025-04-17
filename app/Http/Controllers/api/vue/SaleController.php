@@ -11,9 +11,23 @@ use Illuminate\Http\Request;
 
 class SaleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    public function Manage(Request $request)
+    {
+        $query = Sale::with(['customer','payment_status']);
+
+        if ($request->search) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $sales = $query->paginate(2)->appends(['search' => $request->search]);
+
+        return response()->json($sales);
+    }
+
+
+
+
     public function index(Request $request)
     {
         try {
@@ -26,6 +40,13 @@ class SaleController extends Controller
             return response()->json(["error"=> $th->getMessage()]);
          }
     }
+
+
+
+
+
+
+
 
 
 

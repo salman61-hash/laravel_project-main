@@ -36,7 +36,7 @@ class Sale extends Model
    // In Sale model
    public function payment_status()
    {
-       return $this->belongsTo(PaymentStatus::class);
+       return $this->belongsTo(PaymentStatus::class,'payment_status_id');
    }
    public function products()
    {

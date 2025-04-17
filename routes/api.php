@@ -96,7 +96,7 @@ Route::apiResource('purchase', VuePurchaseController::class);
 Route::apiResource('purchase_details', PurchaseDetailsController::class);
 Route::apiResource('purchase_return', VuePurchaseReturnController::class);
 Route::apiResource('purchaseDetails_return', PurchaseReturnDetailsController::class);
-Route::apiResource('sales', SaleController::class);
+// Route::apiResource('sales', SaleController::class);
 
 
 Route::apiResource('sale_details', SaledetailsController::class);
@@ -115,6 +115,8 @@ Route::post('/purchaseReport', [SalesReportController::class, 'search']);
 //sales documents
 
 Route::get('sales/data', [SalesDocumentController::class, "index"]);
+Route::get('sales', [SaleController::class, "index"]);
+Route::get('sales_manage', [SaleController::class, "Manage"]);
 Route::post('/sales/processOrder', [SalesDocumentController::class, "process"]);
 
 // Route::prefix('vue')->group(function () {
