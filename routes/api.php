@@ -12,6 +12,7 @@ use App\Http\Controllers\api\vue\AuthController;
 use App\Http\Controllers\api\vue\CategoryController;
 use App\Http\Controllers\api\vue\CouponController;
 use App\Http\Controllers\api\vue\CustomerController as VueCustomerController;
+use App\Http\Controllers\api\vue\ExpenseController;
 use App\Http\Controllers\api\vue\ProductController as VueProductController;
 use App\Http\Controllers\api\vue\PurchaseController as VuePurchaseController;
 use App\Http\Controllers\api\vue\PurchaseDetailsController;
@@ -96,7 +97,7 @@ Route::apiResource('purchase', VuePurchaseController::class);
 Route::apiResource('purchase_details', PurchaseDetailsController::class);
 Route::apiResource('purchase_return', VuePurchaseReturnController::class);
 Route::apiResource('purchaseDetails_return', PurchaseReturnDetailsController::class);
-// Route::apiResource('sales', SaleController::class);
+Route::apiResource('expense', ExpenseController::class);
 
 
 Route::apiResource('sale_details', SaledetailsController::class);
