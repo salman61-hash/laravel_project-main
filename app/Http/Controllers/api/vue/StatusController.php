@@ -24,6 +24,19 @@ class StatusController extends Controller
         return response()->json($status);
     }
 
+
+    public function status(){
+        try {
+
+            $payment_status = PaymentStatus::all();
+
+
+            return response()->json(compact('payment_status'));
+         } catch (\Throwable $th) {
+            return response()->json(["error"=> $th->getMessage()]);
+         }
+    }
+
     /**
      * Store a newly created resource in storage.
      */

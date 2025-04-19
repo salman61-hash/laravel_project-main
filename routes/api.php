@@ -111,14 +111,15 @@ Route::post('purchaseReport',[ PurchaseReportController::class, "purcahseReport"
 Route::get('/purchaseReport/data', [SalesReportController::class, 'index']);
 Route::post('/purchaseReport', [SalesReportController::class, 'search']);
 
-
+Route::get('/status_dropdown', [SaleController::class, 'status']);
 
 //sales documents
 
 Route::get('sales/data', [SalesDocumentController::class, "index"]);
 Route::get('sales', [SaleController::class, "index"]);
 Route::get('sales_manage', [SaleController::class, "Manage"]);
-Route::post('/sales/processOrder', [SalesDocumentController::class, "process"]);
+Route::post('sales_process', [SaleController::class, "Process"]);
+
 
 // Route::prefix('vue')->group(function () {
 //     Route::apiResource('customers', VueCustomerController::class);
