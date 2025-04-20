@@ -7,6 +7,7 @@ use App\Models\Cupon;
 use App\Models\Customer;
 use App\Models\PaymentStatus;
 use App\Models\Product;
+use App\Models\Profit;
 use App\Models\Sale;
 use App\Models\SaleDetail;
 use App\Models\Stock;
@@ -75,7 +76,7 @@ class SaleController extends Controller
                 $saleDetail->quantity = $value['qty'];
                 $saleDetail->price = $value['price'];
                 $saleDetail->discount = $value['discount'];
-                // $saleDetail->vat = $value['vat'];
+                $saleDetail->vat = $request->vat;
                 $saleDetail->save();
 
                 // If you want to update stock, uncomment below:
@@ -85,6 +86,14 @@ class SaleController extends Controller
                 $stock->quantity = $value['qty'] * (-1);
                 $stock->remarks = "Sales";
                 $stock->save();
+
+
+                $profit = new Profit();
+                $profit ->name = "Sales";
+                $profit ->amount = $value['profit'];
+                $profit -> remarks = "Revenue";
+                $profit->save();
+
 
             }
 

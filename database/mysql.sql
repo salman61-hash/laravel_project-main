@@ -89,6 +89,22 @@ CREATE TABLE purchases (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 
 );
+CREATE TABLE profit (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+     name VARCHAR(150),
+    remarks VARCHAR(150),
+    amount DECIMAL(12,2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
+);
+INSERT INTO profit (name, remarks, amount) VALUES
+('Sales', 'Revenue', 50000.00),
+('Utility bill', 'Expense', 15000.50),
+('Sales', 'Revenue', 7000.00),
+('Service', 'Sales', 12000.75),
+('Salary', 'Expense', 25000.00);
+
 
 -- 7. Purchase Details Table (For Line Items in Purchases)
 CREATE TABLE purchase_details (
