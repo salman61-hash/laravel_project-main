@@ -3,25 +3,25 @@
 namespace App\Http\Controllers\api\vue;
 
 use App\Http\Controllers\Controller;
-use App\Models\Purchase;
+use App\Models\ExpenseType;
 use Illuminate\Http\Request;
 
-class PurchaseController extends Controller
+class Expenses_typeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $query = Purchase::with(['supplier','payment_status']);
+        $query = ExpenseType::query();
 
         if ($request->search) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $query->where('name', 'like', "%{$request->search}%");
         }
 
-        $purchase = $query->paginate(2)->appends(['search' => $request->search]);
+        $expense_type = $query->paginate(5); // Paginate 5 users per page
 
-        return response()->json($purchase);
+        return response()->json($expense_type);
     }
 
     /**
@@ -29,7 +29,18 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $expense_type = new ExpenseType();
+            $expense_type->name = $request->name;
+
+            $expense_type->save();
+
+
+
+            return response()->json(["res" => $expense_type]);
+        } catch (\Throwable $th) {
+            return response()->json(["err" => $th->getMessage()]);
+        }
     }
 
     /**
@@ -53,11 +64,6 @@ class PurchaseController extends Controller
      */
     public function destroy(string $id)
     {
-        try {
-            $purchase =  Purchase::destroy($id);
-            return response()->json(["purchase" => $purchase]);
-        } catch (\Throwable $th) {
-            return response()->json(["purchase" => $th]);
-        }
+        //
     }
 }

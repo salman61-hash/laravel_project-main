@@ -16,4 +16,11 @@ class ExpenseType extends Model
 
     ];
 
+    public function profits()
+    {
+        return $this->hasMany(Profit::class, 'expense_type_id');
+    }
+
+
+
 }

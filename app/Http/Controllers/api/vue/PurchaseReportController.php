@@ -10,34 +10,39 @@ use Illuminate\Http\Request;
 
 class PurchaseReportController extends Controller
 {
-    public function data()
+    public function index()
     {
-        $suppliers = Supplier::all(['id', 'name']);
-        $payment_statuses = PaymentStatus::all(['id', 'name']);
+        $suppliers = Supplier::select('id', 'name')->get();
+        $payment_statuses = PaymentStatus::select('id', 'name')->get();
 
         return response()->json([
             'suppliers' => $suppliers,
-            'payment_statuses' => $payment_statuses
+            'payment_statuses' => $payment_statuses,
         ]);
     }
 
-    public function purcahseReport(Request $request)
+    public function search(Request $request)
     {
-        $startDate = $request->start_date;
-        $endDate = $request->end_date;
-        $supplier_id = $request->supplier_id;
-        $payment_status_id = $request->payment_status_id;
-
         $query = Purchase::query();
 
-        if ($startDate && $endDate) {
-            $query->whereBetween('purchase_date', [$startDate, $endDate]);
+        // Filter by Start Date
+        if ($request->start_date) {
+            $query->whereDate('purchase_date', '>=', $request->start_date);
         }
-        if ($supplier_id) {
-            $query->where('supplier_id', $supplier_id);
+
+        // Filter by End Date
+        if ($request->end_date) {
+            $query->whereDate('purchase_date', '<=', $request->end_date);
         }
-        if ($payment_status_id) {
-            $query->where('payment_status_id', $payment_status_id);
+
+        // Filter by Supplier
+        if ($request->supplier_id) {
+            $query->where('supplier_id', $request->supplier_id);
+        }
+
+        // Filter by Payment Status
+        if ($request->payment_status_id) {
+            $query->where('payment_status_id', $request->payment_status_id);
         }
 
         $purchases = $query->orderBy('purchase_date', 'asc')->get();
@@ -45,11 +50,7 @@ class PurchaseReportController extends Controller
 
         return response()->json([
             'purchases' => $purchases,
-            'startDate' => $startDate,
-            'endDate' => $endDate,
-            'supplier_id' => $supplier_id,
-            'payment_status_id' => $payment_status_id,
-            'totalAmount' => $totalAmount
+            'totalAmount' => $totalAmount,
         ]);
     }
 }

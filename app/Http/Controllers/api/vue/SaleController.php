@@ -23,7 +23,7 @@ class SaleController extends Controller
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        $sales = $query->paginate(2)->appends(['search' => $request->search]);
+        $sales = $query->paginate(10)->appends(['search' => $request->search]);
         return response()->json($sales);
     }
 

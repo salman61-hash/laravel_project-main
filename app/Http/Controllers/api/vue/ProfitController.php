@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\vue;
 
 use App\Http\Controllers\Controller;
+use App\Models\Profit;
 use Illuminate\Http\Request;
 
 class ProfitController extends Controller
@@ -10,9 +11,17 @@ class ProfitController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-       
+        $query = Profit::query();
+
+        if ($request->search) {
+            $query->where('name', 'like', "%{$request->search}%");
+        }
+
+        $profit = $query->paginate(); // Paginate 5 users per page
+
+        return response()->json($profit);
     }
 
     /**

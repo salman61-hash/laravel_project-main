@@ -23,11 +23,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Categories::get();
-        return view('pages.products.create', compact('categories'));
+        $products = Product::get();
+        return view('pages.products.create', compact('products'));
     }
 
-   
+
     /**
      * Store a newly created resource in storage.
      */

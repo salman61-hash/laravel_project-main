@@ -4,14 +4,31 @@ namespace App\Http\Controllers\api\vue;
 
 use App\Http\Controllers\Controller;
 use App\Models\Expense;
+use App\Models\ExpenseType;
+use App\Models\Profit;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class ExpenseController extends Controller
+class ExpensesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request){
+        try {
+
+
+            $user = User::all();
+            $expense_type = ExpenseType::all();
+
+            return response()->json(compact('user', 'expense_type'));
+        } catch (\Throwable $th) {
+            return response()->json(["error" => $th->getMessage()], 500);
+        }
+    }
+
+
+    public function Manage_expense(Request $request)
     {
         $query = Expense::with(['expense_type','user']);
 
@@ -19,7 +36,7 @@ class ExpenseController extends Controller
             $query->where('name', 'like', "%{$request->search}%");
         }
 
-        $expense = $query->paginate(2); // Paginate 5 users per page
+        $expense = $query->paginate(5); // Paginate 5 users per page
 
         return response()->json($expense);
     }
@@ -36,6 +53,12 @@ class ExpenseController extends Controller
             $expense->amount = $request->amount;
             $expense->expense_date = $request->expense_date;
             $expense->save();
+
+            $profit = new Profit();
+            $profit->name ='Expense';  // or use a dynamic value based on the type of expense
+            $profit->remarks = 'Expense';
+            $profit->amount = $request->amount;
+            $profit->save();
 
             return response()->json(["res" => $expense]);
         } catch (\Throwable $th) {
@@ -91,10 +114,10 @@ class ExpenseController extends Controller
     public function destroy(string $id)
     {
         try {
-            $expense=  Expense::destroy($id);
-            return response()->json(["expense"=> $expense]);
+            $expenses=  Expense::destroy($id);
+            return response()->json(["expenses"=> $expenses]);
         } catch (\Throwable $th) {
-            return response()->json(["expense"=>$th]);
+            return response()->json(["expenses"=>$th]);
         }
     }
 }
